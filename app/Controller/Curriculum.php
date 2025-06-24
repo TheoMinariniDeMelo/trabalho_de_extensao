@@ -42,7 +42,7 @@ class Curriculum extends ControllerMain
     public function form($action, $id = null)
     {
         $dados = [
-            'data' => $this->model->buscarCurriculumCompletoPorUsuario(Session::get('userId')),
+            'data' => $this->model->buscarCurriculumCompletoPorUsuario($id),
             'aCidade' => $this->cidadeModel->listaCidade(),
             'aEscolaridade' => $this->escolaridadeModel->lista(),
             'aCargo' => $this->cargoModel->lista(),

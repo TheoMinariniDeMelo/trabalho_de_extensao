@@ -1,6 +1,5 @@
 <?= formTitulo("Lista Curriculo", true) ?>
 
-
 <?php if (!empty($dados['lista'])): ?>
 
     <div class="m-2">
@@ -22,7 +21,7 @@
                 <?php foreach ($dados['lista'] as $value): ?>
                     <tr>
                         <td><?= htmlspecialchars($value['id']) ?></td>
-                        <td><?= htmlspecialchars($value['nome'] ?? '-') ?></td>
+                        <td><?= htmlspecialchars($value['pessoa_fisica_nome'] ?? '-') ?></td>
                         <td><?= htmlspecialchars($value['cidade'] ?? '-') ?></td>
                         <td><?= htmlspecialchars($value['celular']) ?></td>
                         <td><?= htmlspecialchars($value['email']) ?></td>

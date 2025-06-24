@@ -29,7 +29,7 @@ use Core\Library\Session;
     <!-- Fontawesome -->
 
     <script src="<?= baseUrl() ?>assets/js/jquery-3.5.1.min.js"></script>
-    <script src="<?= baseUrl() ?>assets/bootstrap/js/bootstrap.bundle.min.js"></script>
+
 
 </head>
 
@@ -65,31 +65,38 @@ use Core\Library\Session;
                                 <ul class="dropdown-menu">
                                     <li><a class="dropdown-item" href="<?= baseUrl() ?>curriculum/meuCurriculo">Meu curriculum</a></li>
                                     <li><a class="dropdown-item" href="<?= baseUrl() ?>vaga/minhaCandidatura">Minhas candidaturas</a></li>
-                                    <li><a class="dropdown-item" href="<?= baseUrl() ?>login/signOut">Sair</a></li>
+
+                                    <?php if ((int)Session::get("userNivel") <= 10): ?>
+                                        <li>
+                                            <hr class="dropdown-divider">
+                                        </li>
+                                        <li><a class="dropdown-item" href="<?= baseUrl() ?>cargo">Cargo</a></li>
+                                        <li><a class="dropdown-item" href="<?= baseUrl() ?>categoria">Categoria</a></li>
+                                        <li><a class="dropdown-item" href="<?= baseUrl() ?>categoriaEstabelecimento">Categoria Estabelecimento</a></li>
+                                        <li><a class="dropdown-item" href="<?= baseUrl() ?>escolaridade">Escolaridade</a></li>
+                                        <li><a class="dropdown-item" href="<?= baseUrl() ?>pessoaFisica">Pessoa fisica</a></li>
+                                        <li><a class="dropdown-item" href="<?= baseUrl() ?>uf">UF's</a></li>
+                                        <li><a class="dropdown-item" href="<?= baseUrl() ?>cidade">Cidade</a></li>
+                                    <?php endif; ?>
+
                                     <?php if ((int)Session::get("userNivel") <= 20): ?>
+                                        <li>
+                                            <hr class="dropdown-divider">
+                                        </li>
                                         <li><a class="dropdown-item" href="<?= baseUrl() ?>usuario">Usuario</a></li>
+                                        <li><a class="dropdown-item" href="<?= baseUrl() ?>curriculum">Curriculum</a></li>
+                                        <li><a class="dropdown-item" href="<?= baseUrl() ?>estabelecimento">Estabelecimento</a></li>
+                                        <li><a class="dropdown-item" href="<?= baseUrl() ?>telefone">Telefone</a></li>
+                                        <li><a class="dropdown-item" href="<?= baseUrl() ?>vaga">Vaga</a></li>
+                                        <li>
+                                            <hr class="dropdown-divider">
+                                        </li>
                                     <?php endif; ?>
                                     <li>
                                         <hr class="dropdown-divider">
                                     </li>
                                     <li><a class="dropdown-item" href="<?= baseUrl() ?>Usuario/formTrocarSenha">Trocar a Senha</a></li>
-                                    <li>
-                                        <hr class="dropdown-divider">
-                                    </li>
-                                    <li><a class="dropdown-item" href="<?= baseUrl() ?>uf">UF's</a></li>
-                                    <li><a class="dropdown-item" href="<?= baseUrl() ?>cidade">Cidade</a></li>
-                                    <li>
-                                        <hr class="dropdown-divider">
-                                    </li>
-                                    <li><a class="dropdown-item" href="<?= baseUrl() ?>cargo">Cargo</a></li>
-                                    <li><a class="dropdown-item" href="<?= baseUrl() ?>categoria">Categoria</a></li>
-                                    <li><a class="dropdown-item" href="<?= baseUrl() ?>categoriaEstabelecimento">Categoria Estabelecimento</a></li>
-                                    <li><a class="dropdown-item" href="<?= baseUrl() ?>curriculum">Curriculum</a></li>
-                                    <li><a class="dropdown-item" href="<?= baseUrl() ?>escolaridade">Escolaridade</a></li>
-                                    <li><a class="dropdown-item" href="<?= baseUrl() ?>estabelecimento">Estabelecimento</a></li>
-                                    <li><a class="dropdown-item" href="<?= baseUrl() ?>pessoaFisica">Pessoa fisica</a></li>
-                                    <li><a class="dropdown-item" href="<?= baseUrl() ?>telefone">Telefone</a></li>
-                                    <li><a class="dropdown-item" href="<?= baseUrl() ?>vaga">Vaga</a></li>
+                                    <li><a class="dropdown-item text-danger" href="<?= baseUrl() ?>login/signOut">Sair</a></li>
                                 </ul>
                             </li>
 

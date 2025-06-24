@@ -12,6 +12,7 @@ class Cidade extends ControllerMain
     {
         $this->auxiliarconstruct();
         $this->loadHelper('formHelper');
+        $this->validaNivelAcesso();
     }
 
     /**
@@ -32,7 +33,7 @@ class Cidade extends ControllerMain
             'data' => $this->model->getById($id),               // Busca Cidade
             'aUf' => $UfModel->lista("sigla")                   // Busca UFs a serem exibidas na combobox
         ];
-        
+
         return $this->loadView("sistema/formCidade", $dados);
     }
 

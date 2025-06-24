@@ -35,19 +35,25 @@ class Vaga extends ControllerMain
      */
     public function index()
     {
-        return $this->loadView("vaga/listaVaga", $this->model->lista());
+        return $this->loadView("vaga/listaVaga", $this->model->listaVagas());
     }
 
     public function listarVagas()
     {
-        return $this->loadView("vaga/listarVagas");
+
+        $dados = [
+            'aCargo' => $this->cargoModel->lista('id'),
+            'aEstabelecimento' => $this->estabelecimentoModel->lista('id'),             // Busca Vaga
+        ];
+
+        return $this->loadView("vaga/listarVagas", $dados);
     }
 
     public function form($action, $id)
     {
 
         $dados = [
-            'data' => $this->model->getById($id),
+            'data' => $this->model->recuperarPorId($id),
             'aCargo' => $this->cargoModel->lista('id'),
             'aEstabelecimento' => $this->estabelecimentoModel->lista('id'),             // Busca Vaga
         ];
@@ -111,11 +117,19 @@ class Vaga extends ControllerMain
             exit;
         }
 
-        $busca = isset($_POST['busca']) ? $_POST['busca'] : '';
-
         $filtros = [];
-        if (!empty($busca)) {
-            $filtros['busca'] = $busca;
+
+        if (!empty($_POST['busca'])) {
+            $filtros['busca'] = $_POST['busca'];
+        }
+        if (!empty($_POST['cargo_id']) && is_numeric($_POST['cargo_id'])) {
+            $filtros['cargo_id'] = $_POST['cargo_id'];
+        }
+        if (!empty($_POST['estabelecimento_id']) && is_numeric($_POST['estabelecimento_id'])) {
+            $filtros['estabelecimento_id'] = $_POST['estabelecimento_id'];
+        }
+        if (isset($_POST['ofertaPublica']) && ($_POST['ofertaPublica'] === '1' || $_POST['ofertaPublica'] === '0')) {
+            $filtros['ofertaPublica'] = $_POST['ofertaPublica'] ? 1 : 0;
         }
 
         $vagas = $this->model->filtrar($filtros);
@@ -125,8 +139,10 @@ class Vaga extends ControllerMain
         exit;
     }
 
+
     public function visualizarVaga($id)
     {
+        Session::destroy('urlDestino');
 
         $dados = [
             'data' => $this->model->infoVaga($id),
@@ -143,8 +159,9 @@ class Vaga extends ControllerMain
             $curriculumId = $this->curriculumModel->verificaCurriculumUsuario(Session::get('userId'));
 
             if (!$curriculumId) {
+                Session::set('msgError', 'É necessário cadastrar um curriculum!');
                 // Redireciona o usuário para cadastrar currículo primeiro
-                return Redirect::page('curriculum/cadastrar');
+                return Redirect::page('curriculum/meuCurriculo');
             }
 
             $jaSeCandidatou = $this->model->verificaCandidatura($curriculumId[0]['id'], $vagaId);

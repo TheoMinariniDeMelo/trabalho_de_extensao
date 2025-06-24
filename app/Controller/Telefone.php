@@ -29,7 +29,7 @@ class Telefone extends ControllerMain
      */
     public function index()
     {
-        return $this->loadView("telefone/listaTelefone", $this->model->lista('id'));
+        return $this->loadView("telefone/listaTelefone", $this->model->listaTelefone());
     }
 
     public function form($action, $id)
@@ -37,12 +37,12 @@ class Telefone extends ControllerMain
         $UfModel = new UfModel();
 
         $dados = [
-            'data' => $this->model->getById($id),               // Busca dTelfone
+            'data' => $this->model->recuperarPorId($id),               // Busca dTelfone
             'aEstabelecimento' => $this->estabelecimentoModel->lista('id'),               // Busca dTelfone
             'aUsuario' => $this->usuarioModel->lista('id'),               // Busca dTelfone
             // 'aUf' => $UfModel->lista("sigla")                   // Busca UFs a serem exibidas na combobox
         ];
-        
+
         return $this->loadView("telefone/formTelefone", $dados);
     }
 

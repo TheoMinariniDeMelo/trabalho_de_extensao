@@ -2,7 +2,7 @@
 
 use Core\Library\Session;
 
-$aNivel  = ["1" => "Super Administrador", "11" => "Administador", "21" => "Usuário"];
+$aNivel  = ["1" => "Super Administrador", "11" => "Empresa", "21" => "Usuário"];
 $aStatus = ["1" => "Ativo", "2" => "Inativo", "3" => "Bloqueado"];
 
 ?>
@@ -20,6 +20,7 @@ $aStatus = ["1" => "Ativo", "2" => "Inativo", "3" => "Bloqueado"];
                     <th scope="col">Nome</th>
                     <th scope="col">Email</th>
                     <th scope="col">Nivel</th>
+                    <th scope="col">Estabelecimento</th>
                     <th scope="col">Status</th>
                     <th scope="col">Opções</th>
                 </tr>
@@ -30,8 +31,9 @@ $aStatus = ["1" => "Ativo", "2" => "Inativo", "3" => "Bloqueado"];
                         <th scope="row"><?= $value['id'] ?></th>
                         <td><?= $value['nome'] ?></td>
                         <td><?= $value['email'] ?></td>
-                        <td><?= $aNivel[$value['nivel']] ?></td>                        
-                        <td><?= $aStatus[$value['statusRegistro']] ?></td>                        
+                        <td><?= $aNivel[$value['nivel']] ?></td>
+                        <td><?= $value['estabelecimento_nome'] ?></td>
+                        <td><?= $aStatus[$value['statusRegistro']] ?></td>
                         <td>
                             <?= buttons('view', $value['id'])  ?>
                             <?= buttons('update', $value['id'])  ?>

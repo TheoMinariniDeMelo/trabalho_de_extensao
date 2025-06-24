@@ -165,3 +165,18 @@ function formatarData($data)
 
     return date('d/m/Y', $timestamp);
 }
+
+function formatarCPF($cpf)
+{
+    // Remove tudo que não for número
+    $cpf = preg_replace('/\D/', '', $cpf);
+
+    if (strlen($cpf) !== 11) {
+        return $cpf; // Retorna como está se não tiver 11 dígitos
+    }
+
+    return substr($cpf, 0, 3) . '.' .
+        substr($cpf, 3, 3) . '.' .
+        substr($cpf, 6, 3) . '-' .
+        substr($cpf, 9, 2);
+}

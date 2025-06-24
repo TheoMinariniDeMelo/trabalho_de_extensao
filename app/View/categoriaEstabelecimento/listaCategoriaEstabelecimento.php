@@ -24,7 +24,7 @@
                         <th scope="row"><?= $value['categoria_estabelecimento_id'] ?></th>
                         <td><?= $value['categoria_descricao'] ?></td>
                         <td><?= $value['estabelecimento_nome'] ?></td>
-                        <td><?= $value['statusRegistro'] ?></td>
+                        <td><?= getStatusDescricao($value['categoria_statusRegistro']) ?></td>
                         <td>
                             <?= buttons('view', $value['categoria_estabelecimento_id'])  ?>
                             <?= buttons('update', $value['categoria_estabelecimento_id'])  ?>

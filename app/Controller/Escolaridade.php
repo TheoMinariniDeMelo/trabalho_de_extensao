@@ -12,6 +12,7 @@ class Escolaridade extends ControllerMain
     {
         $this->auxiliarconstruct();
         $this->loadHelper('formHelper');
+        $this->validaNivelAcesso();
     }
 
     /**
@@ -32,7 +33,7 @@ class Escolaridade extends ControllerMain
             'data' => $this->model->getById($id),               // Busca Escolaridade
             'aUf' => $UfModel->lista("sigla")                   // Busca UFs a serem exibidas na combobox
         ];
-        
+
         return $this->loadView("escolaridade/formEscolaridade", $dados);
     }
 

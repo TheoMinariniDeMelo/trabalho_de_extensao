@@ -2,9 +2,16 @@
 
 <?= formTitulo('Usuário') ?>
 
+<?php
+$aEstabelecimento = $dados['aEstabelecimento'];
+?>
+
 <form method="POST" action="<?= $this->request->formAction() ?>">
 
-    <input type="hidden" name="id" id="id" value="<?= setValor('id') ?>">
+
+    <?php if (setValor("id") != "" && setValor("id") != "0"): ?>
+        <input type="hidden" name="id" id="id" value="<?= setValor("id") ?>">
+    <?php endif; ?>
 
     <div class="row m-2">
 
@@ -19,16 +26,33 @@
             <select class="form-select" name="nivel" id="nivel" aria-label="Large select nivel" required>
                 <option value="0" <?= (setValor('nivel') == ""   ? 'selected' : "") ?>>...</option>
                 <option value="1" <?= (setValor('nivel') == "1"  ? 'selected' : "") ?>>Super Administrador</option>
-                <option value="11" <?= (setValor('nivel') == "11" ? 'selected' : "") ?>>Administrador</option>
+                <option value="11" <?= (setValor('nivel') == "11" ? 'selected' : "") ?>>Empresa</option>
                 <option value="21" <?= (setValor('nivel') == "21" ? 'selected' : "") ?>>Candidato</option>
             </select>
             <?= setMsgFilderError('tipo') ?>
         </div>
 
-        <div class="mb-3 col-8">
+        <div class="mb-3 col-4">
             <label for="email" class="form-label">Email</label>
             <input type="email" class="form-control" id="email" name="email" placeholder="Email do Usuário" maxlength="150" value="<?= setValor('email') ?>" required>
             <?= setMsgFilderError('email') ?>
+        </div>
+
+        <div class="col-4 mb-3">
+            <label for="estabelecimento_id" class="form-label">Estabelecimento</label>
+            <select class="form-control"
+                id="estabelecimento_id"
+                name="estabelecimento_id">
+
+                <option value="">...</option>
+
+                <?php foreach ($aEstabelecimento as $value): ?>
+                    <option value="<?= $value['id'] ?>" <?= ($value['id'] == setValor("estabelecimento_id") ? 'SELECTED' : null) ?>>
+                        <?= $value['nome'] ?>
+                    </option>
+                <?php endforeach; ?>
+            </select>
+            <?= setMsgFilderError("estabelecimento_id") ?>
         </div>
 
         <div class="mb-3 col-4">

@@ -23,13 +23,21 @@ CREATE TABLE IF NOT EXISTS `cidade` (
 
 -- Tabela: usuario
 CREATE TABLE IF NOT EXISTS usuario (
-  id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-  nivel INT NOT NULL DEFAULT 2 COMMENT '1=Super Administrador; 11=Administrador; 21=Usuário',
-  nome VARCHAR(60) NOT NULL,
-  email VARCHAR(150) NOT NULL,
-  senha VARCHAR(250) NOT NULL,
-  statusRegistro INT NOT NULL DEFAULT 1 COMMENT '1=Ativo; 2=Inativo; 3=Bloqueado'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+    id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    estabelecimento_id INT NULL,
+    nivel INT NOT NULL DEFAULT 2 COMMENT '1=Super Administrador; 11=Administrador; 21=Usuário',
+    nome VARCHAR(60) NOT NULL,
+    email VARCHAR(150) NOT NULL,
+    senha VARCHAR(250) NOT NULL,
+    statusRegistro INT NOT NULL DEFAULT 1 COMMENT '1=Ativo; 2=Inativo; 3=Bloqueado',
+
+    CONSTRAINT fk_usuario_estabelecimento FOREIGN KEY (estabelecimento_id)
+        REFERENCES estabelecimento(id)
+        ON DELETE SET NULL
+        ON UPDATE CASCADE
+) ENGINE=InnoDB
+DEFAULT CHARSET=utf8mb4
+COLLATE=utf8mb4_0900_ai_ci;
 
 -- Tabela: pessoa_fisica
 CREATE TABLE pessoa_fisica (
@@ -48,12 +56,8 @@ CREATE TABLE estabelecimento (
     latitude CHAR(12),
     longitude CHAR(12),
     email VARCHAR(150),
-    usuario_id INT NULL, -- Pode ser NULL se desejar opcional, mudo para NOT NULL se quiser obrigatório
     statusRegistro INT DEFAULT 1 COMMENT '1 - Ativo    2 - Inativo',
     
-    CONSTRAINT fk_estabelecimento_usuario FOREIGN KEY (usuario_id) REFERENCES usuario(id)
-    ON DELETE SET NULL
-    ON UPDATE CASCADE
 ) ENGINE=InnoDB
 DEFAULT CHARSET=utf8mb4
 COLLATE=utf8mb4_0900_ai_ci;

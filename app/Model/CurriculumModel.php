@@ -228,8 +228,9 @@ class CurriculumModel extends ModelMain
     public function listaComResumo()
     {
         return $this->db
-            ->select('curriculum.id, curriculum.email, curriculum.celular, cidade.nome AS cidade')
+            ->select('curriculum.*, cidade.nome AS cidade, pessoa_fisica.nome AS pessoa_fisica_nome')
             ->join('cidade', 'cidade.id = curriculum.cidade_id', 'LEFT')
+            ->join('pessoa_fisica', 'pessoa_fisica.id = curriculum.pessoa_fisica_id', 'LEFT')
             ->findAll();
     }
 
@@ -244,10 +245,16 @@ class CurriculumModel extends ModelMain
 
     public function buscarCurriculumCompletoPorUsuario($usuarioId)
     {
-        $curriculum = $this->db->table('curriculum')
-            ->where('usuario_id', $usuarioId)
-            ->where('statusRegistro', 1)
-            ->findAll();
+
+        if (Session::get('userNivel') > 20) {
+            $curriculum = $this->db
+                ->where('id', Session::get('userEstabelecimentoId'))
+                ->first();
+        } else {
+            $curriculum = $this->db->table('curriculum')
+                ->where('usuario_id', $usuarioId)
+                ->findAll();
+        }
 
         if (!$curriculum) {
             return null; // Não tem currículo

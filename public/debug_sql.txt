@@ -3,8 +3,7 @@ SELECT
                 c.descricao AS cargo_descricao
             FROM vaga v
             LEFT JOIN cargo c ON c.id = v.cargo_id
-            WHERE 1=1 AND (v.descricao LIKE :busca OR c.descricao LIKE :busca) ORDER BY v.data DESC
+            WHERE 1=1 ORDER BY v.data DESC
 Array
 (
-    [:busca] => %sd%
 )

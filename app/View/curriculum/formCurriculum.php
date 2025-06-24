@@ -20,6 +20,27 @@ $pessoa_fisica = $dados['data']['pessoa_fisica'] ?? [];
 
 <form method="POST" action="<?= $this->request->formAction() ?>" enctype="multipart/form-data">
     <div class="row">
+        <div class="row">
+            <?php if (trim($curriculo['foto']) != ""): ?>
+                <div class="mb-3 col-12 text-center">
+                    <h5>Foto</h5>
+                    <img src="<?= baseUrl() . 'imagem.php?file=curriculum/' . $curriculo['foto'] ?>"
+                        class="img-thumbnail mx-auto d-block"
+                        style="height: 180px; width: 240px;"
+                        alt="Imagem foto UF">
+                    <input type="hidden" name="nomeImagem" id="nomeImagem" value="<?= $curriculo['foto'] ?>">
+                </div>
+            <?php endif; ?>
+
+            <?php if (in_array($this->request->getAction(), ['insert', 'update'])): ?>
+                <div class="mb-3 col-12">
+                    <label for="foto" class="form-label">Imagem</label>
+                    <input type="file" class="form-control" id="foto" name="foto" placeholder="Anexar a Imagem" maxlength="100" value="<?= $curriculo['foto'] ?>">
+                    <?= setMsgFilderError('foto') ?>
+                </div>
+            <?php endif; ?>
+        </div>
+
         <div class="col-md-6 mb-3">
             <label>Logradouro</label>
             <input type="text" class="form-control" name="logradouro" value="<?= setValor('logradouro', $curriculo['logradouro'] ?? '') ?>" maxlength="60" required>
@@ -57,11 +78,11 @@ $pessoa_fisica = $dados['data']['pessoa_fisica'] ?? [];
     </div>
 
     <div class="row">
-        <div class="col-md-3 mb-3">
+        <div class="col-md-2 mb-3">
             <label>Celular</label>
             <input type="text" class="form-control" name="celular" value="<?= setValor('celular', $curriculo['celular'] ?? '') ?>" maxlength="11">
         </div>
-        <div class="col-md-4 mb-3">
+        <div class="col-md-3 mb-3">
             <label>Email</label>
             <input type="email" class="form-control" name="email" value="<?= setValor('email', $curriculo['email'] ?? '') ?>" maxlength="120">
         </div>
@@ -69,14 +90,8 @@ $pessoa_fisica = $dados['data']['pessoa_fisica'] ?? [];
             <label>CPF</label>
             <input type="text" class="form-control" name="cpf" value="<?= setValor('cpf', $pessoa_fisica[0]['cpf'] ?? '') ?>" maxlength="11" required>
         </div>
-        <div class="col-md-3 mb-3">
-            <label>Foto</label>
-            <input type="file" class="form-control" name="foto">
-        </div>
-    </div>
 
-    <div class="row">
-        <div class="col-md-3 mb-3">
+        <div class="col-md-2 mb-3">
             <label>Nascimento</label>
             <input type="date" class="form-control" name="nascimento" value="<?= setValor('nascimento', $curriculo['nascimento'] ?? '') ?>">
         </div>
@@ -87,9 +102,13 @@ $pessoa_fisica = $dados['data']['pessoa_fisica'] ?? [];
                 <option value="F" <?= setValor('sexo', $curriculo['sexo'] ?? '') == 'F' ? 'selected' : '' ?>>Feminino</option>
             </select>
         </div>
-        <div class="col-md-6 mb-3">
-            <label>Apresentação Pessoal</label>
-            <textarea class="form-control" name="apresentacaoPessoal"><?= setValor('apresentacaoPessoal', $curriculo['apresentacaoPessoal'] ?? '') ?></textarea>
+    </div>
+    <div class="row">
+        <div class="row">
+            <div class="col-md-12 mb-3">
+                <label>Apresentação Pessoal</label>
+                <textarea class="form-control" name="apresentacaoPessoal"><?= setValor('apresentacaoPessoal', $curriculo['apresentacaoPessoal'] ?? '') ?></textarea>
+            </div>
         </div>
     </div>
 

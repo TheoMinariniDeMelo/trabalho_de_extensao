@@ -27,14 +27,14 @@ class Estabelecimento extends ControllerMain
      */
     public function index()
     {
-        return $this->loadView("estabelecimento/listaEstabelecimento", $this->model->lista('id'));
+        return $this->loadView("estabelecimento/listaEstabelecimento", $this->model->getEstabelecimento());
     }
 
     public function form($action, $id)
     {
 
         $dados = [
-            'data' => $this->model->getById($id),               // Busca Estabelecimento
+            'data' => $this->model->recuperarPorId($id),               // Busca Estabelecimento
             'aUsuario' => $this->usuarioModel->lista("id")                   // Busca UFs a serem exibidas na combobox
         ];
 

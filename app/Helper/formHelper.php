@@ -32,7 +32,7 @@ function formTitulo($titulo, $btnNovo = false)
                 </div>';
 
     $cHtml .= exibeAlerta();
-    
+
     return $cHtml;
 }
 
@@ -48,7 +48,7 @@ function formSubTitulo($action)
         return " - Novo";
     } elseif ($action == "update") {
         return " - Alteração";
-    } elseif ($action == "delete") {        
+    } elseif ($action == "delete") {
         return " - Exclusão";
     } elseif ($action == "view") {
         return " - Visualização";
@@ -75,7 +75,7 @@ function formButton()
     if ($request->getAction() != "view") {
         $cHtml .= '&nbsp;<button type="submit" class="btn btn-primary">Enviar</button>';
     }
-    
+
     return $cHtml;
 }
 
@@ -86,7 +86,7 @@ function formButton()
  * @param int $id 
  * @return string
  */
-function buttons($acao, $id = 0) 
+function buttons($acao, $id = 0)
 {
     $request = new Request();
     $button = "";
@@ -103,7 +103,5 @@ function buttons($acao, $id = 0)
         $button = '<a href="' . baseUrl()  . $request->getController() . '" class="btn btn-outline-info text-white btn-sm" title="Voltar"><i class="fa-solid fa-rotate-left"></i></a>';
     }
 
-    return $button;    
+    return $button;
 }
-
-

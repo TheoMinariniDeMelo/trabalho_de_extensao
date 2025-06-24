@@ -23,7 +23,7 @@
                     <tr>
                         <th scope="row"><?= $value['id'] ?></th>
                         <td><?= $value['nome'] ?></td>
-                        <td><?= $value['cpf'] ?></td>
+                        <td><?= formatarCPF($value['cpf']) ?></td>
                         <td><?= getStatusDescricao($value['statusRegistro']) ?></td>
                         <td>
                             <?= buttons('view', $value['id'])  ?>

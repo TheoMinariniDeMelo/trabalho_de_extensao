@@ -26,10 +26,6 @@ class UsuarioModel extends ModelMain
             "label" => 'Status',
             "rules" => 'required|int'
         ],
-        "senha"  => [
-            "label" => 'Senha',
-            "rules" => 'required|min:4|max:255'
-        ],
     ];
 
     /**
@@ -79,5 +75,36 @@ class UsuarioModel extends ModelMain
         }
 
         return true;
+    }
+
+    public function getUsuarioEmpresa()
+    {
+        if (Session::get('userNivel') > 10 && Session::get('userNivel') <= 20) {
+            return $this->db
+                ->table('usuario u')
+                ->select('u.*, e.nome AS estabelecimento_nome, e.id AS estabelecimento_id')
+                ->join('estabelecimento e', 'e.id = u.estabelecimento_id')
+                ->where('u.estabelecimento_id', Session::get('userEstabelecimentoId'))
+                ->findAll();
+        }
+
+        return $this->db->table('usuario u')
+            ->select('u.*, e.nome AS estabelecimento_nome, e.id AS estabelecimento_id')
+            ->join('estabelecimento e', 'e.id = u.estabelecimento_id')
+            ->findAll();
+    }
+
+
+    public function recuperarPorId($id)
+    {
+        if (Session::get('userNivel') > 10 && Session::get('userNivel') <= 20) {
+            return $this->db
+                ->where('estabelecimento_id', Session::get('userEstabelecimentoId'))
+                ->where('id', $id)
+                ->first();
+        }
+
+        return $this->db
+            ->where('id', $id)->first();
     }
 }

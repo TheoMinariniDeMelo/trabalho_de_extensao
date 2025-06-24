@@ -16,6 +16,8 @@ class Uf extends ControllerMain
     {
         $this->auxiliarconstruct();
         $this->loadHelper('formHelper');
+        $this->validaNivelAcesso();
+
         $this->files = new Files();
     }
 
@@ -53,7 +55,7 @@ class Uf extends ControllerMain
             // faz upload da imagem
 
             if (!empty($_FILES['bandeira']['name'])) {
-                
+
                 // Faz upload da imagem
                 $nomeRetornado = $this->files->upload($_FILES, 'uf');
 
@@ -97,16 +99,15 @@ class Uf extends ControllerMain
 
                 // se for boolean, significa que o upload falhou
                 if (is_bool($nomeRetornado)) {
-                    Session::set( 'inputs', $post);
+                    Session::set('inputs', $post);
                     return Redirect::page($this->controller . "/form/update/" . $post['id']);
                 } else {
                     $post['bandeira'] = $nomeRetornado[0];
                 }
-                
+
                 if (isset($post['nomeImagem'])) {
                     $this->files->delete($post['nomeImagem'], 'uf');
                 }
-                
             } else {
                 $post['bandeira'] = $post['nomeImagem'];
             }

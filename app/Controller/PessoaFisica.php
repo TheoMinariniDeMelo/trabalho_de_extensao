@@ -12,6 +12,8 @@ class PessoaFisica extends ControllerMain
     {
         $this->auxiliarconstruct();
         $this->loadHelper('formHelper');
+
+        $this->validaNivelAcesso();
     }
 
     /**
@@ -32,7 +34,7 @@ class PessoaFisica extends ControllerMain
             'data' => $this->model->getById($id),               // Busca PessoaFisica
             'aUf' => $UfModel->lista("sigla")                   // Busca UFs a serem exibidas na combobox
         ];
-        
+
         return $this->loadView("pessoaFisica/formPessoaFisica", $dados);
     }
 

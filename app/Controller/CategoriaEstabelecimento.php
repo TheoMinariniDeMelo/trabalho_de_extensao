@@ -20,6 +20,7 @@ class CategoriaEstabelecimento extends ControllerMain
     {
         $this->auxiliarconstruct();
         $this->loadHelper('formHelper');
+        $this->validaNivelAcesso();
 
         $this->estabelecimentoModel = new EstabelecimentoModel();
         $this->categoriaModel       = new CategoriaModel();
@@ -42,10 +43,10 @@ class CategoriaEstabelecimento extends ControllerMain
 
         $dados = [
             'data' => $this->model->getById($id),               // Busca Categoria
-            'aCategoria' => $this->categoriaModel->getLista('id'),  
-            'aEstabelecimento' => $this->estabelecimentoModel->lista('id'),                 
+            'aCategoria' => $this->categoriaModel->getLista('id'),
+            'aEstabelecimento' => $this->estabelecimentoModel->lista('id'),
         ];
-        
+
         return $this->loadView("categoriaEstabelecimento/formCategoriaEstabelecimento", $dados);
     }
 

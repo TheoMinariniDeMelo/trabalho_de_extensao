@@ -75,6 +75,7 @@ class Login extends ControllerMain
             Session::set("userEmail", $aUser['email']);
             Session::set("userNivel", $aUser['nivel']);
             Session::set("userSenha", $aUser['senha']);
+            Session::set("userEstabelecimentoId", $aUser['estabelecimento_id']);
 
             if (!Session::get('urlDestino')) {
                 // Direcionar o usuário para página home
@@ -338,7 +339,7 @@ class Login extends ControllerMain
             "nome"              => $post['register-name'],
             "email"             => $post['register-email'],
             "senha"             => password_hash($post['register-password'], PASSWORD_DEFAULT),
-            "statusRegistro"    => 2
+            "statusRegistro"    => 1
         ];
 
         $aSuperUser = $this->model->getUserEmail($dados['email']);

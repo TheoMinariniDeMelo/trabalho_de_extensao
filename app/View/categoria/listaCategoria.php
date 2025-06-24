@@ -22,7 +22,7 @@
                     <tr>
                         <th scope="row"><?= $value['id'] ?></th>
                         <td><?= $value['descricao'] ?></td>
-                        <td><?= $value['statusRegistro'] ?></td>
+                        <td><?= getStatusDescricao($value['statusRegistro']) ?></td>
                         <td>
                             <?= buttons('view', $value['id'])  ?>
                             <?= buttons('update', $value['id'])  ?>
