@@ -19,7 +19,6 @@ if (! function_exists('setValor')) {
             return $default;
         }
     }
-
 }
 
 if (! function_exists('setMsgFilderError')) {
@@ -35,7 +34,7 @@ if (! function_exists('setMsgFilderError')) {
 
         if (isset($_POST['formErrors'][$campo])) {
             $cRet .= '<div class="mt-2 text-danger">';
-                $cRet .= $_POST['formErrors'][$campo];
+            $cRet .= $_POST['formErrors'][$campo];
             $cRet .= '</div>';
         }
 
@@ -120,4 +119,49 @@ if (! function_exists('datatables')) {
                 });
             </script>';
     }
+}
+
+function getStatusDescricao($status)
+{
+    if ($status == 1) {
+        return "Ativo";
+    } elseif ($status == 2) {
+        return "Inativo";
+    } else {
+        return "...";
+    }
+}
+
+function textoVinculo($codigo)
+{
+    return match ($codigo) {
+        '1', 1 => 'CLT',
+        '2', 2 => 'Estágio',
+        '3', 3 => 'Temporário',
+        default => 'Não informado',
+    };
+}
+
+function textoModalidade($codigo)
+{
+    return match ($codigo) {
+        '1', 1 => 'Presencial',
+        '2', 2 => 'Remoto',
+        '3', 3 => 'Híbrido',
+        default => 'Não informado',
+    };
+}
+
+function formatarData($data)
+{
+    if (!$data || $data == '0000-00-00') {
+        return 'Data inválida';
+    }
+
+    $timestamp = strtotime($data);
+    if (!$timestamp) {
+        return 'Data inválida';
+    }
+
+    return date('d/m/Y', $timestamp);
 }

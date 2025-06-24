@@ -2,16 +2,24 @@
 
 namespace App\Controller;
 
+use App\Model\EstabelecimentoModel;
 use App\Model\UfModel;
+use App\Model\UsuarioModel;
 use Core\Library\ControllerMain;
 use Core\Library\Redirect;
 
 class Telefone extends ControllerMain
 {
+    protected $usuarioModel;
+    protected $estabelecimentoModel;
+
     public function __construct()
     {
         $this->auxiliarconstruct();
         $this->loadHelper('formHelper');
+
+        $this->estabelecimentoModel = new EstabelecimentoModel();
+        $this->usuarioModel = new UsuarioModel();
     }
 
     /**
@@ -30,7 +38,9 @@ class Telefone extends ControllerMain
 
         $dados = [
             'data' => $this->model->getById($id),               // Busca dTelfone
-            'aUf' => $UfModel->lista("sigla")                   // Busca UFs a serem exibidas na combobox
+            'aEstabelecimento' => $this->estabelecimentoModel->lista('id'),               // Busca dTelfone
+            'aUsuario' => $this->usuarioModel->lista('id'),               // Busca dTelfone
+            // 'aUf' => $UfModel->lista("sigla")                   // Busca UFs a serem exibidas na combobox
         ];
         
         return $this->loadView("telefone/formTelefone", $dados);

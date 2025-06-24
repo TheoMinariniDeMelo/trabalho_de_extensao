@@ -4,15 +4,16 @@
 
     <div class="m-2">
 
-    <p>
-        <i class="fa-sharp-duotone fa-light fa-bell"></i>
-    </p>
+        <p>
+            <i class="fa-sharp-duotone fa-light fa-bell"></i>
+        </p>
 
         <table class="table table-bordered table-striped table-hover table-sm" id="tbListaCategoria">
             <thead>
                 <tr>
                     <th scope="col">Id</th>
                     <th scope="col">Descrição</th>
+                    <th scope="col">Status Registro</th>
                     <th scope="col">Opções</th>
                 </tr>
             </thead>
@@ -20,7 +21,8 @@
                 <?php foreach ($dados as $value): ?>
                     <tr>
                         <th scope="row"><?= $value['id'] ?></th>
-                        <td><?= $value['descricao'] ?></td>                    
+                        <td><?= $value['descricao'] ?></td>
+                        <td><?= $value['statusRegistro'] ?></td>
                         <td>
                             <?= buttons('view', $value['id'])  ?>
                             <?= buttons('update', $value['id'])  ?>

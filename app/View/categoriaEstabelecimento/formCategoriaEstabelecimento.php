@@ -1,8 +1,8 @@
 <?= formTitulo("CategoriaEstabelecimento") ?>
 
 <?php
-    $estabelecimento = $dados['aEstabelecimento'];
-    $categoria = $dados['aCategoria'];
+$estabelecimento = $dados['aEstabelecimento'];
+$categoria = $dados['aCategoria'];
 ?>
 
 <div class="m-2">
@@ -42,6 +42,15 @@
                 </select>
                 <?= setMsgFilderError("categoria_id") ?>
             </div>
+        </div>
+
+        <div class="mb-3 col-4">
+            <label for="statusRegistro" class="form-label">Status</label>
+            <select class="form-control" name="statusRegistro" id="statusRegistro" required>
+                <option value="" <?= setValor('statusRegistro') == ""  ? "SELECTED" : "" ?>>...</option>
+                <option value="1" <?= setValor('statusRegistro') == "1" ? "SELECTED" : "" ?>>Ativo</option>
+                <option value="2" <?= setValor('statusRegistro') == "2" ? "SELECTED" : "" ?>>Inativo</option>
+            </select>
         </div>
 
         <?= formButton() ?>

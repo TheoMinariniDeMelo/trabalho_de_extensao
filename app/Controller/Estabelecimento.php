@@ -3,15 +3,21 @@
 namespace App\Controller;
 
 use App\Model\UfModel;
+use App\Model\UsuarioModel;
 use Core\Library\ControllerMain;
 use Core\Library\Redirect;
 
 class Estabelecimento extends ControllerMain
 {
+
+    protected $usuarioModel;
+
     public function __construct()
     {
         $this->auxiliarconstruct();
         $this->loadHelper('formHelper');
+
+        $this->usuarioModel = new UsuarioModel;
     }
 
     /**
@@ -26,13 +32,12 @@ class Estabelecimento extends ControllerMain
 
     public function form($action, $id)
     {
-        $UfModel = new UfModel();
 
         $dados = [
             'data' => $this->model->getById($id),               // Busca Estabelecimento
-            'aUf' => $UfModel->lista("sigla")                   // Busca UFs a serem exibidas na combobox
+            'aUsuario' => $this->usuarioModel->lista("id")                   // Busca UFs a serem exibidas na combobox
         ];
-        
+
         return $this->loadView("estabelecimento/formEstabelecimento", $dados);
     }
 

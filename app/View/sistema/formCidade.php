@@ -9,9 +9,9 @@
         <div class="row">
             <div class="col-12 mb-3">
                 <label for="sigla" class="form-label">Nome</label>
-                <input type="text" class="form-control" 
-                    id="nome" 
-                    name="nome" 
+                <input type="text" class="form-control"
+                    id="nome"
+                    name="nome"
                     placeholder="Nome da Cidade"
                     maxlength="50"
                     value="<?= setValor("nome") ?>"
@@ -25,13 +25,13 @@
 
             <div class="col-9 mb-3">
                 <label for="uf_id" class="form-label">UF</label>
-                <select class="form-control" 
-                    id="uf_id" 
-                    name="uf_id" 
+                <select class="form-control"
+                    id="uf_id"
+                    name="uf_id"
                     required>
                     <option value="">...</option>
                     <?php foreach ($dados['aUf'] as $value): ?>
-                        <option value="<?= $value['id'] ?>" <?= ($value['id'] == setValor("uf_id") ? 'SELECTED' : '') ?>><?= $value['sigla']  . ' - '. $value['descricao'] ?></option>
+                        <option value="<?= $value['id'] ?>" <?= ($value['id'] == setValor("uf_id") ? 'SELECTED' : '') ?>><?= $value['sigla']  . ' - ' . $value['descricao'] ?></option>
                     <?php endforeach; ?>
                 </select>
                 <?= setMsgFilderError("uf_id") ?>
@@ -39,9 +39,9 @@
 
             <div class="col-3 mb-3">
                 <label for="codIBGE" class="form-label">Código do IBGE</label>
-                <input type="text" class="form-control" 
-                    id="codIBGE" 
-                    name="codIBGE" 
+                <input type="text" class="form-control"
+                    id="codIBGE"
+                    name="codIBGE"
                     placeholder="Código do IBGGE"
                     maxlength="7"
                     value="<?= setValor("codIBGE") ?>"
@@ -56,7 +56,8 @@
                 <?= setMsgFilderError("wiki") ?>
             </div>
         </div>
-        
+
+
         <?= formButton() ?>
 
     </form>
@@ -66,11 +67,9 @@
 <script src="<?= baseUrl() ?>assets/ckeditor5/ckeditor5-build-classic/ckeditor.js"></script>
 
 <script type="text/javascript">
-
     ClassicEditor
         .create(document.querySelector('#wiki'))
-        .catch( error => {
+        .catch(error => {
             console.error(error);
         });
-
 </script>

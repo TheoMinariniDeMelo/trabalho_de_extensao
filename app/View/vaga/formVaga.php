@@ -42,25 +42,25 @@
 
             <div class="col-md-6 mb-3">
                 <label for="descricao" class="form-label">Descrição</label>
-                <input type="text" 
-                       class="form-control" 
-                       id="descricao" 
-                       name="descricao" 
-                       maxlength="60"
-                       placeholder="Descrição da vaga"
-                       value="<?= setValor("descricao") ?>" 
-                       required>
+                <input type="text"
+                    class="form-control"
+                    id="descricao"
+                    name="descricao"
+                    maxlength="60"
+                    placeholder="Descrição da vaga"
+                    value="<?= setValor("descricao") ?>"
+                    required>
                 <?= setMsgFilderError("descricao") ?>
             </div>
 
             <div class="col-md-6 mb-3">
                 <label for="data" class="form-label">Data</label>
-                <input type="date" 
-                       class="form-control" 
-                       id="data" 
-                       name="data" 
-                       value="<?= setValor("data") ?>"
-                       required>
+                <input type="date"
+                    class="form-control"
+                    id="data"
+                    name="data"
+                    value="<?= setValor("data") ?>"
+                    required>
                 <?= setMsgFilderError("data") ?>
             </div>
 
@@ -96,11 +96,11 @@
 
             <div class="col-md-12 mb-3">
                 <label for="observacao" class="form-label">Observação</label>
-                <textarea name="observacao" 
-                          id="observacao" 
-                          class="form-control" 
-                          rows="4"
-                          placeholder="Observações adicionais"><?= setValor("observacao") ?></textarea>
+                <textarea name="observacao"
+                    id="observacao"
+                    class="form-control"
+                    rows="4"
+                    placeholder="Observações adicionais"><?= setValor("observacao") ?></textarea>
                 <?= setMsgFilderError("observacao") ?>
             </div>
 
@@ -120,12 +120,12 @@
 
             <div class="col-md-6 mb-3 d-flex align-items-center">
                 <div class="form-check mt-4">
-                    <input class="form-check-input" 
-                           type="checkbox" 
-                           name="ofertaPublica" 
-                           id="ofertaPublica" 
-                           value="1" 
-                           <?= setValor("ofertaPublica") ? 'checked' : '' ?>>
+                    <input class="form-check-input"
+                        type="checkbox"
+                        name="ofertaPublica"
+                        id="ofertaPublica"
+                        value="1"
+                        <?= setValor("ofertaPublica") ? 'checked' : '' ?>>
                     <label class="form-check-label" for="ofertaPublica">
                         Oferta Pública
                     </label>

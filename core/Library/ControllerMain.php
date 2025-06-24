@@ -40,21 +40,21 @@ class ControllerMain
         $this->loadHelper(["formulario", "utilits"]);
 
         // Verifida os controllers autorizados sem login efetuado, permitindo passar controller Api que serão validados a parte
-        // if (substr($this->controller, 0, 3) != "Api") {
+        if (substr($this->controller, 0, 3) != "Api") {
 
-        //     if (!in_array($this->controller, CONTROLLER_AUTH)) {
-        //         // var_dump($this->controller);
-        //         // var_dump($this->method);
-        //         // exit;
+            if (!in_array($this->controller, CONTROLLER_AUTH)) {
+                // var_dump($this->controller);
+                // var_dump($this->method);
+                // exit;
 
-        //         if($this->controller != 'Vaga' && $this->method != 'listarVagas' && $this->method != 'ajaxFiltrar' && $this->method != 'filtrar') {
-        //             if (!Session::get("userId")) {
-        //                 return Redirect::page("login", ['msgError' => "Para acessar a rotina favor antes efetuar o login."]);
-        //             }
-        //         }
-        //     }
+                if($this->controller != 'Vaga' && $this->method != 'listarVagas' && $this->method != 'ajaxFiltrar' && $this->method != 'filtrar') {
+                    if (!Session::get("userId")) {
+                        return Redirect::page("login", ['msgError' => "Para acessar a rotina favor antes efetuar o login."]);
+                    }
+                }
+            }
 
-        // }
+        }
     }
 
     /**

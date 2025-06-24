@@ -42,14 +42,14 @@
 
             <div class="col-md-6 mb-3">
                 <label for="numero" class="form-label">Número</label>
-                <input type="text" 
-                       class="form-control" 
-                       id="numero" 
-                       name="numero" 
-                       placeholder="DDD + número (somente números)"
-                       maxlength="11"
-                       value="<?= setValor("numero") ?>"
-                       required>
+                <input type="text"
+                    class="form-control"
+                    id="numero"
+                    name="numero"
+                    placeholder="DDD + número (somente números)"
+                    maxlength="11"
+                    value="<?= setValor("numero") ?>"
+                    required>
                 <?= setMsgFilderError("numero") ?>
             </div>
 
@@ -63,6 +63,15 @@
                 <?= setMsgFilderError("tipo") ?>
             </div>
 
+        </div>
+
+        <div class="mb-3 col-4">
+            <label for="statusRegistro" class="form-label">Status</label>
+            <select class="form-control" name="statusRegistro" id="statusRegistro" required>
+                <option value="" <?= setValor('statusRegistro') == ""  ? "SELECTED" : "" ?>>...</option>
+                <option value="1" <?= setValor('statusRegistro') == "1" ? "SELECTED" : "" ?>>Ativo</option>
+                <option value="2" <?= setValor('statusRegistro') == "2" ? "SELECTED" : "" ?>>Inativo</option>
+            </select>
         </div>
 
         <?= formButton("Salvar Telefone") ?>

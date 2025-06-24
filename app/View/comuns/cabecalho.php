@@ -63,6 +63,8 @@ use Core\Library\Session;
                                     Usuário
                                 </a>
                                 <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="<?= baseUrl() ?>curriculum/meuCurriculo">Meu curriculum</a></li>
+                                    <li><a class="dropdown-item" href="<?= baseUrl() ?>vaga/minhaCandidatura">Minhas candidaturas</a></li>
                                     <li><a class="dropdown-item" href="<?= baseUrl() ?>login/signOut">Sair</a></li>
                                     <?php if ((int)Session::get("userNivel") <= 20): ?>
                                         <li><a class="dropdown-item" href="<?= baseUrl() ?>usuario">Usuario</a></li>

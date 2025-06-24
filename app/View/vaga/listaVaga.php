@@ -29,22 +29,22 @@
                         <td><?= date("d/m/Y", strtotime($value['data'])) ?></td>
                         <td>
                             <?php
-                                echo match($value['modalidade']) {
-                                    1 => 'Presencial',
-                                    2 => 'Remoto',
-                                    3 => 'Híbrido',
-                                    default => '—'
-                                };
+                            echo match ($value['modalidade']) {
+                                1 => 'Presencial',
+                                2 => 'Remoto',
+                                3 => 'Híbrido',
+                                default => '—'
+                            };
                             ?>
                         </td>
                         <td>
                             <?php
-                                echo match($value['vinculo']) {
-                                    1 => 'CLT',
-                                    2 => 'Estágio',
-                                    3 => 'Temporário',
-                                    default => '—'
-                                };
+                            echo match ($value['vinculo']) {
+                                1 => 'CLT',
+                                2 => 'Estágio',
+                                3 => 'Temporário',
+                                default => '—'
+                            };
                             ?>
                         </td>
                         <td><?= $value['ofertaPublica'] ? 'Sim' : 'Não' ?></td>

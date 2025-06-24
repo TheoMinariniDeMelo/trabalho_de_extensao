@@ -1,5 +1,5 @@
-
 <?= formTitulo("Lista Curriculo", true) ?>
+
 
 <?php if (!empty($dados['lista'])): ?>
 
@@ -19,18 +19,18 @@
                 </tr>
             </thead>
             <tbody>
-                <?php foreach ($dados['lista'] as $item): ?>
+                <?php foreach ($dados['lista'] as $value): ?>
                     <tr>
-                        <td><?= htmlspecialchars($item['id']) ?></td>
-                        <td><?= htmlspecialchars($item['nome'] ?? '-') ?></td>
-                        <td><?= htmlspecialchars($item['cidade'] ?? '-') ?></td>
-                        <td><?= htmlspecialchars($item['celular']) ?></td>
-                        <td><?= htmlspecialchars($item['email']) ?></td>
-                        <td><?= !empty($item['nascimento']) ? date('d/m/Y', strtotime($item['nascimento'])) : '-' ?></td>
+                        <td><?= htmlspecialchars($value['id']) ?></td>
+                        <td><?= htmlspecialchars($value['nome'] ?? '-') ?></td>
+                        <td><?= htmlspecialchars($value['cidade'] ?? '-') ?></td>
+                        <td><?= htmlspecialchars($value['celular']) ?></td>
+                        <td><?= htmlspecialchars($value['email']) ?></td>
+                        <td><?= !empty($value['nascimento']) ? date('d/m/Y', strtotime($value['nascimento'])) : '-' ?></td>
                         <td class="text-center">
-                            <a href="<?= $this->request->controller ?>/visualizar/<?= $item['id'] ?>" class="btn btn-sm btn-outline-info">Ver</a>
-                            <a href="<?= $this->request->controller ?>/form/<?= $item['id'] ?>" class="btn btn-sm btn-outline-warning">Editar</a>
-                            <a href="<?= $this->request->controller ?>/delete/<?= $item['id'] ?>" class="btn btn-sm btn-outline-danger" onclick="return confirm('Deseja realmente excluir?')">Excluir</a>
+                            <?= buttons('view', $value['id'])  ?>
+                            <?= buttons('update', $value['id'])  ?>
+                            <?= buttons('delete', $value['id'])  ?>
                         </td>
                     </tr>
                 <?php endforeach ?>

@@ -1,0 +1,40 @@
+INSERT INTO uf (sigla, descricao, bandeira) VALUES
+('AC', 'Acre', NULL),
+('AL', 'Alagoas', NULL),
+('AP', 'Amapá', NULL),
+('AM', 'Amazonas', NULL),
+('BA', 'Bahia', NULL),
+('CE', 'Ceará', NULL),
+('DF', 'Distrito Federal', NULL),
+('ES', 'Espírito Santo', NULL),
+('GO', 'Goiás', NULL),
+('MA', 'Maranhão', NULL),
+('MT', 'Mato Grosso', NULL),
+('MS', 'Mato Grosso do Sul', NULL),
+('MG', 'Minas Gerais', NULL),
+('PA', 'Pará', NULL),
+('PB', 'Paraíba', NULL),
+('PR', 'Paraná', NULL),
+('PE', 'Pernambuco', NULL),
+('PI', 'Piauí', NULL),
+('RJ', 'Rio de Janeiro', NULL),
+('RN', 'Rio Grande do Norte', NULL),
+('RS', 'Rio Grande do Sul', NULL),
+('RO', 'Rondônia', NULL),
+('RR', 'Roraima', NULL),
+('SC', 'Santa Catarina', NULL),
+('SP', 'São Paulo', NULL),
+('SE', 'Sergipe', NULL),
+('TO', 'Tocantins', NULL);
+
+
+-- Exemplo para algumas cidades, você pode expandir conforme necessário:
+INSERT INTO cidade (nome, uf_id, codIBGE, wiki) VALUES
+('São Paulo', (SELECT id FROM uf WHERE sigla = 'SP'), '3550308', NULL),
+('Campinas', (SELECT id FROM uf WHERE sigla = 'SP'), '3509502', NULL),
+('Rio de Janeiro', (SELECT id FROM uf WHERE sigla = 'RJ'), '3304557', NULL),
+('Niterói', (SELECT id FROM uf WHERE sigla = 'RJ'), '3303302', NULL),
+('Belo Horizonte', (SELECT id FROM uf WHERE sigla = 'MG'), '3106200', NULL),
+('Curitiba', (SELECT id FROM uf WHERE sigla = 'PR'), '4106902', NULL),
+('Porto Alegre', (SELECT id FROM uf WHERE sigla = 'RS'), '4314902', NULL),
+('Fortaleza', (SELECT id FROM uf WHERE sigla = 'CE'), '2304400', NULL);

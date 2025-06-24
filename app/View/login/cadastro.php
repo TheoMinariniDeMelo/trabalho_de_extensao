@@ -1,13 +1,12 @@
-
 <div class="card col-lg-4 card-background">
     <div class="card-header">
         <div class="justify-content-center">
-            <img class="login-img" src="/assets/img/AtomPHP-logo.png" alt="">
+            <img class="login-img" src="/assets/img/AtomPHP-logo.png" width="150px" height="100px">
         </div>
         <h3>Cadastro</h3>
     </div>
     <div class="card-body">
-        <form action="<?= baseUrl() ?>Usuario/registraUsuario" method="post">
+        <form action="<?= baseUrl() ?>Login/registraUsuario" method="post">
             <div class="row">
                 <div class="mb-3 col-12">
                     <label for="register-name" class="form-label">Nome</label>

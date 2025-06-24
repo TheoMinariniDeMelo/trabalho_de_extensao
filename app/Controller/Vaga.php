@@ -2,21 +2,30 @@
 
 namespace App\Controller;
 
+use App\Model\CargoModel;
+use App\Model\CurriculumModel;
+use App\Model\EstabelecimentoModel;
 use App\Model\UfModel;
 use Core\Library\ControllerMain;
 use Core\Library\Redirect;
 use Core\Library\Database;
+use Core\Library\Session;
 
 class Vaga extends ControllerMain
 {
 
-    // protected $model;
+    protected $estabelecimentoModel;
+    protected $cargoModel;
+    protected $curriculumModel;
 
     public function __construct()
     {
         $this->auxiliarconstruct();
         $this->loadHelper('formHelper');
-        // $this->model = ('formHelper');
+
+        $this->cargoModel = new CargoModel();
+        $this->estabelecimentoModel = new EstabelecimentoModel();
+        $this->curriculumModel = new CurriculumModel();
     }
 
     /**
@@ -36,11 +45,11 @@ class Vaga extends ControllerMain
 
     public function form($action, $id)
     {
-        $UfModel = new UfModel();
 
         $dados = [
-            'data' => $this->model->getById($id),               // Busca Vaga
-            'aUf' => $UfModel->lista("sigla")                   // Busca UFs a serem exibidas na combobox
+            'data' => $this->model->getById($id),
+            'aCargo' => $this->cargoModel->lista('id'),
+            'aEstabelecimento' => $this->estabelecimentoModel->lista('id'),             // Busca Vaga
         ];
 
         return $this->loadView("vaga/formVaga", $dados);
@@ -114,5 +123,65 @@ class Vaga extends ControllerMain
         header('Content-Type: application/json; charset=utf-8');
         echo json_encode($vagas);
         exit;
+    }
+
+    public function visualizarVaga($id)
+    {
+
+        $dados = [
+            'data' => $this->model->infoVaga($id),
+        ];
+
+
+        return $this->loadView("vaga/visualizarVaga", $dados);
+    }
+
+    public function candidatar($vagaId)
+    {
+        if (verificaSeUsuarioEstaLogado()) {
+
+            $curriculumId = $this->curriculumModel->verificaCurriculumUsuario(Session::get('userId'));
+
+            if (!$curriculumId) {
+                // Redireciona o usuário para cadastrar currículo primeiro
+                return Redirect::page('curriculum/cadastrar');
+            }
+
+            $jaSeCandidatou = $this->model->verificaCandidatura($curriculumId[0]['id'], $vagaId);
+
+            if ($jaSeCandidatou) {
+                Session::set('msgError', 'Já candidatado na vaga!');
+                return Redirect::page('vaga/visualizarVaga/' . $vagaId);
+            } else {
+                // Faz o insert na tabela curriculum_vaga
+                $cadidataCidadao = $this->model->candidatarVaga($curriculumId[0]['id'], $vagaId);
+
+                if ($cadidataCidadao) {
+                    Session::set('msgSucesso', 'Candidatura realizada com sucesso!');
+                    return Redirect::page('vaga/visualizarVaga/' . $vagaId);
+                }
+                Session::set('msgError', 'Erro ao efetuar candidatura!');
+                return Redirect::page('vaga/visualizarVaga/' . $vagaId);
+            }
+        }
+
+        Session::set('urlDestino', 'vaga/visualizarVaga/' . $vagaId);
+
+        Redirect::page('/login', ["msgError" => "É necessário efetuar o login para candidatar-se!"]);
+    }
+
+    public function minhaCandidatura()
+    {
+        // if (!verificaSeUsuarioEstaLogado()) {
+        //     Session::set('url_redirecionamento', 'candidaturas/minhasCandidaturas');
+        //     return Redirect::page('auth/login');
+        // }
+
+        $usuarioId = Session::get('userId');
+        $candidaturas = $this->model->listaCandidaturaUsuario($usuarioId);
+
+        return $this->loadView('vaga/minhaCandidatura', [
+            'candidaturas' => $candidaturas
+        ]);
     }
 }
