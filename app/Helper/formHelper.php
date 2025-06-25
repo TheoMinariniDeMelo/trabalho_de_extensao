@@ -70,7 +70,7 @@ function formButton()
                     title="Voltar" 
                     class="btn btn-secondary">
                         Voltar
-                </buttin>';
+                </button>';
 
     if ($request->getAction() != "view") {
         $cHtml .= '&nbsp;<button type="submit" class="btn btn-primary">Enviar</button>';

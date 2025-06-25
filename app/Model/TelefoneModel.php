@@ -31,13 +31,19 @@ class TelefoneModel extends ModelMain
 
     public function listaTelefone()
     {
+        $this->db->select('
+        telefone.*,
+        estabelecimento.nome AS estabelecimento_nome,
+        usuario.nome AS responsavel_nome
+    ')
+            ->join('estabelecimento', 'estabelecimento.id = telefone.estabelecimento_id', 'left')
+            ->join('usuario', 'usuario.id = estabelecimento.usuario_id', 'left');
+
+        // Se for um nível restrito (Empresa)
         if (Session::get('userNivel') > 10 && Session::get('userNivel') <= 20) {
-            return $this->db
-                ->where('telefone.estabelecimento_id', Session::get('userEstabelecimentoId'))
-                ->findAll();
+            $this->db->where('estabelecimento.id', Session::get('userEstabelecimentoId'));
         }
 
-        return $this->db
-            ->findAll();
+        return $this->db->findAll();
     }
 }

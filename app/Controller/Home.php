@@ -12,9 +12,9 @@ class Home extends ControllerMain
         $this->loadView("home");
     }
 
-    public function sobre($action = null)
+    public function quemSomos($action = null)
     {
-        echo "Página sobre nós. AÇÃO: {$action}";
+        return $this->loadView("quemSomos");
     }
 
     public function detalhes($action = null, $id = null, ...$params)

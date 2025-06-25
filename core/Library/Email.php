@@ -20,7 +20,7 @@ class Email
      * @param array $aAnexos 
      * @return bool
      */
-    static function enviaEmail($emailRemetente, $nomeRemetente, $assunto, $corpoEmail, $destinatario, $aAnexos = []) 
+    static function enviaEmail($emailRemetente, $nomeRemetente, $assunto, $corpoEmail, $destinatario, $aAnexos = [])
     {
         $mail = new PHPMailer();
 
@@ -38,13 +38,13 @@ class Email
             $mail->Password     = $_ENV['MAIL.PASSWORD'];           // Senha do e-mail de autenticação
             $mail->From         = $emailRemetente;                  // E-mail remetente
             $mail->FromName     = $nomeRemetente;                   // Nome do Remetente
-            
-            $mail->addAddress( $destinatario );                     // E-mail Destinatário 
-            
-            $mail->isHTML(true );                                   // Será HTML
+
+            $mail->addAddress($destinatario);                     // E-mail Destinatário 
+
+            $mail->isHTML(true);                                   // Será HTML
             $mail->Subject      = $assunto;                         // Assunto do e-mail
             $mail->Body         = $corpoEmail;                      // Corpo do E-mail HTML
-            
+
             // Anexos
 
             if (count($aAnexos) > 0) {
@@ -59,7 +59,6 @@ class Email
                 Session::set('msgError', "Error ao tentar enviar o e-mail: {$mail->ErrorInfo}");
                 return false;
             }
-
         } catch (\Exception $e) {
             Session::set('msgError', "Error ao tentar enviar o e-mail: {$mail->ErrorInfo}");
             return false;

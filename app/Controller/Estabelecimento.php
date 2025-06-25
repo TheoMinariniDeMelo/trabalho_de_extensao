@@ -50,6 +50,8 @@ class Estabelecimento extends ControllerMain
     {
         $post = $this->request->getPost();
 
+        $post['usuario_id'] = empty($post['usuario_id']) ? null : $post['usuario_id'];
+
         if ($this->model->insert($post)) {
             return Redirect::page($this->controller, ["msgSucesso" => "Registro inserido com sucesso."]);
         } else {
@@ -65,6 +67,8 @@ class Estabelecimento extends ControllerMain
     public function update()
     {
         $post = $this->request->getPost();
+
+        $post['usuario_id'] = empty($post['usuario_id']) ? null : $post['usuario_id'];
 
         if ($this->model->update($post)) {
             return Redirect::page($this->controller, ["msgSucesso" => "Registro alterado com sucesso."]);

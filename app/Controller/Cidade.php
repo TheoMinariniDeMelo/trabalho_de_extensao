@@ -46,6 +46,8 @@ class Cidade extends ControllerMain
     {
         $post = $this->request->getPost();
 
+        $post['uf_id'] = empty($post['uf_id']) ? null : $post['uf_id'];
+
         if ($this->model->insert($post)) {
             return Redirect::page($this->controller, ["msgSucesso" => "Registro inserido com sucesso."]);
         } else {
@@ -61,6 +63,8 @@ class Cidade extends ControllerMain
     public function update()
     {
         $post = $this->request->getPost();
+
+        $post['uf_id'] = empty($post['uf_id']) ? null : $post['uf_id'];
 
         if ($this->model->update($post)) {
             return Redirect::page($this->controller, ["msgSucesso" => "Registro alterado com sucesso."]);

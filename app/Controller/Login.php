@@ -42,10 +42,6 @@ class Login extends ControllerMain
 
         $superUser = $this->model->criaSuperUser();
 
-        // var_dump(count($aUser));
-        // var_dump($superUser);
-        // exit;
-
         if ($superUser == false) {          // 1=Falhou criação do super user; 2=sucesso na criação do super user
             return Redirect::page("/login", ['msgError' => "Falha na criação do super usuário!"]);
         }

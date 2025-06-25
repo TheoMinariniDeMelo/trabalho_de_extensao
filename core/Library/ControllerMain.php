@@ -47,13 +47,12 @@ class ControllerMain
                 // var_dump($this->method);
                 // exit;
 
-                if($this->controller != 'Vaga' && $this->method != 'listarVagas' && $this->method != 'ajaxFiltrar' && $this->method != 'filtrar') {
+                if ($this->controller != 'Vaga' && $this->method != 'listarVagas' && $this->method != 'ajaxFiltrar' && $this->method != 'filtrar') {
                     if (!Session::get("userId")) {
                         return Redirect::page("login", ['msgError' => "Para acessar a rotina favor antes efetuar o login."]);
                     }
                 }
             }
-
         }
     }
 
@@ -79,7 +78,7 @@ class ControllerMain
     public function loadModel($nomeModel)
     {
         $pathModel = "App\Model\\" . $nomeModel . "Model";
-        
+
         if (class_exists($pathModel)) {
             return new $pathModel();
         }
@@ -97,9 +96,9 @@ class ControllerMain
             $nomeHelper = [$nomeHelper];
         }
 
-        foreach ($nomeHelper AS $value) {
+        foreach ($nomeHelper as $value) {
             $pathHelperAtom = ".." . DIRECTORY_SEPARATOR . "core" . DIRECTORY_SEPARATOR . "Helper" . DIRECTORY_SEPARATOR . "{$value}.php";
-            
+
             if (file_exists($pathHelperAtom)) {
                 require_once $pathHelperAtom;
             } else {
@@ -108,7 +107,7 @@ class ControllerMain
                 if (file_exists($pathHelperUser)) {
                     require_once $pathHelperUser;
                 }
-            }        
+            }
         }
     }
 
@@ -137,13 +136,13 @@ class ControllerMain
 
         // Será utilizado para recuperar valores e preencher o formulário
         if (isset($dados['data'])) {
-			$_POST = $dados['data'];
-		} else {
-			if (count($dados) > 0) {
-				$_POST = $dados;
-			}
-		}
-        
+            $_POST = $dados['data'];
+        } else {
+            if (count($dados) > 0) {
+                $_POST = $dados;
+            }
+        }
+
         // Será utilizado futuramente para recuperar valores quando idenficado
         if (Session::get("errors") != false) {
             $_POST['formErrors'] = Session::getDestroy('errors');
@@ -161,6 +160,4 @@ class ControllerMain
             require_once $pathView . "comuns" . DIRECTORY_SEPARATOR . "rodape.php";
         }
     }
-
-    
 }

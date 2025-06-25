@@ -26,8 +26,8 @@ class CategoriaEstabelecimentoModel extends ModelMain
             categoria.descricao AS categoria_descricao,
             estabelecimento.nome AS estabelecimento_nome
         ')
-            ->join('categoria', 'categoria.id = categoria_estabelecimento.categoria_id')
-            ->join('estabelecimento', 'estabelecimento.id = categoria_estabelecimento.estabelecimento_id')
+            ->join('categoria', 'categoria.id = categoria_estabelecimento.categoria_id', 'left')
+            ->join('estabelecimento', 'estabelecimento.id = categoria_estabelecimento.estabelecimento_id', 'left')
             ->findAll();
     }
 }

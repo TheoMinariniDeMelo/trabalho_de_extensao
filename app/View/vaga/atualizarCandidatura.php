@@ -1,11 +1,17 @@
 <h1>Atualizar Candidatura</h1>
 
+<?= exibeAlerta(); ?>
+
 <div class="card">
     <div class="card-body">
 
         <form action="<?= baseUrl() ?>Vaga/atualizarCandidatura" method="post">
 
             <input type="hidden" name="id" value="<?= $dados['candidatura']['candidatura_id'] ?>">
+            <!-- 
+            <?php
+            var_dump($dados['candidatura']);
+            ?> -->
 
             <input type="hidden" name="vaga_id" value="<?= $dados['candidatura']['vaga_id'] ?>">
 
@@ -40,9 +46,10 @@
             </div>
 
             <div class="d-flex justify-content-end gap-2">
-                <button onclick="goBack()" class="btn btn-secondary">
+                <a href="<?= baseUrl() ?>vaga/convidarEntrevista/<?= $dados['candidatura']['vaga_id'] ?>" class="btn btn-secondary">
                     <i class="bi bi-arrow-left"></i> Voltar
-                </button>
+                </a>
+
                 <button type="submit" class="btn btn-primary">
                     <i class="bi bi-save"></i> Salvar Alterações
                 </button>

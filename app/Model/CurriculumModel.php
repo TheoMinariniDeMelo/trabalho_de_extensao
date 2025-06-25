@@ -13,10 +13,18 @@ class CurriculumModel extends ModelMain
     {
         $curriculumId = $dados['id'] ?? null;
 
-        // SE FOR ATUALIZAÇÃO
         if ($curriculumId) {
 
-            // Atualiza o currículo
+            // var_dump();
+            // exit;
+
+            $this->db->table('pessoa_fisica');
+            $this->db->update([
+                "nome"           => Session::get('userNome') ?? null,
+                "cpf"            => $dados["cpf"] ?? null,
+                "statusRegistro" => 1
+            ], ['id' => $dados['pessoa_fisica_id']]);
+
             $this->db->table('curriculum');
             $update = $this->db->update([
                 "logradouro"           => $dados["logradouro"] ?? null,
@@ -30,14 +38,13 @@ class CurriculumModel extends ModelMain
                 "nascimento"           => $dados["nascimento"] ?? null,
                 "sexo"                 => $dados["sexo"] ?? null,
                 "apresentacaoPessoal"  => $dados["apresentacaoPessoal"] ?? null,
-                "foto"                 => $dados["foto"] ?? null,
+                "foto"                 => $dados["foto"],
             ], ['id' => $curriculumId]);
 
-            if (!$update) {
-                return ["erro" => true, "mensagem" => "Erro ao atualizar Currículo"];
-            }
+            // if (!$update) {
+            //     return ["erro" => true, "mensagem" => "Erro ao atualizar Currículo"];
+            // }
 
-            // Remove escolaridade atual para inserir novamente (ou poderia ter update individual)
             $this->db->table('curriculum_escolaridade')->where('curriculum_id', $curriculumId)->delete();
             if (!empty($dados['escolaridade'])) {
                 foreach ($dados['escolaridade'] as $item) {
@@ -49,7 +56,6 @@ class CurriculumModel extends ModelMain
                 }
             }
 
-            // Remove experiências
             $this->db->table('curriculum_experiencia')->where('curriculum_id', $curriculumId)->delete();
             if (!empty($dados['experiencia'])) {
                 foreach ($dados['experiencia'] as $item) {
@@ -61,7 +67,6 @@ class CurriculumModel extends ModelMain
                 }
             }
 
-            // Remove qualificações
             $this->db->table('curriculum_qualificacao')->where('curriculum_id', $curriculumId)->delete();
             if (!empty($dados['qualificacao'])) {
                 foreach ($dados['qualificacao'] as $item) {
@@ -72,10 +77,9 @@ class CurriculumModel extends ModelMain
                 }
             }
 
-            return true; // sucesso na atualização
-
+            return true;
         } else {
-            // CASO SEJA INSERÇÃO NOVA (igual estava)
+
             $this->db->table('pessoa_fisica');
             $pessoaId = $this->db->insert([
                 "nome"           => Session::get('userNome') ?? null,
@@ -205,6 +209,18 @@ class CurriculumModel extends ModelMain
         return $id > 0 || $id === "0";
     }
 
+    public function deleteCurriculum($curriculumId, $pessoaFisicaId)
+    {
+        $this->db->table('curriculum_escolaridade')->where('curriculum_id', $curriculumId)->delete();
+        $this->db->table('curriculum_experiencia')->where('curriculum_id', $curriculumId)->delete();
+        $this->db->table('curriculum_qualificacao')->where('curriculum_id', $curriculumId)->delete();
+
+        $curriculumDeleted = $this->db->table('curriculum')->where('id', $curriculumId)->delete();
+        $pessoaDeleted = $this->db->table('pessoa_fisica')->where('id', $pessoaFisicaId)->delete();
+
+        return $curriculumDeleted && $pessoaDeleted;
+    }
+
 
 
     private function rollbackCurriculum($curriculumId, $pessoaId)
@@ -243,16 +259,19 @@ class CurriculumModel extends ModelMain
             ->findAll();
     }
 
-    public function buscarCurriculumCompletoPorUsuario($usuarioId)
+    public function buscarCurriculumCompletoPorUsuario($curriculumId)
     {
 
         if (Session::get('userNivel') > 20) {
-            $curriculum = $this->db
-                ->where('id', Session::get('userEstabelecimentoId'))
-                ->first();
-        } else {
+
             $curriculum = $this->db->table('curriculum')
-                ->where('usuario_id', $usuarioId)
+                ->where('usuario_id', Session::get('userId'))
+                ->findAll();
+        } else {
+
+            $curriculum = $this->db->table('curriculum')
+                // ->where('id', $usuarioId)
+                ->where('id', $curriculumId)
                 ->findAll();
         }
 
@@ -286,7 +305,7 @@ class CurriculumModel extends ModelMain
             ->findAll();
 
         $curriculum['pessoa_fisica'] = $this->db->table('pessoa_fisica')
-            ->where('id', $curriculum[0]['id'])
+            ->where('id', $curriculum[0]['pessoa_fisica_id'])
             ->where('statusRegistro', 1)
             ->findAll();
 

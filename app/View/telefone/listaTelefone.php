@@ -8,7 +8,7 @@
             <i class="fa-sharp-duotone fa-light fa-bell"></i>
         </p>
 
-        <table class="table table-bordered table-striped table-hover table-sm" id="tbListaCategoria">
+        <table class="table table-bordered table-striped table-hover table-sm" id="tbListaTelefone">
             <thead>
                 <tr>
                     <th scope="col">Id</th>
@@ -24,11 +24,11 @@
                 <?php foreach ($dados as $value): ?>
                     <tr>
                         <th scope="row"><?= $value['id'] ?></th>
-                        <td><?= $value['estabelecimento_id'] ?></td>
-                        <td><?= $value['usuario_id'] ?></td>
+                        <td><?= $value['estabelecimento_nome'] ?></td>
+                        <td><?= $value['responsavel_nome'] ?></td>
                         <td><?= $value['numero'] ?></td>
-                        <td><?= $value['tipo'] ?></td>
-                        <td><?= $value['statusRegistro'] ?></td>
+                        <td><?= getTipoTelefone($value['tipo']) ?></td>
+                        <td><?= getStatusDescricao($value['statusRegistro']) ?></td>
                         <td>
                             <?= buttons('view', $value['id'])  ?>
                             <?= buttons('update', $value['id'])  ?>
@@ -41,7 +41,7 @@
 
     </div>
 
-    <?= datatables("tbListaCategoria") ?>
+    <?= datatables("tbListaTelefone") ?>
 
 <?php else: ?>
 

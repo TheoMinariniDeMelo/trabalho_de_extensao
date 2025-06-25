@@ -41,6 +41,7 @@ class Curriculum extends ControllerMain
 
     public function form($action, $id = null)
     {
+
         $dados = [
             'data' => $this->model->buscarCurriculumCompletoPorUsuario($id),
             'aCidade' => $this->cidadeModel->listaCidade(),
@@ -55,7 +56,6 @@ class Curriculum extends ControllerMain
     {
         $post = $this->request->getPost();
 
-
         // Upload da foto
         if (!empty($_FILES['foto']['name'])) {
             $upload = $this->files->upload($_FILES, 'curriculum');
@@ -67,28 +67,25 @@ class Curriculum extends ControllerMain
             }
         }
 
+            // // Validação
+            // $validador = Validator::make($post, $this->model->validationRules);
+            // if ($validador) {
+            //     Session::set('inputs', $post);
+            //     Session::set('erros', $validador); // array de erros
+            //     return Redirect::page($this->controller . '/form');
+            // }
+        ;
 
-        // // Validação
-        // $validador = Validator::make($post, $this->model->validationRules);
-        // if ($validador) {
-        //     Session::set('inputs', $post);
-        //     Session::set('erros', $validador); // array de erros
-        //     return Redirect::page($this->controller . '/form');
-        // }
-
-        //         var_dump($post);
-        // exit('opa');
 
         // Inserção
         try {
 
-            $retorno = $this->model->cadastrarCurriculumCompleto($this->request->getPost());
+            $retorno = $this->model->cadastrarCurriculumCompleto($post);
 
             if (is_array($retorno) && $retorno['erro']) {
                 Session::set('msgError', $retorno['mensagem']);
                 return Redirect::page($this->controller . "/form/insert/0");
             } else {
-                Session::set('msgSucesso', 'Currículo cadastrado com sucesso!');
                 if (Session::get('userNivel') > 20) {
                     return Redirect::page("vaga/listarVagas");
                 }
@@ -104,6 +101,11 @@ class Curriculum extends ControllerMain
     public function update()
     {
         $post = $this->request->getPost();
+        // var_dump($post['foto'], $post['nomeImagem']);
+        // exit;
+        $fotoNomeImagem = !empty($post['foto']) ? $post['foto'] : $post['nomeImagem'];
+
+        $post['foto'] = $fotoNomeImagem;
 
         // Upload da foto
         if (!empty($_FILES['foto']['name'])) {
@@ -125,6 +127,9 @@ class Curriculum extends ControllerMain
         //     return Redirect::page($this->controller . "/form/$id");
         // }
 
+        // var_dump($post);
+        // exit;
+
         try {
 
             $retorno = $this->model->cadastrarCurriculumCompleto($post);
@@ -145,11 +150,36 @@ class Curriculum extends ControllerMain
         }
     }
 
+    public function delete()
+    {
 
-    public function meuCurriculo($action, $id = null)
+        $post = $this->request->getPost();
+
+        $currilumId = $post['id'];
+        $pessoaFisicaId = $post['pessoa_fisica_id'];
+
+        $retorno = $this->model->deleteCurriculum($currilumId, $pessoaFisicaId);
+
+        if (is_array($retorno) && $retorno['erro']) {
+            Session::set('msgError', $retorno['mensagem']);
+            return Redirect::page($this->controller . "/form/delete/" . $post['id']);
+        } else {
+            Session::set('msgSucesso', 'Currículo deletado com sucesso!');
+            if (Session::get('userNivel') > 20) {
+                return Redirect::page("vaga/listarVagas");
+            }
+            return Redirect::page("curriculum");
+        }
+    }
+
+
+    public function meuCurriculo()
     {
 
         $curriculo = $this->model->buscarCurriculumCompletoPorUsuario(Session::get('userId'));
+
+        // var_dump(Session::get('userId'));
+        // exit;
         $dados = [
             'data' => $curriculo,
             'aCidade' => $this->cidadeModel->listaCidade(),

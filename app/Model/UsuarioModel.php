@@ -3,6 +3,7 @@
 namespace App\Model;
 
 use Core\Library\ModelMain;
+use Core\Library\Redirect;
 use Core\Library\Session;
 
 class UsuarioModel extends ModelMain
@@ -46,12 +47,12 @@ class UsuarioModel extends ModelMain
      */
     public function criaSuperUser()
     {
+
         $qtd = $this->db->countAll($this->table);
 
         if ($qtd == 0) {
 
             // criando o super usuário
-
             $rsUsuario = $this->insert(
                 [
                     "nome" => "administrador",
@@ -61,15 +62,10 @@ class UsuarioModel extends ModelMain
                     "statusRegistro" => 1
                 ]
             );
-            // var_dump($this->validationRules);
-            // var_dump($rsUsuario);
-            // var_dump($qtd);
-            // exit('opa');
-            if ($rsUsuario == true) {
-                Session::set('msgSuccess', "Super usuário criado com sucesso.");
-                return true;
+
+            if ($rsUsuario) {
+                return Redirect::page("/login", ['msgSucesso' => "Super usuário criado com sucesso!"]);
             } else {
-                Session::set('msgError', "Falha na inclusão do super usuário, não é possivel prosseguir.");
                 return false;
             }
         }
@@ -90,7 +86,7 @@ class UsuarioModel extends ModelMain
 
         return $this->db->table('usuario u')
             ->select('u.*, e.nome AS estabelecimento_nome, e.id AS estabelecimento_id')
-            ->join('estabelecimento e', 'e.id = u.estabelecimento_id')
+            ->join('estabelecimento e', 'e.id = u.estabelecimento_id', 'left')
             ->findAll();
     }
 

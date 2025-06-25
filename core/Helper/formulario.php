@@ -88,36 +88,39 @@ if (! function_exists('datatables')) {
     function datatables($idTable)
     {
         return '
-            <script src="' . baseUrl() . 'assets/DataTables/datatables.min.js"></script>
-            <script>
-                $(document).ready(function() {
-                    $("#' . $idTable . '").DataTable({
-                        language:   {
-                                        "sEmptyTable":      "Nenhum registro encontrado",
-                                        "sInfo":            "Mostrando de _START_ até _END_ de _TOTAL_ registros",
-                                        "sInfoEmpty":       "Mostrando 0 até 0 de 0 registros",
-                                        "sInfoFiltered":    "(Filtrados de _MAX_ registros)",
-                                        "sInfoPostFix":     "",
-                                        "sInfoThousands":   ".",
-                                        "sLengthMenu":      "_MENU_ resultados por página",
-                                        "sLoadingRecords":  "Carregando...",
-                                        "sProcessing":      "Processando...",
-                                        "sZeroRecords":     "Nenhum registro encontrado",
-                                        "sSearch":          "Pesquisar",
-                                        "oPaginate": {
-                                            "sNext":        "Próximo",
-                                            "sPrevious":    "Anterior",
-                                            "sFirst":       "Primeiro",
-                                            "sLast":        "Último"
-                                        },
-                                        "oAria": {
-                                            "sSortAscending":   ": Ordenar colunas de forma ascendente",
-                                            "sSortDescending":  ": Ordenar colunas de forma descendente"
-                                        }
-                                    }
-                    });
+        <script src="' . baseUrl() . 'assets/DataTables/datatables.min.js"></script>
+        <style>
+            div.dataTables_filter {
+                text-align: right !important;
+            }
+        </style>
+        <script>
+            $(document).ready(function() {
+                $("#' . $idTable . '").DataTable({
+                    language: {
+                        "sEmptyTable": "Nenhum registro encontrado",
+                        "sInfo": "Mostrando de _START_ até _END_ de _TOTAL_ registros",
+                        "sInfoEmpty": "Mostrando 0 até 0 de 0 registros",
+                        "sInfoFiltered": "(Filtrados de _MAX_ registros)",
+                        "sLengthMenu": "_MENU_ resultados por página",
+                        "sLoadingRecords": "Carregando...",
+                        "sProcessing": "Processando...",
+                        "sZeroRecords": "Nenhum registro encontrado",
+                        "sSearch": "Pesquisar",
+                        "oPaginate": {
+                            "sNext": "Próximo",
+                            "sPrevious": "Anterior",
+                            "sFirst": "Primeiro",
+                            "sLast": "Último"
+                        },
+                        "oAria": {
+                            "sSortAscending": ": Ordenar colunas de forma ascendente",
+                            "sSortDescending": ": Ordenar colunas de forma descendente"
+                        }
+                    }
                 });
-            </script>';
+            });
+        </script>';
     }
 }
 
@@ -179,4 +182,15 @@ function formatarCPF($cpf)
         substr($cpf, 3, 3) . '.' .
         substr($cpf, 6, 3) . '-' .
         substr($cpf, 9, 2);
+}
+
+function getTipoTelefone($status)
+{
+    if ($status == 1) {
+        return "Residencial";
+    } elseif ($status == 2) {
+        return "Celular";
+    } else {
+        return "...";
+    }
 }

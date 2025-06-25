@@ -1,39 +1,47 @@
-<?= formTitulo("Cargo") ?>
+<div class="d-flex justify-content-center align-items-center mt-5">
+    <div class="card shadow-lg p-4" style="max-width: 1200px; width: 100%; border-radius: 1rem;">
 
-<div class="m-2">
+        <div class="text-center mb-3">
+            <h3 class="fw-bold mb-0">Cadastro de Cargo</h3>
+            <hr>
+        </div>
 
-    <form method="POST" action="<?= $this->request->formAction() ?>">
+        <form method="POST" action="<?= $this->request->formAction() ?>">
 
-        <?php if (setValor("id") != "" && setValor("id") != "0"): ?>
-            <input type="hidden" name="id" id="id" value="<?= setValor("id") ?>">
-        <?php endif; ?>
+            <?php if (setValor("id") != "" && setValor("id") != "0"): ?>
+                <input type="hidden" name="id" id="id" value="<?= setValor("id") ?>">
+            <?php endif; ?>
 
-        <div class="row">
-            <div class="col-12 mb-3">
-                <label for="descricao" class="form-label">Descricao do cargo</label>
-                <input type="text" class="form-control"
-                    id="descricao"
-                    name="descricao"
-                    placeholder="Descrição do Cidade"
-                    maxlength="50"
-                    value="<?= setValor("descricao") ?>"
-                    required
-                    autofocus>
+            <div class="mb-3">
+                <label for="descricao" class="form-label fw-semibold">Descrição do Cargo</label>
+                <div class="input-group">
+                    <span class="input-group-text"><i class="fa-solid fa-briefcase"></i></span>
+                    <input type="text"
+                        class="form-control"
+                        id="descricao"
+                        name="descricao"
+                        placeholder="Digite o nome do cargo"
+                        maxlength="50"
+                        value="<?= setValor("descricao") ?>"
+                        required
+                        autofocus>
+                </div>
                 <?= setMsgFilderError("descricao") ?>
             </div>
 
-            <div>
-                <label for="statusRegistro" class="form-label">Status</label>
-                <select class="form-control" name="statusRegistro" id="statusRegistro" required>
-                    <option value="" <?= setValor('statusRegistro') == ""  ? "SELECTED" : "" ?>>...</option>
+            <div class="mb-4">
+                <label for="statusRegistro" class="form-label fw-semibold">Status</label>
+                <select class="form-select" name="statusRegistro" id="statusRegistro" required>
+                    <option value="" <?= setValor('statusRegistro') == ""  ? "SELECTED" : "" ?>>Selecione</option>
                     <option value="1" <?= setValor('statusRegistro') == "1" ? "SELECTED" : "" ?>>Ativo</option>
                     <option value="2" <?= setValor('statusRegistro') == "2" ? "SELECTED" : "" ?>>Inativo</option>
                 </select>
             </div>
 
-        </div>
+            <div class="d-grid">
+                <?= formButton() ?>
+            </div>
 
-        <?= formButton() ?>
-    </form>
-
+        </form>
+    </div>
 </div>

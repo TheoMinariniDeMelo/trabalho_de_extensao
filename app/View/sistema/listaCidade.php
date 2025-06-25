@@ -1,47 +1,51 @@
-<?= formTitulo("Lista Cidade", true) ?>
+<?= formTitulo("", true) ?>
 
-<?php if (count($dados) > 0): ?>
 
-    <div class="m-2">
 
-    <p>
-        <i class="fa-sharp-duotone fa-light fa-bell"></i>
-    </p>
+<div class="my-4 px-3">
 
-        <table class="table table-bordered table-striped table-hover table-sm" id="tbListaUsuario">
-            <thead>
-                <tr>
-                    <th scope="col">Id</th>
-                    <th scope="col">Nome</th>
-                    <th scope="col">UF</th>
-                    <th scope="col">Código IBGE</th>
-                    <th scope="col">Opções</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($dados as $value): ?>
+    <h2 class="text-center fw-bold mb-4 pb-2 border-bottom border-primary">
+        <i class="fa-sharp fa-duotone fa-bell me-2"></i> Cidades Cadastradas
+    </h2>
+    <?php if (count($dados) > 0): ?>
+        <div class="table-responsive shadow rounded">
+            <table class="table table-hover align-middle" id="tbListaCidade" style="min-width: 700px;">
+                <thead class="table-light text-center">
                     <tr>
-                        <th scope="row"><?= $value['id'] ?></th>
-                        <td><?= $value['nome'] ?></td>
-                        <td><?= $value['sigla'] ?></td>
-                        <td><?= $value['codIBGE'] ?></td>                    
-                        <td>
-                            <?= buttons('view', $value['id'])  ?>
-                            <?= buttons('update', $value['id'])  ?>
-                            <?= buttons('delete', $value['id'])  ?>
-                        </td>
+                        <th style="width: 6%;">Id</th>
+                        <th style="width: 40%; text-align: left;">Nome</th>
+                        <th style="width: 15%;">UF</th>
+                        <th style="width: 20%;">Código IBGE</th>
+                        <th style="width: 19%;">Opções</th>
                     </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    <?php foreach ($dados as $value): ?>
+                        <tr>
+                            <th scope="row" class="text-center text-secondary"><?= htmlspecialchars($value['id']) ?></th>
+                            <td class="text-start"><?= htmlspecialchars($value['nome']) ?></td>
+                            <td class="text-center"><?= htmlspecialchars($value['sigla']) ?></td>
+                            <td class="text-center"><?= htmlspecialchars($value['codIBGE']) ?></td>
+                            <td class="text-center">
+                                <div class="btn-group" role="group" aria-label="Ações">
+                                    <?= buttons('view', $value['id']) ?>
+                                    <?= buttons('update', $value['id']) ?>
+                                    <?= buttons('delete', $value['id']) ?>
+                                </div>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
 
-    </div>
+</div>
 
-    <?= datatables("tbListaUsuario") ?>
+<?= datatables("tbListaCidade") ?>
 
 <?php else: ?>
 
-    <div class="alert alert-warning mt-5 mb-5" role="alert">
+    <div class="alert alert-warning mt-5 mb-5 text-center fs-5">
         Não foram localizados registros...
     </div>
 

@@ -1,28 +1,33 @@
-<div class="card col-lg-4 card-background">
-    <div class="card-header">
-        <h3 class="mt-1">Esqueceu sua Senha</h3>
-    </div>
-    <div class="card-body">
-        <form action="<?= baseUrl() ?>login/esqueciASenhaEnvio" method="POST">
-            <div class="row">
-                <div class="mb-3 col-12">
-                    <label for="email" class="form-label"><strong>Informe seu Email</strong></label>
-                    <input type="text" class="form-control border-dark mt-2" id="email" name="email" placeholder="Informe seu email" value="<?= setValor("email") ?>" required autofocus>
-                    <p class="mt-2">Você irá receber um e-mail com um link para recuperar sua senha</p>
+<div class="d-flex justify-content-center align-items-center">
+    <div class="card shadow-lg p-4" style="max-width: 420px; width: 100%; border-radius: 1rem;">
+
+        <div class="text-center mb-4">
+            <img src="/assets/img/AtomPHP-logo.png" alt="Logo" width="130" class="mb-2">
+            <h3 class="fw-bold">Recuperação de Senha</h3>
+        </div>
+
+        <div class="card-body">
+            <form action="<?= baseUrl() ?>login/esqueciASenhaEnvio" method="POST">
+
+                <div class="mb-3">
+                    <label for="email" class="form-label fw-semibold">Informe seu e-mail</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="Informe seu e-mail de acesso" value="<?= setValor("email") ?>" required autofocus>
+                    <small class="text-muted mt-2 d-block">
+                        Você receberá um link para redefinir sua senha.
+                    </small>
                 </div>
-                <div class="col-12">
-                    <?= exibeAlerta() ?>
-                </div>                        
-                <div class="mt-3 mb-3 col-12 d-flex justify-content-between">
-                    <div class="col-sm-6 col-lg-4">
-                        <button class="btn btn-primary">Enviar</button>
-                    </div>
-                    <div class="col-sm-6 col-lg-4 d-flex justify-content-end">
-                        <a href="<?= baseUrl() ?>login" class="btn btn-outline-primary">Voltar</a>
-                    </div>
+
+                <?= exibeAlerta() ?>
+
+                <div class="d-grid mb-2">
+                    <button type="submit" class="btn btn-primary fw-bold">Enviar</button>
                 </div>
-            </div>
-        </form>
+
+                <div class="d-grid">
+                    <a href="<?= baseUrl() ?>login" class="btn btn-outline-primary">Voltar</a>
+                </div>
+
+            </form>
+        </div>
     </div>
 </div>
-

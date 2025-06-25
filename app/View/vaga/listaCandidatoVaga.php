@@ -1,76 +1,85 @@
-<h1>Candidatos da Vaga: <?= $dados['candidatos'][0]['cargo_descricao'] ?> </h1>
+<!-- <?php var_dump($dados); ?> -->
+<div class="my-4 px-3">
 
-<div class="mb-3">
-    <strong>Cargo:</strong> <?= $dados['candidatos'][0]['cargo_descricao'] ?? '---' ?><br>
-    <strong>Estabelecimento:</strong> <?= $dados['candidatos'][0]['estabelecimento_nome'] ?? '---' ?><br>
-    <strong>Data da Vaga:</strong> <?= date('d/m/Y', strtotime($vaga['data'])) ?><br>
+    <h2 class="text-center fw-bold mb-4 pb-2 border-bottom border-primary">
+        <i class="fa-sharp fa-duotone fa-bell me-2"></i>
+        Candidatos da vaga: <?= htmlspecialchars($dados['candidatos'][0]['cargo_descricao'] ?? '---') ?>
+    </h2>
+
+    <div class="mb-3 text-center">
+        <strong>Cargo:</strong> <?= htmlspecialchars($dados['candidatos'][0]['cargo_descricao'] ?? '---') ?> &nbsp;&nbsp;|&nbsp;&nbsp;
+        <strong>Estabelecimento:</strong> <?= htmlspecialchars($dados['candidatos'][0]['estabelecimento_nome'] ?? '---') ?> &nbsp;&nbsp;|&nbsp;&nbsp;
+        <strong>Data da Vaga:</strong> <?= !empty($vaga['data']) ? date('d/m/Y', strtotime($vaga['data'])) : '---' ?>
+    </div>
+    <?php if (!empty($dados['candidatos'])): ?>
+        <div class="table-responsive shadow rounded">
+            <table class="table table-hover align-middle" id="tbCandidatoVaga" style="min-width: 700px;">
+                <thead class="table-light text-center">
+                    <tr>
+                        <th style="width: 6%;">ID</th>
+                        <th style="width: 30%; text-align: left;">Nome</th>
+                        <th style="width: 15%;">CPF</th>
+                        <th style="width: 15%;">Data Candidatura</th>
+                        <th style="width: 14%;">Status</th>
+                        <th style="width: 20%;">Opções</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <?php foreach ($dados['candidatos'] as $cand): ?>
+                        <tr>
+                            <td class="text-center text-secondary"><?= htmlspecialchars($cand['id']) ?></td>
+                            <td class="text-start"><?= htmlspecialchars($cand['candidato_nome']) ?></td>
+                            <td class="text-center"><?= formatarCPF($cand['cpf']) ?></td>
+                            <td class="text-center"><?= !empty($cand['data_candidatura']) ? date('d/m/Y', strtotime($cand['data_candidatura'])) : '—' ?></td>
+                            <td class="text-center">
+                                <?php
+                                $statusText = match ($cand['status']) {
+                                    1 => ['label' => 'Em Análise', 'class' => 'bg-warning text-dark'],
+                                    2 => ['label' => 'Aprovado', 'class' => 'bg-success'],
+                                    3 => ['label' => 'Rejeitado', 'class' => 'bg-danger'],
+                                    default => ['label' => '—', 'class' => 'bg-secondary']
+                                };
+                                ?>
+                                <span class="badge <?= $statusText['class'] ?>">
+                                    <?= $statusText['label'] ?>
+                                </span>
+                            </td>
+
+                            <td class="text-center">
+                                <div class="btn-group" role="group" aria-label="Ações">
+                                    <a href="<?= baseUrl() ?>Curriculum/form/view/<?= $cand['curriculum_id'] ?>"
+                                        class="btn btn-sm btn-outline-primary"
+                                        title="Visualizar Currículo">
+                                        <i class="fa-solid fa-eye"></i>
+                                    </a>
+
+                                    <a href="<?= baseUrl() ?>Vaga/formAtualizarCandidatura/<?= $cand['vaga_id'] ?>/<?= $cand['usuario_id'] ?>"
+                                        class="btn btn-sm btn-outline-success"
+                                        title="Atualizar Candidatura">
+                                        <i class="fa-solid fa-pen"></i>
+                                    </a>
+
+                                    <a href="<?= baseUrl() ?>Vaga/convidarEntrevista/<?= $cand['vaga_id'] ?>/<?= $cand['usuario_id'] ?>"
+                                        class="btn btn-sm btn-outline-warning"
+                                        title="Convidar para Entrevista">
+                                        <i class="fa-solid fa-envelope"></i>
+                                    </a>
+                                </div>
+                            </td>
+
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
+
 </div>
 
-<?php
-$candidatos = $dados['candidatos'];
-
-var_dump($dados['candidatos']);
-?>
-<?php if (count($candidatos) > 0): ?>
-
-    <table class="table table-bordered table-striped table-hover table-sm" id="tbCandidatosVaga">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nome</th>
-                <th>CPF</th>
-                <th>Data Candidatura</th>
-                <th>Status</th>
-                <th>Opções</th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($candidatos as $cand): ?>
-                <tr>
-                    <td><?= $cand['id'] ?></td>
-                    <td><?= htmlspecialchars($cand['candidato_nome']) ?></td>
-                    <td><?= formatarCPF($cand['cpf']) ?></td>
-                    <td><?= date('d/m/Y', strtotime($cand['data_candidatura'])) ?></td>
-                    <td>
-                        <?= match ($cand['status']) {
-                            1 => 'Em Análise',
-                            2 => 'Aprovado',
-                            3 => 'Rejeitado',
-                            default => '—'
-                        } ?>
-                    </td>
-                    <td class="d-flex flex-wrap gap-1">
-
-                        <a href="<?= baseUrl() ?>Curriculum/form/view/<?= $cand['usuario_id'] ?>"
-                            class="btn btn-sm btn-outline-primary"
-                            title="Visualizar Curriculum">
-                            <i class="bi bi-eye"></i> Curriculum
-                        </a>
-
-                        <a href="<?= baseUrl() ?>Vaga/formAtualizarCandidatura/<?= $cand['vaga_id'] ?>/<?= $cand['id'] ?>"
-                            class="btn btn-sm btn-outline-success"
-                            title="Atualizar Candidatura">
-                            <i class="bi bi-pencil"></i> Atualizar
-                        </a>
-
-                        <a href="<?= baseUrl() ?>Exercicio/convidarEntrevista/<?= $value['id'] ?>"
-                            class="btn btn-sm btn-outline-warning"
-                            title="Convidar para Entrevista">
-                            <i class="bi bi-envelope-plus"></i> Entrevista
-                        </a>
-
-                    </td>
-
-                </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
-
-    <?= datatables('tbCandidatosVaga') ?>
+<?= datatables('tbCandidatoVaga') ?>
 
 <?php else: ?>
 
-    <div class="alert alert-info mt-4">
+    <div class="alert alert-info mt-5 mb-5 text-center fs-5">
         Nenhum candidato encontrado para esta vaga.
     </div>
 

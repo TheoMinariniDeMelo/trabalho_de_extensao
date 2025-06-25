@@ -7,7 +7,7 @@ use Core\Library\ModelMain;
 class CidadeModel extends ModelMain
 {
     protected $table = "cidade";
-    
+
     public $validationRules = [
         "nome"  => [
             "label" => 'Nome',
@@ -35,8 +35,7 @@ class CidadeModel extends ModelMain
      * @return array
      */
     public function listaCidade()
-    {   
-        return $this->db->select("cidade.*, uf.sigla")->join("uf", "uf.id = cidade.uf_id")->orderBy("uf.sigla, cidade.nome")->findAll();
+    {
+        return $this->db->select("cidade.*, uf.sigla")->join("uf", "uf.id = cidade.uf_id", 'left')->orderBy("uf.sigla, cidade.nome")->findAll();
     }
-
 }

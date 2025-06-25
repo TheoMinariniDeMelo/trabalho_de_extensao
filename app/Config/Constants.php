@@ -20,10 +20,10 @@ defined('FILE_MAXSIZE') || define('FILE_MAXSIZE', 5);
 
 // Arquivos aceitos em Uploads
 defined('FILE_ALLOWEDTYPES') || define('FILE_ALLOWEDTYPES', [
-    'image/jpg', 
-    'image/jpeg', 
-    'image/png', 
-    'image/gif', 
+    'image/jpg',
+    'image/jpeg',
+    'image/png',
+    'image/gif',
     'image/bmp',
     'image/webp',
     'image/svg+xml',

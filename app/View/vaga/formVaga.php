@@ -1,141 +1,150 @@
-<?= formTitulo("Cadastro de Vaga") ?>
+<?php
 
-<div class="m-2">
+use Core\Library\Session;
 
-    <form method="POST" action="<?= $this->request->formAction() ?>">
+exibeAlerta() ?>
 
-        <?php if (setValor("id") != "" && setValor("id") != "0"): ?>
-            <input type="hidden" name="id" id="id" value="<?= setValor("id") ?>">
-        <?php endif; ?>
+<div class="d-flex justify-content-center align-items-start mt-5 mb-5">
+    <div class="card shadow-lg p-4" style="max-width: 1200; width: 100%; border-radius: 1rem;">
 
-        <div class="row">
+        <form method="POST" action="<?= $this->request->formAction() ?>">
 
-            <div class="col-md-6 mb-3">
-                <label for="cargo_id" class="form-label">Cargo</label>
-                <select name="cargo_id" id="cargo_id" class="form-control" required>
-                    <option value="">Selecione o cargo</option>
-                    <?php foreach ($dados['aCargo'] as $cargo): ?>
-                        <option value="<?= $cargo['id'] ?>" <?= setValor("cargo_id") == $cargo['id'] ? 'selected' : '' ?>>
-                            <?= $cargo['descricao'] ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-                <?= setMsgFilderError("cargo_id") ?>
-            </div>
+            <?php if (setValor("id") != "" && setValor("id") != "0"): ?>
+                <input type="hidden" name="id" id="id" value="<?= setValor("id") ?>">
+            <?php endif; ?>
 
-            <div class="col-md-6 mb-3">
-                <label for="estabelecimento_id" class="form-label">Estabelecimento</label>
-                <select name="estabelecimento_id" id="estabelecimento_id" class="form-control" required>
-                    <option value="">Selecione o estabelecimento</option>
-                    <?php foreach ($dados['aEstabelecimento'] as $est): ?>
-                        <option value="<?= $est['id'] ?>" <?= setValor("estabelecimento_id") == $est['id'] ? 'selected' : '' ?>>
-                            <?= $est['nome'] ?>
-                        </option>
-                    <?php endforeach; ?>
-                </select>
-                <?= setMsgFilderError("estabelecimento_id") ?>
-            </div>
+            <div class="row g-3">
 
-        </div>
-
-        <div class="row">
-
-            <div class="col-md-6 mb-3">
-                <label for="descricao" class="form-label">Descrição</label>
-                <input type="text"
-                    class="form-control"
-                    id="descricao"
-                    name="descricao"
-                    maxlength="60"
-                    placeholder="Descrição da vaga"
-                    value="<?= setValor("descricao") ?>"
-                    required>
-                <?= setMsgFilderError("descricao") ?>
-            </div>
-
-            <div class="col-md-6 mb-3">
-                <label for="data" class="form-label">Data</label>
-                <input type="date"
-                    class="form-control"
-                    id="data"
-                    name="data"
-                    value="<?= setValor("data") ?>"
-                    required>
-                <?= setMsgFilderError("data") ?>
-            </div>
-
-        </div>
-
-        <div class="row">
-
-            <div class="col-md-6 mb-3">
-                <label for="modalidade" class="form-label">Modalidade</label>
-                <select name="modalidade" id="modalidade" class="form-control" required>
-                    <option value="">Selecione</option>
-                    <option value="1" <?= setValor("modalidade") == '1' ? 'selected' : '' ?>>Presencial</option>
-                    <option value="2" <?= setValor("modalidade") == '2' ? 'selected' : '' ?>>Remoto</option>
-                    <option value="3" <?= setValor("modalidade") == '3' ? 'selected' : '' ?>>Híbrido</option>
-                </select>
-                <?= setMsgFilderError("modalidade") ?>
-            </div>
-
-            <div class="col-md-6 mb-3">
-                <label for="vinculo" class="form-label">Vínculo</label>
-                <select name="vinculo" id="vinculo" class="form-control" required>
-                    <option value="">Selecione</option>
-                    <option value="1" <?= setValor("vinculo") == '1' ? 'selected' : '' ?>>CLT</option>
-                    <option value="2" <?= setValor("vinculo") == '2' ? 'selected' : '' ?>>Estágio</option>
-                    <option value="3" <?= setValor("vinculo") == '3' ? 'selected' : '' ?>>Temporário</option>
-                </select>
-                <?= setMsgFilderError("vinculo") ?>
-            </div>
-
-        </div>
-
-        <div class="row">
-
-            <div class="col-md-12 mb-3">
-                <label for="observacao" class="form-label">Observação</label>
-                <textarea name="observacao"
-                    id="observacao"
-                    class="form-control"
-                    rows="4"
-                    placeholder="Observações adicionais"><?= setValor("observacao") ?></textarea>
-                <?= setMsgFilderError("observacao") ?>
-            </div>
-
-        </div>
-
-        <div class="row">
-
-            <div class="col-md-6 mb-3">
-                <label for="statusVaga" class="form-label">Status</label>
-                <select name="statusVaga" id="statusVaga" class="form-control" required>
-                    <option value="">Selecione</option>
-                    <option value="1" <?= setValor("statusVaga") == '1' ? 'selected' : '' ?>>Ativa</option>
-                    <option value="0" <?= setValor("statusVaga") == '0' ? 'selected' : '' ?>>Inativa</option>
-                </select>
-                <?= setMsgFilderError("statusVaga") ?>
-            </div>
-
-            <div class="col-md-6 mb-3 d-flex align-items-center">
-                <div class="form-check mt-4">
-                    <input class="form-check-input"
-                        type="checkbox"
-                        name="ofertaPublica"
-                        id="ofertaPublica"
-                        value="1"
-                        <?= setValor("ofertaPublica") ? 'checked' : '' ?>>
-                    <label class="form-check-label" for="ofertaPublica">
-                        Oferta Pública
-                    </label>
+                <div class="col-md-6">
+                    <label for="cargo_id" class="form-label fw-semibold">Cargo</label>
+                    <select name="cargo_id" id="cargo_id" class="form-select" required>
+                        <option value="">Selecione o cargo</option>
+                        <?php foreach ($dados['aCargo'] as $cargo): ?>
+                            <option value="<?= $cargo['id'] ?>" <?= setValor("cargo_id") == $cargo['id'] ? 'selected' : '' ?>>
+                                <?= htmlspecialchars($cargo['descricao']) ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
+                    <?= setMsgFilderError("cargo_id") ?>
                 </div>
-                <?= setMsgFilderError("ofertaPublica") ?>
+
+                <div class="col-md-6">
+                    <label for="estabelecimento_id" class="form-label fw-semibold">Estabelecimento</label>
+                    <select name="estabelecimento_id" id="estabelecimento_id" class="form-select" required>
+
+                        <?php if (Session::get('userEstabelecimentoId')): ?>
+
+                            <?php foreach ($dados['aEstabelecimento'] as $estab): ?>
+                                <?php if ($estab['id'] == Session::get('userEstabelecimentoId')): ?>
+                                    <option value="<?= $estab['id'] ?>" selected>
+                                        <?= htmlspecialchars($estab['nome']) ?>
+                                    </option>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+
+                        <?php else: ?>
+
+                            <option value="">Selecione um estabelecimento</option>
+                            <?php foreach ($dados['aEstabelecimento'] as $estab): ?>
+                                <option value="<?= $estab['id'] ?>" <?= setValor('estabelecimento_id') == $estab['id'] ? 'selected' : '' ?>>
+                                    <?= htmlspecialchars($estab['nome']) ?>
+                                </option>
+                            <?php endforeach; ?>
+
+                        <?php endif; ?>
+
+                    </select>
+                    <?= setMsgFilderError("estabelecimento_id") ?>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="descricao" class="form-label fw-semibold">Descrição</label>
+                    <input type="text"
+                        class="form-control"
+                        id="descricao"
+                        name="descricao"
+                        maxlength="60"
+                        placeholder="Descrição da vaga"
+                        value="<?= setValor("descricao") ?>"
+                        required>
+                    <?= setMsgFilderError("descricao") ?>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="data" class="form-label fw-semibold">Data</label>
+                    <input type="date"
+                        class="form-control"
+                        id="data"
+                        name="data"
+                        value="<?= setValor("data") ?>"
+                        required>
+                    <?= setMsgFilderError("data") ?>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="modalidade" class="form-label fw-semibold">Modalidade</label>
+                    <select name="modalidade" id="modalidade" class="form-select" required>
+                        <option value="">Selecione</option>
+                        <option value="1" <?= setValor("modalidade") == '1' ? 'selected' : '' ?>>Presencial</option>
+                        <option value="2" <?= setValor("modalidade") == '2' ? 'selected' : '' ?>>Remoto</option>
+                        <option value="3" <?= setValor("modalidade") == '3' ? 'selected' : '' ?>>Híbrido</option>
+                    </select>
+                    <?= setMsgFilderError("modalidade") ?>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="vinculo" class="form-label fw-semibold">Vínculo</label>
+                    <select name="vinculo" id="vinculo" class="form-select" required>
+                        <option value="">Selecione</option>
+                        <option value="1" <?= setValor("vinculo") == '1' ? 'selected' : '' ?>>CLT</option>
+                        <option value="2" <?= setValor("vinculo") == '2' ? 'selected' : '' ?>>Estágio</option>
+                        <option value="3" <?= setValor("vinculo") == '3' ? 'selected' : '' ?>>Temporário</option>
+                    </select>
+                    <?= setMsgFilderError("vinculo") ?>
+                </div>
+
+                <div class="col-12">
+                    <label for="observacao" class="form-label fw-semibold">Observação</label>
+                    <textarea name="observacao"
+                        id="observacao"
+                        class="form-control"
+                        rows="4"
+                        placeholder="Observações adicionais"><?= setValor("observacao") ?></textarea>
+                    <?= setMsgFilderError("observacao") ?>
+                </div>
+
+                <div class="col-md-6">
+                    <label for="statusVaga" class="form-label fw-semibold">Status</label>
+                    <select name="statusVaga" id="statusVaga" class="form-select" required>
+                        <option value="">Selecione</option>
+                        <option value="1" <?= setValor("statusVaga") == '1' ? 'selected' : '' ?>>Ativa</option>
+                        <option value="0" <?= setValor("statusVaga") == '0' ? 'selected' : '' ?>>Inativa</option>
+                    </select>
+                    <?= setMsgFilderError("statusVaga") ?>
+                </div>
+
+                <div class="col-md-6 d-flex align-items-center">
+                    <div class="form-check mt-4">
+                        <input class="form-check-input"
+                            type="checkbox"
+                            name="ofertaPublica"
+                            id="ofertaPublica"
+                            value="1"
+                            <?= setValor("ofertaPublica") ? 'checked' : '' ?>>
+                        <label class="form-check-label" for="ofertaPublica">
+                            Oferta Pública
+                        </label>
+                    </div>
+                    <?= setMsgFilderError("ofertaPublica") ?>
+                </div>
+
             </div>
 
-        </div>
+            <div class="d-grid mt-4">
+                <?= formButton("Salvar Vaga") ?>
+            </div>
 
-        <?= formButton("Salvar Vaga") ?>
-    </form>
+        </form>
 
+    </div>
 </div>

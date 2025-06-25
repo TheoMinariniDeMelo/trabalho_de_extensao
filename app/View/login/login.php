@@ -1,35 +1,40 @@
-<div class="card col-lg-4 card-background container mb-5" style="margin-top: 10%;">
-    <div class="card-header">
-        <h3>Login</h3>
-    </div>
-    <div class="card-body">
-        <form action="Login/signIn" method="POST">
-            <div class="row">
-                <div class="mb-3 col-12">
-                    <label for="email" class="form-label">Email</label>
-                    <input type="text" class="form-control border-dark" id="email" name="email" placeholder="Informe seu e-mail" value="<?= setValor("email") ?>" required autofocus>
-                </div>
-                <div class="mb-3 col-12">
-                    <label for="senha" class="form-label">Senha</label>
-                    <input type="password" class="form-control border-dark" id="senha" name="senha" required>
-                </div>
-                <div class="col-12 d-flex justify-content-between mt-3 mb-2">
-                    <h6><a href="<?= baseUrl() ?>Login/esqueciASenha" class="text-decoration-none">Esqueci minha senha!</a></h6>
+<div class="d-flex justify-content-center align-items-center">
+    <div class="card shadow-lg p-4" style="max-width: 420px; width: 100%; border-radius: 1rem;">
 
-                    <h6><a href="/Login/formCadastrarLogin" class="link-secondary fw-bold">Quero criar uma conta</a></h6>
+        <div class="text-center mb-4">
+            <img src="/assets/img/AtomPHP-logo.png" alt="Logo" width="130" class="mb-2">
+            <h3 class="fw-bold">Acesso ao Sistema</h3>
+        </div>
+
+        <div class="card-body">
+            <form action="<?= baseUrl() ?>Login/signIn" method="POST">
+
+                <div class="mb-3">
+                    <label for="email" class="form-label fw-semibold">Email</label>
+                    <input type="text" class="form-control" id="email" name="email" placeholder="Informe seu e-mail" value="<?= setValor('email') ?>" required autofocus>
                 </div>
-                <div class="col-12 mb-3">
-                    <?= exibeAlerta() ?>
+
+                <div class="mb-3">
+                    <label for="senha" class="form-label fw-semibold">Senha</label>
+                    <input type="password" class="form-control" id="senha" name="senha" placeholder="Informe sua senha" required>
                 </div>
-                <div class="mb-3 col-12 d-flex justify-content-between">
-                    <div class="col-sm-6 col-lg-4">
-                        <button class="btn btn-primary">Entrar</button>
-                    </div>
-                    <div class="col-sm-6 col-lg-4 d-flex justify-content-end">
-                        <a href="<?= baseUrl() ?>" class="btn btn-outline-primary">Voltar</a>
-                    </div>
+
+                <?= exibeAlerta() ?>
+
+                <div class="d-flex justify-content-between mb-3">
+                    <a href="<?= baseUrl() ?>Login/esqueciASenha" class="small text-decoration-none">Esqueci minha senha</a>
+                    <a href="<?= baseUrl() ?>Login/formCadastrarLogin" class="small fw-bold text-decoration-none">Criar uma conta</a>
                 </div>
-            </div>
-        </form>
+
+                <div class="d-grid mb-2">
+                    <button type="submit" class="btn btn-primary fw-bold">Entrar</button>
+                </div>
+
+                <div class="d-grid">
+                    <a href="<?= baseUrl() ?>" class="btn btn-outline-primary">Voltar</a>
+                </div>
+
+            </form>
+        </div>
     </div>
 </div>

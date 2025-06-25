@@ -9,6 +9,7 @@ use App\Model\UfModel;
 use Core\Library\ControllerMain;
 use Core\Library\Redirect;
 use Core\Library\Database;
+use Core\Library\Email;
 use Core\Library\Session;
 
 class Vaga extends ControllerMain
@@ -240,10 +241,48 @@ class Vaga extends ControllerMain
             if ($sucesso) {
                 Session::set('msgSucesso', 'Candidatura atualizada com sucesso!');
             } else {
-                Session::set('msgError', 'Falha ao atualizar candidatura!');
+                Session::set('msgError', 'Erro: é necessário alterar os dados!');
             }
 
             return Redirect::page('Vaga/formAtualizarCandidatura/' . $vaga_id . '/' . $usuarioId);
+        }
+    }
+
+    public function convidarEntrevista($vaga_id, $usuarioId)
+    {
+
+        $dados['candidatura'] = $this->model->recuperaInfoCandidatura($vaga_id, $usuarioId);
+
+        return $this->loadView("vaga/formConviteEntrevista", $dados);
+    }
+
+    public function enviarConviteEntrevista()
+    {
+        $this->loadHelper("emailHelper");
+        $post       = $this->request->getPost();
+
+        $vaga_id = $post['vaga_id'];
+        $usuario_id = $post['usuario_id'];
+
+        $assunto    = $post['assunto'];
+        $corpo    = $post['mensagem'];
+        $destinatario    = $post['email'];
+
+        $estabelecimento_nome = $this->model->recuperaNomeEstabelecimentoParaEnvioEmail();
+
+        $lRetMail = Email::enviaEmail(
+            $_ENV['MAIL.USER'],                             /* Email do Remetente*/
+            $estabelecimento_nome['estabelecimento_nome'],  /* Nome do Remetente */
+            $assunto,                                       /* Assunto do e-mail */
+            $corpo,                                         /* Corpo do E-mail */
+            $destinatario                                   /* Destinatário do E-mail */
+        );
+
+        if ($lRetMail) {
+            Session::set('msgSucesso', 'Convite enviado com sucesso!');
+            return Redirect::page('Vaga/convidarEntrevista/' . $vaga_id . '/' . $usuario_id);
+        } else {
+            return Redirect::page("login/esqueciASenha", ["inputs" => $post]);
         }
     }
 }

@@ -1,25 +1,3 @@
-<style>
-    body {
-        background-color: #f8f9fa;
-    }
-
-    .vaga-card {
-        max-width: 700px;
-        margin: 2rem auto;
-        border-radius: 1rem;
-        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-    }
-
-    .vaga-card h5 {
-        font-weight: bold;
-    }
-
-    .badge-custom {
-        font-size: 0.9rem;
-        background-color: #0d6efd;
-    }
-</style>
-
 <?= exibeAlerta() ?>
 
 <div class="card vaga-card">

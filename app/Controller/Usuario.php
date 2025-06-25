@@ -71,8 +71,7 @@ class Usuario extends ControllerMain
     {
         $post = $this->request->getPost();
 
-        // var_dump($post);
-        // exit;
+        $post['estabelecimento_id'] = empty($post['estabelecimento_id']) ? null : $post['estabelecimento_id'];
 
         $lError = false;
 
@@ -104,6 +103,8 @@ class Usuario extends ControllerMain
     public function update()
     {
         $post = $this->request->getPost();
+        $post['estabelecimento_id'] = empty($post['estabelecimento_id']) ? null : $post['estabelecimento_id'];
+
         $lError = false;
 
         unset($post['confSenha']);
@@ -119,6 +120,7 @@ class Usuario extends ControllerMain
                 return Redirect::page($this->controller, ["msgSucesso" => "Registro atualizado com sucesso."]);
             } else {
                 $lError = true;
+                return Redirect::page($this->controller . '/form/' . $post['action'] . '/' . $post['id'], ["msgError" => "Erro."]);
             }
         } else {
             Session::set("inputs", $post);

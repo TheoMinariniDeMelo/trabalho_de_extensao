@@ -103,9 +103,9 @@ class VagaModel extends ModelMain
     {
         return $this->db->table('curriculum_vaga cv')
             ->select('cv.id, v.descricao AS vaga_descricao, cg.descricao AS cargo_descricao, cv.data_candidatura, cv.status')
-            ->join('curriculum c', 'c.id = cv.curriculum_id')
-            ->join('vaga v', 'v.id = cv.vaga_id')
-            ->join('cargo cg', 'cg.id = v.cargo_id')  // cargo associado à vaga
+            ->join('curriculum c', 'c.id = cv.curriculum_id', 'left')
+            ->join('vaga v', 'v.id = cv.vaga_id', 'left')
+            ->join('cargo cg', 'cg.id = v.cargo_id', 'left')  // cargo associado à vaga
             ->where('c.usuario_id', $usuarioId)
             ->findAll();
     }
@@ -197,6 +197,7 @@ class VagaModel extends ModelMain
 
     public function recuperaInfoCandidatura(int $vagaId, int $usuarioId)
     {
+
         return $this->db->table('curriculum_vaga cv')
             ->select('
             cv.id AS candidatura_id,
@@ -205,7 +206,7 @@ class VagaModel extends ModelMain
             cv.status,
             cv.observacao,
             c.id AS curriculum_id,
-            c.email,
+            c.email AS curriculum_email,
             c.celular,
             c.nascimento,
             c.sexo,
@@ -248,5 +249,23 @@ class VagaModel extends ModelMain
         $update = $this->db->update($dadosAtualizar, ['id' => $registro['id']]);
 
         return $update;
+    }
+
+    public function recuperaNomeEstabelecimentoParaEnvioEmail()
+    {
+        return $this->db->table('usuario u')
+            ->select('
+        u.id AS usuario_id,
+        u.nome AS usuario_nome,
+        u.email AS usuario_email,
+        u.estabelecimento_id,
+        e.nome AS estabelecimento_nome,
+        e.email AS estabelecimento_email,
+        e.endereco,
+        e.cidade
+    ')
+            ->join('estabelecimento e', 'e.id = u.estabelecimento_id', 'left')
+            ->where('u.id', Session::get('userId'))
+            ->first();
     }
 }

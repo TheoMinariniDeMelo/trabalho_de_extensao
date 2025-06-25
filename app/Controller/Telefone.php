@@ -39,7 +39,7 @@ class Telefone extends ControllerMain
         $dados = [
             'data' => $this->model->recuperarPorId($id),               // Busca dTelfone
             'aEstabelecimento' => $this->estabelecimentoModel->lista('id'),               // Busca dTelfone
-            'aUsuario' => $this->usuarioModel->lista('id'),               // Busca dTelfone
+            'aUsuario' => $this->usuarioModel->getUsuarioEmpresa(),               // Busca dTelfone
             // 'aUf' => $UfModel->lista("sigla")                   // Busca UFs a serem exibidas na combobox
         ];
 
@@ -54,6 +54,8 @@ class Telefone extends ControllerMain
     public function insert()
     {
         $post = $this->request->getPost();
+        $post['usuario_id'] = empty($post['usuario_id']) ? null : $post['usuario_id'];
+        $post['estabelecimento_id'] = empty($post['estabelecimento_id']) ? null : $post['estabelecimento_id'];
 
         if ($this->model->insert($post)) {
             return Redirect::page($this->controller, ["msgSucesso" => "Registro inserido com sucesso."]);
@@ -70,6 +72,8 @@ class Telefone extends ControllerMain
     public function update()
     {
         $post = $this->request->getPost();
+        $post['usuario_id'] = empty($post['usuario_id']) ? null : $post['usuario_id'];
+        $post['estabelecimento_id'] = empty($post['estabelecimento_id']) ? null : $post['estabelecimento_id'];
 
         if ($this->model->update($post)) {
             return Redirect::page($this->controller, ["msgSucesso" => "Registro alterado com sucesso."]);

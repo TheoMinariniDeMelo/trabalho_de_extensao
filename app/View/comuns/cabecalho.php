@@ -13,7 +13,7 @@ use Core\Library\Session;
     <meta name="description" content="AtomPHP, microframework">
     <meta name="autho" content="Aldecir fonseca">
 
-    <title>AtomPHP | FASM 2025</title>
+    <title>Conectando Talentos</title>
 
     <link href="<?= baseUrl() ?>assets/img/AtomPHP-icone.png" rel="icon" type="image/png">
 
@@ -26,26 +26,60 @@ use Core\Library\Session;
     <link href="<?= baseUrl() ?>assets/fontawesome-free-6.7.2-web/css/sharp-thin.css" rel="stylesheet" />
     <link href="<?= baseUrl() ?>assets/fontawesome-free-6.7.2-web/css/duotone-thin.css" rel="stylesheet" />
     <link href="<?= baseUrl() ?>assets/fontawesome-free-6.7.2-web/css/sharp-duotone-thin.css" rel="stylesheet" />
+    <link href="<?= baseUrl() ?>assets/css/style.css" rel="stylesheet" />
     <!-- Fontawesome -->
 
     <script src="<?= baseUrl() ?>assets/js/jquery-3.5.1.min.js"></script>
 
+    <style>
+        @media (max-width: 991.98px) {
+
+            /* Para telas menores que o breakpoint lg (992px) */
+            .navbar-nav .dropdown-menu {
+                position: static !important;
+                /* Remove o posicionamento absoluto */
+                float: none;
+                width: 100%;
+                /* Largura total do menu */
+                margin-top: 0;
+                background-color: transparent;
+                border: none;
+                box-shadow: none;
+            }
+
+            .navbar-nav .dropdown-menu .dropdown-item {
+                padding-left: 2rem;
+                /* Indenta um pouco os itens */
+            }
+
+            /* Para que o dropdown-toggle mostre o submenu ao clicar, sem hover */
+            .navbar-nav .dropdown.show>.dropdown-menu {
+                display: block;
+            }
+        }
+    </style>
 
 </head>
 
 <body>
-    <header class="container-fluid">
+    <header class="container-fluid shadow-sm mb-3">
 
-        <nav class="navbar navbar-expand-lg bg-body-tertiary">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="<?= baseUrl() ?>"><img class="login-img" src="/assets/img/AtomPHP-logo.png" alt="" height="90" width="90"></a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <nav class="navbar navbar-expand-lg bg-white">
+            <div class="container">
+                <a class="navbar-brand d-flex align-items-center" href="<?= baseUrl() ?>">
+                    <img src="<?= baseUrl() ?>assets/img/AtomPHP-logo.png" alt="AtomPHP Logo">
+                    <span class="ms-2 fw-bold">Conectando Talentos</span>
+                </a>
+
+                <button class="navbar-toggler navbar-light" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="collapse navbar-collapse" id="navbarNavDropdown">
-                    <ul class="navbar-nav">
+
+                <div class="collapse navbar-collapse justify-content-end" id="navbarNavDropdown">
+                    <ul class="navbar-nav align-items-center">
+
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="<?= baseUrl() ?>">Home</a>
+                            <a class="nav-link" href="<?= baseUrl() ?>">Home</a>
                         </li>
 
                         <li class="nav-item">
@@ -53,18 +87,19 @@ use Core\Library\Session;
                         </li>
 
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Quem Somos</a>
+                            <a class="nav-link" href="<?= baseUrl() ?>Home/quemSomos">Quem Somos</a>
                         </li>
 
                         <?php if (Session::get("userId")): ?>
 
                             <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Usuário
+                                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">
+                                    <i class="fa-solid fa-user"></i> <?= Session::get("userNome") ?? 'Usuário' ?>
                                 </a>
-                                <ul class="dropdown-menu">
-                                    <li><a class="dropdown-item" href="<?= baseUrl() ?>curriculum/meuCurriculo">Meu curriculum</a></li>
-                                    <li><a class="dropdown-item" href="<?= baseUrl() ?>vaga/minhaCandidatura">Minhas candidaturas</a></li>
+                                <ul class="dropdown-menu dropdown-menu-end">
+
+                                    <li><a class="dropdown-item" href="<?= baseUrl() ?>curriculum/meuCurriculo">Meu Currículo</a></li>
+                                    <li><a class="dropdown-item" href="<?= baseUrl() ?>vaga/minhaCandidatura">Minhas Candidaturas</a></li>
 
                                     <?php if ((int)Session::get("userNivel") <= 10): ?>
                                         <li>
@@ -88,14 +123,12 @@ use Core\Library\Session;
                                         <li><a class="dropdown-item" href="<?= baseUrl() ?>estabelecimento">Estabelecimento</a></li>
                                         <li><a class="dropdown-item" href="<?= baseUrl() ?>telefone">Telefone</a></li>
                                         <li><a class="dropdown-item" href="<?= baseUrl() ?>vaga">Vaga</a></li>
-                                        <li>
-                                            <hr class="dropdown-divider">
-                                        </li>
                                     <?php endif; ?>
+
                                     <li>
                                         <hr class="dropdown-divider">
                                     </li>
-                                    <li><a class="dropdown-item" href="<?= baseUrl() ?>Usuario/formTrocarSenha">Trocar a Senha</a></li>
+                                    <li><a class="dropdown-item" href="<?= baseUrl() ?>Usuario/formTrocarSenha">Trocar Senha</a></li>
                                     <li><a class="dropdown-item text-danger" href="<?= baseUrl() ?>login/signOut">Sair</a></li>
                                 </ul>
                             </li>
@@ -103,7 +136,7 @@ use Core\Library\Session;
                         <?php else: ?>
 
                             <li class="nav-item">
-                                <a class="nav-link" href="<?= baseUrl() ?>Login">Área restrita</a>
+                                <a class="btn btn-primary btn-sm ms-2" href="<?= baseUrl() ?>Login">Entrar</a>
                             </li>
 
                         <?php endif; ?>
@@ -112,6 +145,8 @@ use Core\Library\Session;
                 </div>
             </div>
         </nav>
+
     </header>
+
 
     <main class="container">
