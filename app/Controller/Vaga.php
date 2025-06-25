@@ -22,6 +22,7 @@ class Vaga extends ControllerMain
     {
         $this->auxiliarconstruct();
         $this->loadHelper('formHelper');
+        // $this->validaNivelAcesso();
 
         $this->cargoModel = new CargoModel();
         $this->estabelecimentoModel = new EstabelecimentoModel();
@@ -200,5 +201,49 @@ class Vaga extends ControllerMain
         return $this->loadView('vaga/minhaCandidatura', [
             'candidaturas' => $candidaturas
         ]);
+    }
+
+    public function visualizarcandidatoVaga($vaga_id)
+    {
+        // if (!verificaSeUsuarioEstaLogado()) {
+        //     Session::set('url_redirecionamento', 'candidaturas/minhasCandidaturas');
+        //     return Redirect::page('auth/login');
+        // }
+
+        // var_dump($vaga_id);
+        // exit;
+
+        $dados['candidatos'] = $this->model->visualizarcandidatoVaga($vaga_id);
+
+        return $this->loadView('vaga/listaCandidatoVaga', $dados);
+    }
+
+    public function formAtualizarCandidatura($vaga_id, $usuarioId)
+    {
+
+        $dados['candidatura'] = $this->model->recuperaInfoCandidatura($vaga_id, $usuarioId);
+
+        return $this->loadView('vaga/atualizarCandidatura', $dados);
+    }
+
+    public function atualizarCandidatura()
+    {
+        $post = $this->request->getPost();
+
+        $vaga_id = $post['vaga_id'];
+        $usuarioId = $post['usuario_id'];
+        $curriculumId = $post['curriculum_id'];
+
+        if ($post) {
+            $sucesso = $this->model->updateCandidatura($vaga_id, $curriculumId, $post);
+
+            if ($sucesso) {
+                Session::set('msgSucesso', 'Candidatura atualizada com sucesso!');
+            } else {
+                Session::set('msgError', 'Falha ao atualizar candidatura!');
+            }
+
+            return Redirect::page('Vaga/formAtualizarCandidatura/' . $vaga_id . '/' . $usuarioId);
+        }
     }
 }

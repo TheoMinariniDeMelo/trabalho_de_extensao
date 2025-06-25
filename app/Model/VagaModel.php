@@ -127,13 +127,126 @@ class VagaModel extends ModelMain
     {
         if (Session::get('userNivel') > 10 && Session::get('userNivel') <= 20) {
             return $this->db
-                ->select('vaga.*, cargo.descricao AS cargo_descricao')
+                ->select('vaga.*, cargo.descricao AS cargo_descricao, estabelecimento.nome AS estabelecimento_nome')
                 ->join('cargo', 'cargo.id = vaga.cargo_id')
+                ->join('estabelecimento', 'estabelecimento.id = vaga.estabelecimento_id')
                 ->where('vaga.estabelecimento_id', Session::get('userEstabelecimentoId'))
                 ->findAll();
         }
 
         return $this->db
+            ->select('vaga.*, cargo.descricao AS cargo_descricao, estabelecimento.nome AS estabelecimento_nome')
+            ->join('cargo', 'cargo.id = vaga.cargo_id', 'left')
+            ->join('estabelecimento', 'estabelecimento.id = vaga.estabelecimento_id', 'left')
             ->findAll();
+    }
+
+    public function visualizarcandidatoVaga(int $vagaId)
+    {
+        return $this->db->table('curriculum_vaga cv')
+            ->select('
+            cv.id, 
+            pf.nome AS candidato_nome, 
+            pf.cpf, 
+            pf.id AS pessoa_fisica_id,
+            c.id AS curriculum_id,
+            c.email, 
+            c.celular, 
+            c.usuario_id AS usuario_id,
+            cv.data_candidatura, 
+            cv.status,
+            v.descricao AS vaga_descricao,
+            v.id AS vaga_id,
+            cg.descricao AS cargo_descricao,
+            estabelecimento.nome AS estabelecimento_nome
+        ')
+            ->join('curriculum c', 'c.id = cv.curriculum_id', 'left')
+            ->join('pessoa_fisica pf', 'pf.id = c.pessoa_fisica_id', 'left')
+            ->join('vaga v', 'v.id = cv.vaga_id', 'left')
+            ->join('estabelecimento', 'estabelecimento.id = v.estabelecimento_id', 'left')
+            ->join('cargo cg', 'cg.id = v.cargo_id', 'left')
+            ->where('cv.vaga_id', $vagaId)
+            ->findAll();
+    }
+
+    public function getInfoCandidaturaVaga(int $vagaId)
+    {
+        return $this->db->table('curriculum_vaga cv')
+            ->select('
+            cv.id, 
+            pf.nome AS candidato_nome, 
+            pf.cpf, 
+            pf.id AS pessoa_fisica_id,
+            c.id AS curriculum_id,
+            c.email, 
+            c.celular, 
+            cv.data_candidatura, 
+            cv.status,
+            v.descricao AS vaga_descricao,
+            cg.descricao AS cargo_descricao,
+            estabelecimento.nome AS estabelecimento_nome
+        ')
+            ->join('curriculum c', 'c.id = cv.curriculum_id', 'left')
+            ->join('pessoa_fisica pf', 'pf.id = c.pessoa_fisica_id', 'left')
+            ->join('vaga v', 'v.id = cv.vaga_id', 'left')
+            ->join('estabelecimento', 'estabelecimento.id = v.estabelecimento_id', 'left')
+            ->join('cargo cg', 'cg.id = v.cargo_id', 'left')
+            ->where('cv.vaga_id', $vagaId)
+            ->findAll();
+    }
+
+    public function recuperaInfoCandidatura(int $vagaId, int $usuarioId)
+    {
+        return $this->db->table('curriculum_vaga cv')
+            ->select('
+            cv.id AS candidatura_id,
+            cv.data_candidatura,
+            cv.vaga_id AS vaga_id,
+            cv.status,
+            cv.observacao,
+            c.id AS curriculum_id,
+            c.email,
+            c.celular,
+            c.nascimento,
+            c.sexo,
+            c.apresentacaoPessoal,
+            c.usuario_id AS usuario_id,
+            pf.nome AS candidato_nome,
+            pf.cpf,
+            cargo.descricao AS cargo_nome
+        ')
+            ->join('curriculum c', 'c.id = cv.curriculum_id', 'left')
+            ->join('pessoa_fisica pf', 'pf.id = c.pessoa_fisica_id', 'left')
+            ->join('vaga', 'vaga.id = cv.vaga_id', 'left')
+            ->join('cargo', 'cargo.id = vaga.cargo_id', 'left')
+            ->where('cv.vaga_id', $vagaId)
+            ->where('c.usuario_id', $usuarioId)
+            ->first();
+    }
+
+    public function updateCandidatura($vaga_id, $usuarioId, array $dados)
+    {
+        // Busca o registro da candidatura
+        $registro = $this->db->table('curriculum_vaga')
+            ->select('id, curriculum_id')
+            ->where('vaga_id', $vaga_id)
+            ->where('curriculum_id', $usuarioId)
+            ->first();
+
+        if (!$registro) {
+            return false; // Não encontrou o registro
+        }
+
+        // Monta os dados para atualizar
+        $dadosAtualizar = [
+            'status'      => $dados['status'] ?? 1,
+            'observacao'  => $dados['observacao'] ?? null,
+        ];
+
+        // Executa o update no padrão que você usa
+        $this->db->table('curriculum_vaga');
+        $update = $this->db->update($dadosAtualizar, ['id' => $registro['id']]);
+
+        return $update;
     }
 }

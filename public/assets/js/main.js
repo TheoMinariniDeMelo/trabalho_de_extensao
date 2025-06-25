@@ -28,3 +28,7 @@ function formatarCampo(tipo, valor) {
             return valor;
     }
 }
+
+function goBack() {
+  window.history.back();
+}

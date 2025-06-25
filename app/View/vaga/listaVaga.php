@@ -1,5 +1,8 @@
 <?= formTitulo("Lista de Vagas", true) ?>
 
+<?php
+var_dump($dados);
+?>
 <?php if (count($dados) > 0): ?>
 
     <div class="m-2">
@@ -51,11 +54,20 @@
                         <td>
                             <?= $value['statusVaga'] == 1 ? 'Ativa' : 'Inativa' ?>
                         </td>
-                        <td>
+                        <td class="d-flex flex-wrap gap-1">
+
                             <?= buttons('view', $value['id']) ?>
                             <?= buttons('update', $value['id']) ?>
                             <?= buttons('delete', $value['id']) ?>
+
+                            <a href="<?= baseUrl() ?>Vaga/visualizarcandidatoVaga/<?= $value['id'] ?>"
+                                class="btn btn-sm btn-outline-primary"
+                                title="Visualizar Candidatos">
+                                <i class="bi bi-people"></i> Candidatos
+                            </a>
+
                         </td>
+
                     </tr>
                 <?php endforeach; ?>
             </tbody>
