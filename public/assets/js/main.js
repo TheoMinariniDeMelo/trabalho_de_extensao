@@ -29,6 +29,20 @@ function formatarCampo(tipo, valor) {
     }
 }
 
-function goBack() {
-  window.history.back();
+function goBack(fallbackUrl = '/') {
+    if (document.referrer && document.referrer.indexOf(window.location.hostname) !== -1) {
+        // Se a página anterior é do mesmo domínio, tenta voltar
+        window.history.back();
+
+        // Verifica se o histórico está vazio (usuários podem desabilitar ou manipular)
+        setTimeout(() => {
+            if (window.history.length <= 1) {
+                window.location.href = fallbackUrl;
+            }
+        }, 100);
+    } else {
+        // Sem histórico ou veio de fora do site, redireciona para página segura
+        window.location.href = fallbackUrl;
+    }
 }
+

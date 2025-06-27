@@ -19,7 +19,7 @@ class Usuario extends ControllerMain
     public function __construct()
     {
         $this->auxiliarConstruct();
-        // $this->loadHelper(['formHelper', 'tabela']);
+        $this->loadHelper(['formHelper', 'tabela']);
 
         $this->estabelecimentoModel = new EstabelecimentoModel();
     }
