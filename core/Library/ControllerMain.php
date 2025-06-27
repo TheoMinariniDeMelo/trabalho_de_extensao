@@ -45,7 +45,7 @@ class ControllerMain
             if (!in_array($this->controller, CONTROLLER_AUTH)) {
 
                 // Se for o controller Vaga e o método for um dos liberados
-                if ($this->controller === 'Vaga' && in_array($this->method, ['listarVagas', 'ajaxFiltrar', 'filtrar'])) {
+                if ($this->controller === 'Vaga' && in_array($this->method, ['listarVagas', 'ajaxFiltrar', 'filtrar', 'visualizarVaga'])) {
                     // Permite acesso sem login
                     return;
                 }

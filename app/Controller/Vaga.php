@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Model\CargoModel;
+use App\Model\CidadeModel;
 use App\Model\CurriculumModel;
+use App\Model\EscolaridadeModel;
 use App\Model\EstabelecimentoModel;
 use Core\Library\ControllerMain;
 use Core\Library\Redirect;
@@ -17,6 +19,8 @@ class Vaga extends ControllerMain
     protected $estabelecimentoModel;
     protected $cargoModel;
     protected $curriculumModel;
+    protected $cidadeModel;
+    protected $escolaridadeModel;
 
     public function __construct()
     {
@@ -26,6 +30,8 @@ class Vaga extends ControllerMain
         $this->cargoModel = new CargoModel();
         $this->estabelecimentoModel = new EstabelecimentoModel();
         $this->curriculumModel = new CurriculumModel();
+        $this->cidadeModel = new CidadeModel();
+        $this->escolaridadeModel = new EscolaridadeModel();
     }
 
     /**
@@ -222,6 +228,9 @@ class Vaga extends ControllerMain
         // exit;
 
         $dados['candidatos'] = $this->model->visualizarcandidatoVaga($vaga_id);
+        $dados['escolaridades'] = $this->escolaridadeModel->lista('id');
+        $dados['cargos'] = $this->cargoModel->lista('id');
+        $dados['cidades'] = $this->cidadeModel->lista('id');
 
         // var_dump($vaga_id);
         // exit;
@@ -310,5 +319,29 @@ class Vaga extends ControllerMain
             Session::set('msgError', 'Erro ao remover candidatura!');
             return Redirect::page('Vaga/minhaCandidatura');
         }
+    }
+
+    public function filtrarCandidatoAvancado()
+    {
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            http_response_code(405);
+            echo json_encode(['error' => 'Método não permitido']);
+            exit;
+        }
+
+        $filtros = [
+            'cargo_id'         => $_POST['cargo_id'] ?? null,
+            'escolaridade_id'  => $_POST['escolaridade_id'] ?? null,
+            'tempo_experiencia' => $_POST['tempo_experiencia'] ?? null,
+            // 'modalidade'       => $_POST['modalidade'] ?? null,
+            // 'vinculo'          => $_POST['vinculo'] ?? null,
+            'cidade_id'        => $_POST['cidade_id'] ?? null,
+        ];
+
+        $candidatos = $this->model->filtrarCandidato($filtros);
+
+        header('Content-Type: application/json; charset=utf-8');
+        echo json_encode($candidatos);
+        exit;
     }
 }

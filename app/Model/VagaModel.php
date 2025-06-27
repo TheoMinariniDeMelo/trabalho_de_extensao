@@ -347,4 +347,87 @@ class VagaModel extends ModelMain
         }
         return false;
     }
+
+    public function filtrarCandidato(array $filtros): array
+    {
+        $sql = "SELECT 
+                v.id AS vaga_id,
+                v.descricao AS vaga_descricao,
+                v.modalidade,
+                v.vinculo,
+                v.data AS vaga_data,
+                c.descricao AS cargo_descricao,
+                estabelecimento.nome AS estabelecimento_nome,
+                
+                pf.nome AS candidato_nome,
+                pf.cpf,
+                cur.id AS curriculum_id,
+                cur.usuario_id,
+                cv.id AS candidatura_id,
+                cv.data_candidatura,
+                cv.status AS status_candidatura,
+                
+                MAX(cvExp.fimAno) - MIN(cvExp.inicioAno) AS tempo_experiencia_total,
+                MAX(cvExp.cargoDescricao) AS ultima_experiencia,
+                MAX(cvEsc.escolaridade_id) AS escolaridade_id,
+                
+                cid.id AS cidade_id,
+                cid.nome AS cidade_nome
+
+            FROM vaga v
+            LEFT JOIN cargo c ON c.id = v.cargo_id
+            LEFT JOIN estabelecimento ON estabelecimento.id = v.estabelecimento_id
+            LEFT JOIN curriculum_vaga cv ON cv.vaga_id = v.id
+            LEFT JOIN curriculum cur ON cur.id = cv.curriculum_id
+            LEFT JOIN pessoa_fisica pf ON pf.id = cur.pessoa_fisica_id
+            LEFT JOIN cidade cid ON cid.id = cur.cidade_id
+            LEFT JOIN curriculum_experiencia cvExp ON cvExp.curriculum_id = cur.id AND cvExp.statusRegistro = 1
+            LEFT JOIN curriculum_escolaridade cvEsc ON cvEsc.curriculum_id = cur.id AND cvEsc.statusRegistro = 1
+
+            WHERE 1=1
+              AND v.statusVaga = 1
+              AND cv.id IS NOT NULL";
+
+        $params = [];
+
+        // Experiência no cargo pretendido
+        if (!empty($filtros['cargo_id']) && is_numeric($filtros['cargo_id'])) {
+            $sql .= " AND cvExp.cargo_id = :cargo_id";
+            $params[':cargo_id'] = $filtros['cargo_id'];
+        }
+
+        // Escolaridade
+        if (!empty($filtros['escolaridade_id']) && is_numeric($filtros['escolaridade_id'])) {
+            $sql .= " AND cvEsc.escolaridade_id = :escolaridade_id";
+            $params[':escolaridade_id'] = $filtros['escolaridade_id'];
+        }
+
+        // Tempo de experiência mínima (em anos)
+        if (!empty($filtros['tempo_experiencia']) && is_numeric($filtros['tempo_experiencia'])) {
+            $sql .= " AND (cvExp.fimAno - cvExp.inicioAno) >= :tempo_experiencia";
+            $params[':tempo_experiencia'] = $filtros['tempo_experiencia'];
+        }
+
+        // // Modalidade de trabalho
+        // if (!empty($filtros['modalidade'])) {
+        //     $sql .= " AND v.modalidade = :modalidade";
+        //     $params[':modalidade'] = $filtros['modalidade'];
+        // }
+
+        // Tipo de vínculo
+        // if (!empty($filtros['vinculo'])) {
+        //     $sql .= " AND v.vinculo = :vinculo";
+        //     $params[':vinculo'] = $filtros['vinculo'];
+        // }
+
+        // Localização
+        if (!empty($filtros['cidade_id']) && is_numeric($filtros['cidade_id'])) {
+            $sql .= " AND cid.id = :cidade_id";
+            $params[':cidade_id'] = $filtros['cidade_id'];
+        }
+
+        $sql .= " GROUP BY cv.id ORDER BY v.data DESC";
+
+        return $this->query($sql, $params);
+    }
 }
