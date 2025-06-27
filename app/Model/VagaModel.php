@@ -9,21 +9,57 @@ class VagaModel extends ModelMain
 {
     protected $table = "vaga";
 
-    // public $validationRules = [
-    //     "descricao"  => [
-    //         "label" => 'Descrição',
-    //         "rules" => 'required|min:3|max:50'
-    //     ]
-    // ];
+    public $validationRules = [
+        "cargo_id" => [
+            "label" => "Cargo",
+            "rules" => "permit_empty|integer"
+        ],
+        "descricao" => [
+            "label" => "Descrição",
+            "rules" => "permit_empty|max_length[60]"
+        ],
+        "observacao" => [
+            "label" => "Observação",
+            "rules" => "permit_empty"
+        ],
+        "modalidade" => [
+            "label" => "Modalidade",
+            "rules" => "permit_empty|integer|in_list[1,2,3]"  // 1=Presencial, 2=Remoto, 3=Híbrido (exemplo)
+        ],
+        "vinculo" => [
+            "label" => "Vínculo",
+            "rules" => "permit_empty|integer|in_list[1,2,3]"  // 1=CLT, 2=Estágio, 3=Temporário (exemplo)
+        ],
+        "ofertaPublica" => [
+            "label" => "Oferta Pública",
+            "rules" => "permit_empty|integer|in_list[0,1]"  // 0 = Não, 1 = Sim
+        ],
+        "data" => [
+            "label" => "Data",
+            "rules" => "permit_empty|valid_date"
+        ],
+        "estabelecimento_id" => [
+            "label" => "Estabelecimento",
+            "rules" => "permit_empty|integer"
+        ],
+        "statusVaga" => [
+            "label" => "Status da Vaga",
+            "rules" => "permit_empty|integer|in_list[1,2]" // 1 = Ativa, 2 = Inativa
+        ],
+    ];
+
 
     public function filtrar(array $filtros): array
     {
         $sql = "SELECT 
                 v.*,
-                c.descricao AS cargo_descricao
+                c.descricao AS cargo_descricao,
+                estabelecimento.nome AS estabelecimento_nome
             FROM vaga v
             LEFT JOIN cargo c ON c.id = v.cargo_id
-            WHERE 1=1";
+            LEFT JOIN estabelecimento ON estabelecimento.id = v.estabelecimento_id
+            WHERE 1=1
+            AND v.statusVaga = 1";
 
         $params = [];
 
@@ -66,15 +102,18 @@ class VagaModel extends ModelMain
     {
 
         return $this->db
-            ->select('
+            ->select(
+                '
         vaga.*,
         cargo.descricao AS cargo_descricao,
         estabelecimento.nome AS estabelecimento_nome,
         estabelecimento.endereco AS estabelecimento_endereco,
-        estabelecimento.cidade AS estabelecimento_cidade,
-        estabelecimento.email AS estabelecimento_email')
+        estabelecimento.email AS estabelecimento_email,
+        cidade.nome AS estabelecimento_cidade'
+            )
             ->join('cargo', 'cargo.id = vaga.cargo_id', 'left')
             ->join('estabelecimento', 'estabelecimento.id = vaga.estabelecimento_id', 'left')
+            ->join('cidade', 'cidade.id = estabelecimento.cidade_id', 'left')
             // ->where('vaga.statusVaga', 1)
             ->where('vaga.id', $id)
             ->findAll();
@@ -95,16 +134,17 @@ class VagaModel extends ModelMain
         return $this->db->table('curriculum_vaga')
             ->where('curriculum_id', $curriculumId)
             ->where('vaga_id', $vagaId)
-            ->where('status', 1) // Somente candidaturas ativas/pending, opcional
+            // ->where('status', 1) // Somente candidaturas ativas/pending, opcional
             ->findAll();
     }
 
     public function listaCandidaturaUsuario($usuarioId)
     {
         return $this->db->table('curriculum_vaga cv')
-            ->select('cv.id, v.descricao AS vaga_descricao, cg.descricao AS cargo_descricao, cv.data_candidatura, cv.status')
+            ->select('cv.*, v.descricao AS vaga_descricao, cg.descricao AS cargo_descricao, cv.data_candidatura, cv.status, e.nome AS estabelecimento_nome')
             ->join('curriculum c', 'c.id = cv.curriculum_id', 'left')
             ->join('vaga v', 'v.id = cv.vaga_id', 'left')
+            ->join('estabelecimento e', 'e.id = v.estabelecimento_id', 'left')
             ->join('cargo cg', 'cg.id = v.cargo_id', 'left')  // cargo associado à vaga
             ->where('c.usuario_id', $usuarioId)
             ->findAll();
@@ -141,11 +181,13 @@ class VagaModel extends ModelMain
             ->findAll();
     }
 
+
     public function visualizarcandidatoVaga(int $vagaId)
     {
-        return $this->db->table('curriculum_vaga cv')
-            ->select('
-            cv.id, 
+        if (Session::get('userNivel') > 10 && Session::get('userNivel') < 20) {
+            return $this->db->table('vaga')
+                ->select('
+            curriculum_vaga.id, 
             pf.nome AS candidato_nome, 
             pf.cpf, 
             pf.id AS pessoa_fisica_id,
@@ -153,19 +195,47 @@ class VagaModel extends ModelMain
             c.email, 
             c.celular, 
             c.usuario_id AS usuario_id,
-            cv.data_candidatura, 
-            cv.status,
-            v.descricao AS vaga_descricao,
-            v.id AS vaga_id,
+            curriculum_vaga.data_candidatura, 
+            curriculum_vaga.status,
+            vaga.descricao AS vaga_descricao,
+            vaga.id AS vaga_id,
+            vaga.data,
             cg.descricao AS cargo_descricao,
             estabelecimento.nome AS estabelecimento_nome
         ')
-            ->join('curriculum c', 'c.id = cv.curriculum_id', 'left')
+                ->join('curriculum_vaga', 'curriculum_vaga.vaga_id = vaga.id')
+                ->join('curriculum c', 'c.id = curriculum_vaga.curriculum_id', 'left')
+                ->join('pessoa_fisica pf', 'pf.id = c.pessoa_fisica_id', 'left')
+                ->join('estabelecimento', 'estabelecimento.id = vaga.estabelecimento_id', 'left')
+                ->join('cargo cg', 'cg.id = vaga.cargo_id', 'left')
+                ->where('vaga.id', $vagaId)
+                ->where('vaga.estabelecimento_id', Session::get('userEstabelecimentoId'))
+                ->findAll();
+        }
+        return $this->db->table('vaga')
+            ->select('
+            curriculum_vaga.id, 
+            pf.nome AS candidato_nome, 
+            pf.cpf, 
+            pf.id AS pessoa_fisica_id,
+            c.id AS curriculum_id,
+            c.email, 
+            c.celular, 
+            c.usuario_id AS usuario_id,
+            curriculum_vaga.data_candidatura, 
+            curriculum_vaga.status,
+            vaga.descricao AS vaga_descricao,
+            vaga.id AS vaga_id,
+            vaga.data,
+            cg.descricao AS cargo_descricao,
+            estabelecimento.nome AS estabelecimento_nome
+        ')
+            ->join('curriculum_vaga', 'curriculum_vaga.vaga_id = vaga.id', 'left')
+            ->join('curriculum c', 'c.id = curriculum_vaga.curriculum_id', 'left')
             ->join('pessoa_fisica pf', 'pf.id = c.pessoa_fisica_id', 'left')
-            ->join('vaga v', 'v.id = cv.vaga_id', 'left')
-            ->join('estabelecimento', 'estabelecimento.id = v.estabelecimento_id', 'left')
-            ->join('cargo cg', 'cg.id = v.cargo_id', 'left')
-            ->where('cv.vaga_id', $vagaId)
+            ->join('estabelecimento', 'estabelecimento.id = vaga.estabelecimento_id', 'left')
+            ->join('cargo cg', 'cg.id = vaga.cargo_id', 'left')
+            ->where('vaga.id', $vagaId)
             ->findAll();
     }
 
@@ -262,10 +332,19 @@ class VagaModel extends ModelMain
         e.nome AS estabelecimento_nome,
         e.email AS estabelecimento_email,
         e.endereco,
-        e.cidade
+        c.nome
     ')
             ->join('estabelecimento e', 'e.id = u.estabelecimento_id', 'left')
+            ->join('cidade c', 'c.id = e.cidade_id', 'left')
             ->where('u.id', Session::get('userId'))
             ->first();
+    }
+
+    public function removerCurriculumVaga($curriculumVagaId)
+    {
+        if ($this->db->table('curriculum_vaga')->where('id', $curriculumVagaId)->delete()) {
+            return true;
+        }
+        return false;
     }
 }

@@ -6,6 +6,7 @@ use App\Model\EstabelecimentoModel;
 use Core\Library\ControllerMain;
 use Core\Library\Redirect;
 use Core\Library\Session;
+use Core\Library\Validator;
 
 class Usuario extends ControllerMain
 {
@@ -18,8 +19,7 @@ class Usuario extends ControllerMain
     public function __construct()
     {
         $this->auxiliarConstruct();
-        $this->loadHelper(['formHelper', 'tabela']);
-        $this->validaNivelAcesso();                     // Valida nível de acesso apenas Super User e Administrador
+        // $this->loadHelper(['formHelper', 'tabela']);
 
         $this->estabelecimentoModel = new EstabelecimentoModel();
     }
@@ -31,6 +31,8 @@ class Usuario extends ControllerMain
      */
     public function index()
     {
+        $this->validaNivelAcesso();
+
         return $this->loadView("sistema/listaUsuario", $this->model->getUsuarioEmpresa());
     }
 
@@ -43,6 +45,8 @@ class Usuario extends ControllerMain
      */
     public function form($action = null, $id = null)
     {
+        $this->validaNivelAcesso();
+
         if ($this->action == "insert") {
             $dados = [
                 "nivel" => 21,
@@ -69,29 +73,49 @@ class Usuario extends ControllerMain
      */
     public function insert()
     {
+        $this->validaNivelAcesso();
+
         $post = $this->request->getPost();
 
-        $post['estabelecimento_id'] = empty($post['estabelecimento_id']) ? null : $post['estabelecimento_id'];
-
-        $lError = false;
-
-        if (empty($post['senha'])) {
-            $lError = true;
-            $errors['senha'] = "O campo <b>Senha</b> deve ser preenchido.";
-            Session::set('errors', $errors);
+        if (Validator::make($post, $this->model->validationRules)) {
+            return Redirect::page($this->controller . "/form/insert/0");
         } else {
-            unset($post['confSenha']);
-        }
 
-        if (!$lError) {
-            if ($this->model->insert($post)) {
-                return Redirect::page($this->controller, ["msgSucesso" => "Registro atualizado com sucesso."]);
-            } else {
+            $post['estabelecimento_id'] = empty($post['estabelecimento_id']) ? null : $post['estabelecimento_id'];
+
+            $lError = false;
+
+            if (empty($post['senha'])) {
                 $lError = true;
+                $errors['senha'] = "O campo <b>Senha</b> deve ser preenchido.";
+                Session::set('errors', $errors);
+                Session::set("inputs", $post);
+                return Redirect::page($this->controller . '/form/' . $post['action'] . '/' . $post['id']);
+            } else {
+                unset($post['confSenha']);
             }
-        } else {
-            Session::set("inputs", $post);
-            return Redirect::page($this->controller . '/form/' . $post['action'] . '/' . $post['id']);
+
+            if (!$lError) {
+                $dados = [
+                    'estabelecimento_id' => $post['estabelecimento_id'],
+                    'nivel'              => $post['nivel'],
+                    'nome'               => $post['nome'],
+                    'email'              => $post['email'],
+                    'senha'              => password_hash($post['senha'], PASSWORD_DEFAULT), // Só se for novo ou alteração de senha
+                    'statusRegistro'     => $post['statusRegistro'],
+                ];
+
+                if ($this->model->insert($dados)) {
+                    return Redirect::page($this->controller, ["msgSucesso" => "Registro atualizado com sucesso."]);
+                } else {
+                    $lError = true;
+                    Session::set("inputs", $post);
+                    return Redirect::page($this->controller . '/form/' . $post['action'] . '/' . $post['id']);
+                }
+            } else {
+                Session::set("inputs", $post);
+                return Redirect::page($this->controller . '/form/' . $post['action'] . '/' . $post['id']);
+            }
         }
     }
 
@@ -102,29 +126,47 @@ class Usuario extends ControllerMain
      */
     public function update()
     {
+        $this->validaNivelAcesso();
         $post = $this->request->getPost();
-        $post['estabelecimento_id'] = empty($post['estabelecimento_id']) ? null : $post['estabelecimento_id'];
 
-        $lError = false;
-
-        unset($post['confSenha']);
-
-        if (empty($post['senha'])) {
-            unset($post['senha']);
+        if (Validator::make($post, $this->model->validationRules)) {
+            return Redirect::page($this->controller . "/form/update/" . $post['id']);
         } else {
-            $post['senha'] = password_hash($post['senha'], PASSWORD_DEFAULT);
-        }
+            $post['estabelecimento_id'] = empty($post['estabelecimento_id']) ? null : $post['estabelecimento_id'];
 
-        if (!$lError) {
-            if ($this->model->update($post)) {
-                return Redirect::page($this->controller, ["msgSucesso" => "Registro atualizado com sucesso."]);
+            $lError = false;
+
+            unset($post['confSenha']);
+
+            // Prepara o array de dados para update
+            $dados = [
+                'id'                 => $post['id'],
+                'estabelecimento_id' => $post['estabelecimento_id'],
+                'nivel'              => $post['nivel'],
+                'nome'               => $post['nome'],
+                'email'              => $post['email'],
+                'statusRegistro'     => $post['statusRegistro'],
+            ];
+
+            if (empty($post['senha'])) {
+                unset($post['senha']);
             } else {
-                $lError = true;
-                return Redirect::page($this->controller . '/form/' . $post['action'] . '/' . $post['id'], ["msgError" => "Erro."]);
+                $post['senha'] = password_hash($post['senha'], PASSWORD_DEFAULT);
+                $dados['senha'] = $post['senha'];
             }
-        } else {
-            Session::set("inputs", $post);
-            return Redirect::page($this->controller . '/form/' . $post['action'] . '/' . $post['id']);
+
+            if (!$lError) {
+
+                if ($this->model->update($dados)) {
+                    return Redirect::page($this->controller, ["msgSucesso" => "Registro atualizado com sucesso."]);
+                } else {
+                    $lError = true;
+                    return Redirect::page($this->controller . '/form/' . $post['action'] . '/' . $post['id'], ["msgError" => "Erro."]);
+                }
+            } else {
+                Session::set("inputs", $post);
+                return Redirect::page($this->controller . '/form/' . $post['action'] . '/' . $post['id']);
+            }
         }
     }
 
@@ -135,6 +177,7 @@ class Usuario extends ControllerMain
      */
     public function delete()
     {
+        $this->validaNivelAcesso();
         $post = $this->request->getPost();
 
         if ($this->model->delete(["id" => $post['id']])) {

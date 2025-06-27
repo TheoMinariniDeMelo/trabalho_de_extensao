@@ -23,7 +23,7 @@ use Core\Library\Session;
             <div class="mb-3">
                 <label class="form-label">Assunto</label>
                 <input type="text" class="form-control" name="assunto"
-                    value="Convite para Entrevista - <?= htmlspecialchars($dados['candidatura']['cargo_nome']) ?>" required>
+                    value="Convite para Entrevista - Vaga: <?= htmlspecialchars($dados['candidatura']['cargo_nome']) ?>" required>
             </div>
 
             <div class="mb-3">

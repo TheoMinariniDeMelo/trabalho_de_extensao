@@ -41,19 +41,6 @@
                 </div>
             </div>
 
-            <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label for="visitante_id" class="form-label fw-semibold">Visitante ID</label>
-                    <input type="number"
-                        class="form-control"
-                        id="visitante_id"
-                        name="visitante_id"
-                        placeholder="ID do visitante (se aplicável)"
-                        value="<?= setValor("visitante_id") ?>">
-                    <?= setMsgFilderError("visitante_id") ?>
-                </div>
-            </div>
-
             <div class="mb-4 col-md-4">
                 <label for="statusRegistro" class="form-label fw-semibold">Status</label>
                 <select class="form-select" name="statusRegistro" id="statusRegistro" required>

@@ -1,9 +1,12 @@
 SELECT 
                 v.*,
-                c.descricao AS cargo_descricao
+                c.descricao AS cargo_descricao,
+                estabelecimento.nome AS estabelecimento_nome
             FROM vaga v
             LEFT JOIN cargo c ON c.id = v.cargo_id
-            WHERE 1=1 ORDER BY v.data DESC
+            LEFT JOIN estabelecimento ON estabelecimento.id = v.estabelecimento_id
+            WHERE 1=1
+            AND v.statusVaga = 1 ORDER BY v.data DESC
 Array
 (
 )

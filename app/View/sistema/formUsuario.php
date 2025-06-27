@@ -1,7 +1,11 @@
 <script type="text/javascript" src="<?= baseUrl(); ?>assets/js/usuario.js"></script>
 
 <?php
+
+use Core\Library\Session;
+
 $aEstabelecimento = $dados['aEstabelecimento'];
+
 ?>
 
 <div class="d-flex justify-content-center align-items-start mt-5 mb-5">
@@ -25,7 +29,9 @@ $aEstabelecimento = $dados['aEstabelecimento'];
                     <label for="nivel" class="form-label fw-semibold">Nível</label>
                     <select class="form-select" name="nivel" id="nivel" aria-label="Large select nivel" required>
                         <option value="0" <?= (setValor('nivel') == ""   ? 'selected' : "") ?>>...</option>
-                        <option value="1" <?= (setValor('nivel') == "1"  ? 'selected' : "") ?>>Super Administrador</option>
+                        <?php if (Session::get('userNivel') < 10) : ?>
+                            <option value="1" <?= (setValor('nivel') == "1"  ? 'selected' : "") ?>>Super Administrador</option>
+                        <?php endif ?>
                         <option value="11" <?= (setValor('nivel') == "11" ? 'selected' : "") ?>>Empresa</option>
                         <option value="21" <?= (setValor('nivel') == "21" ? 'selected' : "") ?>>Candidato</option>
                     </select>
@@ -40,16 +46,33 @@ $aEstabelecimento = $dados['aEstabelecimento'];
 
                 <div class="col-md-4">
                     <label for="estabelecimento_id" class="form-label fw-semibold">Estabelecimento</label>
-                    <select class="form-select" id="estabelecimento_id" name="estabelecimento_id">
-                        <option value="">...</option>
-                        <?php foreach ($aEstabelecimento as $value): ?>
-                            <option value="<?= $value['id'] ?>" <?= ($value['id'] == setValor("estabelecimento_id") ? 'selected' : '') ?>>
-                                <?= htmlspecialchars($value['nome']) ?>
-                            </option>
-                        <?php endforeach; ?>
+                    <select name="estabelecimento_id" id="estabelecimento_id" class="form-select" required>
+
+                        <?php if (Session::get('userEstabelecimentoId')): ?>
+
+                            <?php foreach ($dados['aEstabelecimento'] as $estab): ?>
+                                <?php if ($estab['id'] == Session::get('userEstabelecimentoId')): ?>
+                                    <option value="<?= $estab['id'] ?>" selected>
+                                        <?= htmlspecialchars($estab['nome']) ?>
+                                    </option>
+                                <?php endif; ?>
+                            <?php endforeach; ?>
+
+                        <?php else: ?>
+
+                            <option value="">Selecione um estabelecimento</option>
+                            <?php foreach ($dados['aEstabelecimento'] as $estab): ?>
+                                <option value="<?= $estab['id'] ?>" <?= setValor('estabelecimento_id') == $estab['id'] ? 'selected' : '' ?>>
+                                    <?= htmlspecialchars($estab['nome']) ?>
+                                </option>
+                            <?php endforeach; ?>
+
+                        <?php endif; ?>
+
                     </select>
                     <?= setMsgFilderError("estabelecimento_id") ?>
                 </div>
+
 
                 <div class="col-md-4">
                     <label for="statusRegistro" class="form-label fw-semibold">Status</label>
@@ -88,6 +111,8 @@ $aEstabelecimento = $dados['aEstabelecimento'];
             <div class="d-grid mt-4">
                 <?= formButton() ?>
             </div>
+
+            <input type="hidden" name="action" value="<?= $this->request->getAction() ?>">
 
         </form>
 

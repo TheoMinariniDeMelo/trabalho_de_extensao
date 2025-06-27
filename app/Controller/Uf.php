@@ -17,6 +17,8 @@ class Uf extends ControllerMain
         $this->auxiliarconstruct();
         $this->loadHelper('formHelper');
         $this->validaNivelAcesso();
+        $this->validaNivelAcessoSuperUsuario();
+
 
         $this->files = new Files();
     }
@@ -45,15 +47,11 @@ class Uf extends ControllerMain
     {
         $post = $this->request->getPost();
 
-        // var_dump($post);
-        // exit;
-
         if (Validator::make($post, $this->model->validationRules)) {
             return Redirect::page($this->controller . "/form/insert/0");
         } else {
 
             // faz upload da imagem
-
             if (!empty($_FILES['bandeira']['name'])) {
 
                 // Faz upload da imagem

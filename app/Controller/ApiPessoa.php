@@ -44,7 +44,6 @@ class ApiPessoa extends Api
                     'status' => 400,
                     'message' => $this->getMessageValidationRules(),
                 ]);
-
             }
 
             $aPessoa = $this->model->db->where("email", $dadosJson['email'])->first();
@@ -75,7 +74,6 @@ class ApiPessoa extends Api
                     'message' => 'Pessoa já cadastrada. Caso deseja pode atualizar seus dados',
                 ]);
             }
-
         } else {
 
             return Response::json([
@@ -99,8 +97,8 @@ class ApiPessoa extends Api
             $dadosJson = Request::getJson();        // Lê dados enviados
 
             $this->model->validationRules['pessoa_id'] = [
-                    "label" => 'Id da Pessoa',
-                    "rules" => 'required|int'
+                "label" => 'Id da Pessoa',
+                "rules" => 'required|int'
             ];
 
             if (Validator::make($dadosJson, $this->model->validationRules)) {
@@ -109,7 +107,6 @@ class ApiPessoa extends Api
                     'status' => 400,
                     'message' => $this->getMessageValidationRules(),
                 ]);
-
             }
 
             $aPessoa = $this->model->db->where(["id" => $dadosJson['pessoa_id']])->first();
@@ -140,7 +137,6 @@ class ApiPessoa extends Api
                     'message' => "Pessoa não localizada.",
                 ]);
             }
-
         } else {
 
             return Response::json([
@@ -186,7 +182,6 @@ class ApiPessoa extends Api
                     'message' => "Pessoa não localizada.",
                 ]);
             }
-
         } else {
 
             return Response::json([
@@ -223,7 +218,6 @@ class ApiPessoa extends Api
                     'message' => "Não existem pessoas cadastradas.",
                 ]);
             }
-
         } else {
 
             return Response::json([
@@ -234,7 +228,7 @@ class ApiPessoa extends Api
     }
 
 
-        /**
+    /**
      * listar
      *
      * @return json
@@ -263,7 +257,6 @@ class ApiPessoa extends Api
                     'message' => "Não existem pessoas cadastradas.",
                 ]);
             }
-
         } else {
 
             return Response::json([

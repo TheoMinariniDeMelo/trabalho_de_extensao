@@ -16,7 +16,10 @@ $pessoa_fisica = $dados['data']['pessoa_fisica'] ?? [];
 
 ?>
 
+<?= exibeAlerta() ?>
+
 <?php formTitulo("Cadastrar Currículo", $exibeNovo) ?>
+
 
 <div class="form-card">
 

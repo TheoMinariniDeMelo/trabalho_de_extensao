@@ -8,6 +8,7 @@ use App\Model\EstabelecimentoModel;
 use App\Model\UfModel;
 use Core\Library\ControllerMain;
 use Core\Library\Redirect;
+use Core\Library\Validator;
 
 class CategoriaEstabelecimento extends ControllerMain
 {
@@ -21,6 +22,7 @@ class CategoriaEstabelecimento extends ControllerMain
         $this->auxiliarconstruct();
         $this->loadHelper('formHelper');
         $this->validaNivelAcesso();
+        $this->validaNivelAcessoSuperUsuario();
 
         $this->estabelecimentoModel = new EstabelecimentoModel();
         $this->categoriaModel       = new CategoriaModel();
@@ -61,10 +63,14 @@ class CategoriaEstabelecimento extends ControllerMain
 
         $post['estabelecimento_id'] = empty($post['estabelecimento_id']) ? null : $post['estabelecimento_id'];
 
-        if ($this->model->insert($post)) {
-            return Redirect::page($this->controller, ["msgSucesso" => "Registro inserido com sucesso."]);
-        } else {
+        if (Validator::make($post, $this->model->validationRules)) {
             return Redirect::page($this->controller . "/form/insert/0");
+        } else {
+            if ($this->model->insert($post)) {
+                return Redirect::page($this->controller, ["msgSucesso" => "Registro inserido com sucesso."]);
+            } else {
+                return Redirect::page($this->controller . "/form/insert/0");
+            }
         }
     }
 
@@ -79,10 +85,14 @@ class CategoriaEstabelecimento extends ControllerMain
 
         $post['estabelecimento_id'] = empty($post['estabelecimento_id']) ? null : $post['estabelecimento_id'];
 
-        if ($this->model->update($post)) {
-            return Redirect::page($this->controller, ["msgSucesso" => "Registro alterado com sucesso."]);
-        } else {
+        if (Validator::make($post, $this->model->validationRules)) {
             return Redirect::page($this->controller . "/form/update/" . $post['id']);
+        } else {
+            if ($this->model->update($post)) {
+                return Redirect::page($this->controller, ["msgSucesso" => "Registro alterado com sucesso."]);
+            } else {
+                return Redirect::page($this->controller . "/form/update/" . $post['id']);
+            }
         }
     }
 

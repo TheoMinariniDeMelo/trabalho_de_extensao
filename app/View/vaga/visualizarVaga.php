@@ -2,7 +2,7 @@
 
 <div class="card vaga-card">
     <div class="card-body">
-        <h5 class="card-title mb-3">Vaga: <span class="text-primary"><?php echo $dados['data'][0]['descricao'] ?></span></h5>
+        <h5 class="card-title mb-3">Vaga: <span class="text-primary"><?php echo $dados['data'][0]['cargo_descricao'] ?></span></h5>
 
         <p class="mb-1"><strong>Cargo:</strong> <?php echo $dados['data'][0]['cargo_descricao'] ?></p>
         <p class="mb-1"><strong>Modalidade:</strong> <?php echo textoModalidade($dados['data'][0]['modalidade']) ?> </p>

@@ -42,9 +42,9 @@ if (! function_exists('setMsgFilderError')) {
     }
 }
 
-if (! function_exists('exibeAlerta')) {
+if (!function_exists('exibeAlerta')) {
     /**
-     * exibeAlerta
+     * Exibe uma mensagem de alerta (sucesso, erro ou aviso) e destrói o valor na sessão.
      *
      * @return string
      */
@@ -53,28 +53,29 @@ if (! function_exists('exibeAlerta')) {
         $msgSucesso = Session::getDestroy('msgSucesso');
         $msgError   = Session::getDestroy('msgError');
         $msgAlerta  = Session::getDestroy('msgAlerta');
-        $mensagem   = '';
-        $classAlert = '';
 
-        if ($msgSucesso != "") {
-            $mensagem   = $msgSucesso;
-            $classAlert = 'success';
-        } elseif ($msgError != "") {
-            $mensagem   = $msgError;
-            $classAlert = 'danger';
-        } elseif ($msgAlerta != "") {
-            $mensagem   = $msgAlerta;
-            $classAlert = 'warning';
-        }
-
-        if ($mensagem == "") {
-            return "";
-        } else {
-            return  '<div class="m-2 alert alert-' . $classAlert . ' alert-dismissible fade show" role="alert">
-                        ' . $mensagem . '
+        if (!empty($msgSucesso)) {
+            return '<div class="alert alert-success alert-dismissible fade show m-2" role="alert">
+                        ' . $msgSucesso . '
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>';
         }
+
+        if (!empty($msgError)) {
+            return '<div class="alert alert-danger alert-dismissible fade show m-2" role="alert">
+                        ' . $msgError . '
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>';
+        }
+
+        if (!empty($msgAlerta)) {
+            return '<div class="alert alert-warning alert-dismissible fade show m-2" role="alert">
+                        ' . $msgAlerta . '
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>';
+        }
+
+        return ""; // Nenhuma mensagem
     }
 }
 

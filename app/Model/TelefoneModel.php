@@ -9,12 +9,29 @@ class TelefoneModel extends ModelMain
 {
     protected $table = "telefone";
 
-    // public $validationRules = [
-    //     "descricao"  => [
-    //         "label" => 'Descrição',
-    //         "rules" => 'required|min:3|max:50'
-    //     ]
-    // ];
+    public $validationRules = [
+        "estabelecimento_id" => [
+            "label" => "Estabelecimento",
+            "rules" => "required|integer"
+        ],
+        // "usuario_id" => [
+        //     "label" => "Usuário",
+        //     "rules" => "permit_empty|integer"
+        // ],
+        "numero" => [
+            "label" => "Número",
+            "rules" => "required|exact_length[11]|numeric"
+        ],
+        "tipo" => [
+            "label" => "Tipo",
+            "rules" => "required|in_list[1,2]"
+        ],
+        "statusRegistro" => [
+            "label" => "Status",
+            "rules" => "required|in_list[1,2]"
+        ]
+    ];
+
 
     public function recuperarPorId($id)
     {

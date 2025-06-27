@@ -1,7 +1,5 @@
 <?= formTitulo("", true) ?>
 
-
-
 <div class="my-4 px-3">
 
     <h2 class="text-center fw-bold mb-4 pb-2 border-bottom border-primary">

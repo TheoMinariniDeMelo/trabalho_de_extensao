@@ -32,6 +32,7 @@ class Curriculum extends ControllerMain
 
     public function index()
     {
+        $this->validaNivelAcesso();
         $curriculos = $this->model->listaComResumo();
 
         return $this->loadView('curriculum/listaCurriculum', [
@@ -41,6 +42,7 @@ class Curriculum extends ControllerMain
 
     public function form($action, $id = null)
     {
+        // $this->validaNivelAcesso();
 
         $dados = [
             'data' => $this->model->buscarCurriculumCompletoPorUsuario($id),
@@ -56,45 +58,50 @@ class Curriculum extends ControllerMain
     {
         $post = $this->request->getPost();
 
-        // Upload da foto
-        if (!empty($_FILES['foto']['name'])) {
-            $upload = $this->files->upload($_FILES, 'curriculum');
-            if (!is_bool($upload)) {
-                $post['foto'] = $upload[0];
-            } else {
-                Session::set('inputs', $post);
-                return Redirect::page($this->controller . '/form', ['msgError' => 'Erro no upload da imagem']);
-            }
-        }
-
-            // // Validação
-            // $validador = Validator::make($post, $this->model->validationRules);
-            // if ($validador) {
-            //     Session::set('inputs', $post);
-            //     Session::set('erros', $validador); // array de erros
-            //     return Redirect::page($this->controller . '/form');
-            // }
-        ;
-
-
-        // Inserção
-        try {
-
-            $retorno = $this->model->cadastrarCurriculumCompleto($post);
-
-            if (is_array($retorno) && $retorno['erro']) {
-                Session::set('msgError', $retorno['mensagem']);
-                return Redirect::page($this->controller . "/form/insert/0");
-            } else {
-                if (Session::get('userNivel') > 20) {
-                    return Redirect::page("vaga/listarVagas");
+        if (Validator::make($post, $this->model->validationRules)) {
+            return Redirect::page($this->controller . "/form/insert/0");
+        } else {
+            // Upload da foto
+            if (!empty($_FILES['foto']['name'])) {
+                $upload = $this->files->upload($_FILES, 'curriculum');
+                if (!is_bool($upload)) {
+                    $post['foto'] = $upload[0];
+                } else {
+                    Session::set('inputs', $post);
+                    return Redirect::page($this->controller . '/form', ['msgError' => 'Erro no upload da imagem']);
                 }
-                Session::set('msgSucesso', 'Currículo cadastrado com sucesso!');
-                return Redirect::page("curriculum");
             }
-        } catch (\Exception $e) {
-            Session::set('inputs', $post);
-            return Redirect::page($this->controller . '/form', ['msgError' => 'Erro ao salvar currículo.']);
+
+                // // Validação
+                // $validador = Validator::make($post, $this->model->validationRules);
+                // if ($validador) {
+                //     Session::set('inputs', $post);
+                //     Session::set('erros', $validador); // array de erros
+                //     return Redirect::page($this->controller . '/form');
+                // }
+            ;
+
+
+            // Inserção
+            try {
+
+                $retorno = $this->model->cadastrarCurriculumCompleto($post);
+
+                if (is_array($retorno) && $retorno['erro']) {
+                    Session::set('msgError', $retorno['mensagem']);
+                    return Redirect::page($this->controller . "/form/insert/0");
+                } else {
+                    if (Session::get('userNivel') > 20) {
+                        Session::set('msgSucesso', 'Currículo cadastrado com sucesso!');
+                        return Redirect::page("vaga/listarVagas");
+                    }
+                    Session::set('msgSucesso', 'Currículo cadastrado com sucesso!');
+                    return Redirect::page("curriculum");
+                }
+            } catch (\Exception $e) {
+                Session::set('inputs', $post);
+                return Redirect::page($this->controller . '/form', ['msgError' => 'Erro ao salvar currículo.']);
+            }
         }
     }
 
@@ -103,50 +110,54 @@ class Curriculum extends ControllerMain
         $post = $this->request->getPost();
         // var_dump($post['foto'], $post['nomeImagem']);
         // exit;
-        $fotoNomeImagem = !empty($post['foto']) ? $post['foto'] : $post['nomeImagem'];
+        if (Validator::make($post, $this->model->validationRules)) {
+            return Redirect::page($this->controller . "/form/update/" . $post['id']);
+        } else {
+            $fotoNomeImagem = !empty($post['foto']) ? $post['foto'] : $post['nomeImagem'];
 
-        $post['foto'] = $fotoNomeImagem;
+            $post['foto'] = $fotoNomeImagem;
 
-        // Upload da foto
-        if (!empty($_FILES['foto']['name'])) {
-            $upload = $this->files->upload($_FILES, 'curriculum');
-            if (!is_bool($upload)) {
-                $post['foto'] = $upload[0];
-            } else {
-                Session::set('inputs', $post);
-                return Redirect::page($this->controller . "/form/update/" . $post['id'], ['msgError' => 'Erro no upload da imagem']);
-            }
-        }
-
-
-        // Validação (se quiser reativar)
-        // $validador = Validator::make($post, $this->model->validationRules);
-        // if ($validador) {
-        //     Session::set('inputs', $post);
-        //     Session::set('erros', $validador);
-        //     return Redirect::page($this->controller . "/form/$id");
-        // }
-
-        // var_dump($post);
-        // exit;
-
-        try {
-
-            $retorno = $this->model->cadastrarCurriculumCompleto($post);
-
-            if (is_array($retorno) && $retorno['erro']) {
-                Session::set('msgError', $retorno['mensagem']);
-                return Redirect::page($this->controller . "/form/update/" . $post['id']);
-            } else {
-                Session::set('msgSucesso', 'Currículo atualizado com sucesso!');
-                if (Session::get('userNivel') > 20) {
-                    return Redirect::page("vaga/listarVagas");
+            // Upload da foto
+            if (!empty($_FILES['foto']['name'])) {
+                $upload = $this->files->upload($_FILES, 'curriculum');
+                if (!is_bool($upload)) {
+                    $post['foto'] = $upload[0];
+                } else {
+                    Session::set('inputs', $post);
+                    return Redirect::page($this->controller . "/form/update/" . $post['id'], ['msgError' => 'Erro no upload da imagem']);
                 }
-                return Redirect::page("curriculum");
             }
-        } catch (\Exception $e) {
-            Session::set('inputs', $post);
-            return Redirect::page($this->controller . "/form/update/" . $post['id'], ['msgError' => 'Erro ao atualizar currículo.']);
+
+
+            // Validação (se quiser reativar)
+            // $validador = Validator::make($post, $this->model->validationRules);
+            // if ($validador) {
+            //     Session::set('inputs', $post);
+            //     Session::set('erros', $validador);
+            //     return Redirect::page($this->controller . "/form/$id");
+            // }
+
+            // var_dump($post);
+            // exit;
+
+            try {
+
+                $retorno = $this->model->cadastrarCurriculumCompleto($post);
+
+                if (is_array($retorno) && $retorno['erro']) {
+                    Session::set('msgError', $retorno['mensagem']);
+                    return Redirect::page($this->controller . "/form/update/" . $post['id']);
+                } else {
+                    Session::set('msgSucesso', 'Currículo atualizado com sucesso!');
+                    if (Session::get('userNivel') > 20) {
+                        return Redirect::page("vaga/listarVagas");
+                    }
+                    return Redirect::page("curriculum");
+                }
+            } catch (\Exception $e) {
+                Session::set('inputs', $post);
+                return Redirect::page($this->controller . "/form/update/" . $post['id'], ['msgError' => 'Erro ao atualizar currículo.']);
+            }
         }
     }
 

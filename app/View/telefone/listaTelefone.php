@@ -1,52 +1,65 @@
-<?= formTitulo("Lista Telefone", true) ?>
+<?= formTitulo("", true) ?>
 
-<?php if (count($dados) > 0): ?>
+<div class="my-4 px-3">
 
-    <div class="m-2">
+    <h2 class="text-center fw-bold mb-4 pb-2 border-bottom border-primary">
+        <i class="fa-sharp fa-duotone fa-phone me-2"></i> Telefones Cadastrados
+    </h2>
 
-        <p>
-            <i class="fa-sharp-duotone fa-light fa-bell"></i>
-        </p>
-
-        <table class="table table-bordered table-striped table-hover table-sm" id="tbListaTelefone">
-            <thead>
-                <tr>
-                    <th scope="col">Id</th>
-                    <th scope="col">Estabelecimento</th>
-                    <th scope="col">Usuario</th>
-                    <th scope="col">Numero</th>
-                    <th scope="col">Tipo</th>
-                    <th scope="col">Status Registro</th>
-                    <th scope="col">Opções</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($dados as $value): ?>
+    <?php if (count($dados) > 0): ?>
+        <div class="table-responsive shadow rounded">
+            <table class="table table-hover align-middle" id="tbListaTelefone" style="min-width: 900px;">
+                <thead class="table-light text-center">
                     <tr>
-                        <th scope="row"><?= $value['id'] ?></th>
-                        <td><?= $value['estabelecimento_nome'] ?></td>
-                        <td><?= $value['responsavel_nome'] ?></td>
-                        <td><?= $value['numero'] ?></td>
-                        <td><?= getTipoTelefone($value['tipo']) ?></td>
-                        <td><?= getStatusDescricao($value['statusRegistro']) ?></td>
-                        <td>
-                            <?= buttons('view', $value['id'])  ?>
-                            <?= buttons('update', $value['id'])  ?>
-                            <?= buttons('delete', $value['id'])  ?>
-                        </td>
+                        <th style="width: 6%;">ID</th>
+                        <th style="width: 20%; text-align: left;">Estabelecimento</th>
+                        <th style="width: 20%; text-align: left;">Usuário</th>
+                        <th style="width: 15%; text-align: left;">Número</th>
+                        <th style="width: 15%;">Tipo</th>
+                        <th style="width: 10%;">Status</th>
+                        <th style="width: 14%;">Opções</th>
                     </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
+                </thead>
+                <tbody>
+                    <?php foreach ($dados as $value): ?>
+                        <tr>
+                            <th scope="row" class="text-center text-secondary"><?= htmlspecialchars($value['id']) ?></th>
+                            <td class="text-start"><?= htmlspecialchars($value['estabelecimento_nome'] ?? $value['estabelecimento_id']) ?></td>
+                            <td class="text-start"><?= htmlspecialchars($value['responsavel_nome'] ?? $value['usuario_id']) ?></td>
+                            <td class="text-start"><?= htmlspecialchars($value['numero']) ?></td>
+                            <td class="text-center">
+                                <?= match ($value['tipo']) {
+                                    1 => 'Residencial',
+                                    2 => 'Celular',
+                                    default => 'Outro'
+                                }; ?>
+                            </td>
+                            <td class="text-center">
+                                <span class="badge <?= $value['statusRegistro'] == 1 ? 'bg-success' : 'bg-secondary' ?>">
+                                    <?= $value['statusRegistro'] == 1 ? 'Ativo' : 'Inativo' ?>
+                                </span>
+                            </td>
+                            <td class="text-center">
+                                <div class="btn-group" role="group" aria-label="Ações">
+                                    <?= buttons('view', $value['id']) ?>
+                                    <?= buttons('update', $value['id']) ?>
+                                    <?= buttons('delete', $value['id']) ?>
+                                </div>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        </div>
 
-    </div>
+        <?= datatables("tbListaTelefone") ?>
 
-    <?= datatables("tbListaTelefone") ?>
+    <?php else: ?>
 
-<?php else: ?>
+        <div class="alert alert-warning mt-5 mb-5 text-center fs-5">
+            Não foram localizados telefones...
+        </div>
 
-    <div class="alert alert-warning mt-5 mb-5" role="alert">
-        Não foram localizados registros...
-    </div>
+    <?php endif; ?>
 
-<?php endif; ?>
+</div>

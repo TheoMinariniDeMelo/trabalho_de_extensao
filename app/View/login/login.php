@@ -19,7 +19,7 @@
                     <input type="password" class="form-control" id="senha" name="senha" placeholder="Informe sua senha" required>
                 </div>
 
-                <?= exibeAlerta() ?>
+                <?= exibeAlerta(); ?>
 
                 <div class="d-flex justify-content-between mb-3">
                     <a href="<?= baseUrl() ?>Login/esqueciASenha" class="small text-decoration-none">Esqueci minha senha</a>

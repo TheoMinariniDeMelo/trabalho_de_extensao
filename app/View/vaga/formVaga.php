@@ -109,7 +109,7 @@ exibeAlerta() ?>
                         id="observacao"
                         class="form-control"
                         rows="4"
-                        placeholder="Observações adicionais"><?= setValor("observacao") ?></textarea>
+                        placeholder="Detalhamento da vaga"><?= setValor("observacao") ?></textarea>
                     <?= setMsgFilderError("observacao") ?>
                 </div>
 
@@ -148,3 +148,13 @@ exibeAlerta() ?>
 
     </div>
 </div>
+
+<script src="<?= baseUrl() ?>assets/ckeditor5/ckeditor5-build-classic/ckeditor.js"></script>
+
+<script type="text/javascript">
+    ClassicEditor
+        .create(document.querySelector('#observacao'))
+        .catch(error => {
+            console.error(error);
+        });
+</script>

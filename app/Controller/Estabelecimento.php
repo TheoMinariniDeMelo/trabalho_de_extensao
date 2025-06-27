@@ -2,15 +2,18 @@
 
 namespace App\Controller;
 
-use App\Model\UfModel;
+use App\Model\CidadeModel;
 use App\Model\UsuarioModel;
 use Core\Library\ControllerMain;
 use Core\Library\Redirect;
+use Core\Library\Session;
+use Core\Library\Validator;
 
 class Estabelecimento extends ControllerMain
 {
 
     protected $usuarioModel;
+    protected $cidadeModel;
 
     public function __construct()
     {
@@ -18,6 +21,7 @@ class Estabelecimento extends ControllerMain
         $this->loadHelper('formHelper');
 
         $this->usuarioModel = new UsuarioModel;
+        $this->cidadeModel  = new CidadeModel;
     }
 
     /**
@@ -27,15 +31,19 @@ class Estabelecimento extends ControllerMain
      */
     public function index()
     {
+        $this->validaNivelAcesso();
+
         return $this->loadView("estabelecimento/listaEstabelecimento", $this->model->getEstabelecimento());
     }
 
     public function form($action, $id)
     {
+        $this->validaNivelAcesso();
 
         $dados = [
-            'data' => $this->model->recuperarPorId($id),               // Busca Estabelecimento
-            'aUsuario' => $this->usuarioModel->lista("id")                   // Busca UFs a serem exibidas na combobox
+            'data' => $this->model->recuperarPorId($id),                            // Busca Estabelecimento
+            'aUsuario' => $this->usuarioModel->getUsuarioEmpresa(),                // Busca UFs a serem exibidas na combobox
+            'aCidade' => $this->cidadeModel->lista('id'),                // Busca UFs a serem exibidas na combobox
         ];
 
         return $this->loadView("estabelecimento/formEstabelecimento", $dados);
@@ -50,12 +58,18 @@ class Estabelecimento extends ControllerMain
     {
         $post = $this->request->getPost();
 
-        $post['usuario_id'] = empty($post['usuario_id']) ? null : $post['usuario_id'];
-
-        if ($this->model->insert($post)) {
-            return Redirect::page($this->controller, ["msgSucesso" => "Registro inserido com sucesso."]);
-        } else {
+        if (Validator::make($post, $this->model->validationRules)) {
             return Redirect::page($this->controller . "/form/insert/0");
+        } else {
+            $post['usuario_id'] = empty($post['usuario_id']) ? null : $post['usuario_id'];
+            $post['cidade_id']     = empty($post['cidade_id']) ? null : $post['cidade_id'];
+
+            if ($this->model->insert($post)) {
+                return Redirect::page($this->controller, ["msgSucesso" => "Registro inserido com sucesso."]);
+            } else {
+                Session::set('msgError', 'Erro ao inserir registro.');
+                return Redirect::page($this->controller . "/form/insert/0");
+            }
         }
     }
 
@@ -68,12 +82,16 @@ class Estabelecimento extends ControllerMain
     {
         $post = $this->request->getPost();
 
-        $post['usuario_id'] = empty($post['usuario_id']) ? null : $post['usuario_id'];
-
-        if ($this->model->update($post)) {
-            return Redirect::page($this->controller, ["msgSucesso" => "Registro alterado com sucesso."]);
-        } else {
+        if (Validator::make($post, $this->model->validationRules)) {
             return Redirect::page($this->controller . "/form/update/" . $post['id']);
+        } else {
+            $post['usuario_id'] = empty($post['usuario_id']) ? null : $post['usuario_id'];
+
+            if ($this->model->update($post)) {
+                return Redirect::page($this->controller, ["msgSucesso" => "Registro alterado com sucesso."]);
+            } else {
+                return Redirect::page($this->controller . "/form/update/" . $post['id']);
+            }
         }
     }
 

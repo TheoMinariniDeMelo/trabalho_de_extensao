@@ -25,7 +25,7 @@ class Session
     static public function get($key)
     {
         if (isset($_SESSION[$key])) {
-            return $_SESSION[$key];
+            return isset($_SESSION[$key]) ? $_SESSION[$key] : "";
         } else {
             return false;
         }

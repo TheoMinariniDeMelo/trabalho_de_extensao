@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Model\UfModel;
 use Core\Library\ControllerMain;
 use Core\Library\Redirect;
+use Core\Library\Validator;
 
 class Categoria extends ControllerMain
 {
@@ -13,6 +14,7 @@ class Categoria extends ControllerMain
         $this->auxiliarconstruct();
         $this->loadHelper('formHelper');
         $this->validaNivelAcesso();
+        $this->validaNivelAcessoSuperUsuario();
     }
 
     /**
@@ -46,10 +48,14 @@ class Categoria extends ControllerMain
     {
         $post = $this->request->getPost();
 
-        if ($this->model->insert($post)) {
-            return Redirect::page($this->controller, ["msgSucesso" => "Registro inserido com sucesso."]);
-        } else {
+        if (Validator::make($post, $this->model->validationRules)) {
             return Redirect::page($this->controller . "/form/insert/0");
+        } else {
+            if ($this->model->insert($post)) {
+                return Redirect::page($this->controller, ["msgSucesso" => "Registro inserido com sucesso."]);
+            } else {
+                return Redirect::page($this->controller . "/form/insert/0");
+            }
         }
     }
 
@@ -62,10 +68,14 @@ class Categoria extends ControllerMain
     {
         $post = $this->request->getPost();
 
-        if ($this->model->update($post)) {
-            return Redirect::page($this->controller, ["msgSucesso" => "Registro alterado com sucesso."]);
-        } else {
+        if (Validator::make($post, $this->model->validationRules)) {
             return Redirect::page($this->controller . "/form/update/" . $post['id']);
+        } else {
+            if ($this->model->update($post)) {
+                return Redirect::page($this->controller, ["msgSucesso" => "Registro alterado com sucesso."]);
+            } else {
+                return Redirect::page($this->controller . "/form/update/" . $post['id']);
+            }
         }
     }
 

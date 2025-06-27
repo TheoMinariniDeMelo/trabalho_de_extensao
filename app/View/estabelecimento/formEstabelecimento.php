@@ -45,21 +45,26 @@ $aUsuario = $dados['aUsuario'];
             </div>
 
             <div class="row">
-                <div class="col-md-6 mb-3">
-                    <label for="cidade" class="form-label fw-semibold">Cidade</label>
-                    <input type="text" class="form-control" id="cidade" name="cidade" placeholder="Digite o nome da cidade"
-                        maxlength="12" value="<?= setValor("cidade") ?>">
-                    <?= setMsgFilderError("cidade") ?>
+                <div class="col-md-4">
+                    <label class="form-label">Cidade</label>
+                    <select name="cidade_id" class="form-select" required>
+                        <option value="">Selecione uma cidade</option>
+                        <?php foreach ($dados['aCidade'] as $cidade): ?>
+                            <option value="<?= $cidade['id'] ?>" <?= setValor('cidade_id', $curriculo['cidade_id'] ?? '') == $cidade['id'] ? 'selected' : '' ?>>
+                                <?= $cidade['nome'] ?>
+                            </option>
+                        <?php endforeach; ?>
+                    </select>
                 </div>
 
-                <div class="col-md-3 mb-3">
+                <div class="col-md-4 mb-3">
                     <label for="latitude" class="form-label fw-semibold">Latitude</label>
                     <input type="text" class="form-control" id="latitude" name="latitude" placeholder="Latitude"
                         maxlength="12" value="<?= setValor("latitude") ?>">
                     <?= setMsgFilderError("latitude") ?>
                 </div>
 
-                <div class="col-md-3 mb-3">
+                <div class="col-md-4 mb-3">
                     <label for="longitude" class="form-label fw-semibold">Longitude</label>
                     <input type="text" class="form-control" id="longitude" name="longitude" placeholder="Longitude"
                         maxlength="12" value="<?= setValor("longitude") ?>">

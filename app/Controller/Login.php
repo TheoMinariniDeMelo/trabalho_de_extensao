@@ -27,7 +27,7 @@ class Login extends ControllerMain
      */
     public function index()
     {
-        return $this->loadView("login/login", []);
+        return $this->loadView("login/login");
     }
 
     /**
@@ -102,6 +102,8 @@ class Login extends ControllerMain
         Session::destroy('userEmail');
         Session::destroy('userNivel');
         Session::destroy('userSenha');
+        Session::destroy('userEstabelecimentoId');
+        Session::destroy('urlDestino');
 
         return Redirect::Page("home");
     }

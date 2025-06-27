@@ -23,9 +23,9 @@ use Core\Library\Session;
     <link href="<?= baseUrl() ?>assets/fontawesome-free-6.7.2-web/css/fontawesome.css" rel="stylesheet" />
     <link href="<?= baseUrl() ?>assets/fontawesome-free-6.7.2-web/css/brands.css" rel="stylesheet" />
     <link href="<?= baseUrl() ?>assets/fontawesome-free-6.7.2-web/css/solid.css" rel="stylesheet" />
-    <link href="<?= baseUrl() ?>assets/fontawesome-free-6.7.2-web/css/sharp-thin.css" rel="stylesheet" />
-    <link href="<?= baseUrl() ?>assets/fontawesome-free-6.7.2-web/css/duotone-thin.css" rel="stylesheet" />
-    <link href="<?= baseUrl() ?>assets/fontawesome-free-6.7.2-web/css/sharp-duotone-thin.css" rel="stylesheet" />
+    <!-- <link href="<?= baseUrl() ?>assets/fontawesome-free-6.7.2-web/css/sharp-thin.css" rel="stylesheet" /> -->
+    <!-- <link href="<?= baseUrl() ?>assets/fontawesome-free-6.7.2-web/css/duotone-thin.css" rel="stylesheet" /> -->
+    <!-- <link href="<?= baseUrl() ?>assets/fontawesome-free-6.7.2-web/css/sharp-duotone-thin.css" rel="stylesheet" /> -->
     <link href="<?= baseUrl() ?>assets/css/style.css" rel="stylesheet" />
     <!-- Fontawesome -->
 
@@ -105,7 +105,6 @@ use Core\Library\Session;
                                         <li>
                                             <hr class="dropdown-divider">
                                         </li>
-                                        <li><a class="dropdown-item" href="<?= baseUrl() ?>cargo">Cargo</a></li>
                                         <li><a class="dropdown-item" href="<?= baseUrl() ?>categoria">Categoria</a></li>
                                         <li><a class="dropdown-item" href="<?= baseUrl() ?>categoriaEstabelecimento">Categoria Estabelecimento</a></li>
                                         <li><a class="dropdown-item" href="<?= baseUrl() ?>escolaridade">Escolaridade</a></li>
@@ -118,6 +117,7 @@ use Core\Library\Session;
                                         <li>
                                             <hr class="dropdown-divider">
                                         </li>
+                                        <li><a class="dropdown-item" href="<?= baseUrl() ?>cargo">Cargo</a></li>
                                         <li><a class="dropdown-item" href="<?= baseUrl() ?>usuario">Usuario</a></li>
                                         <li><a class="dropdown-item" href="<?= baseUrl() ?>curriculum">Curriculum</a></li>
                                         <li><a class="dropdown-item" href="<?= baseUrl() ?>estabelecimento">Estabelecimento</a></li>
@@ -128,7 +128,7 @@ use Core\Library\Session;
                                     <li>
                                         <hr class="dropdown-divider">
                                     </li>
-                                    <li><a class="dropdown-item" href="<?= baseUrl() ?>Usuario/formTrocarSenha">Trocar Senha</a></li>
+                                    <li><a class="dropdown-item" href="<?= baseUrl() ?>usuario/formTrocarSenha">Trocar Senha</a></li>
                                     <li><a class="dropdown-item text-danger" href="<?= baseUrl() ?>login/signOut">Sair</a></li>
                                 </ul>
                             </li>

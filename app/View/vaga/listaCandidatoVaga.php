@@ -1,4 +1,5 @@
-<!-- <?php var_dump($dados); ?> -->
+<?= var_dump($dados['candidatos']); ?>
+
 <div class="my-4 px-3">
 
     <h2 class="text-center fw-bold mb-4 pb-2 border-bottom border-primary">
@@ -9,7 +10,7 @@
     <div class="mb-3 text-center">
         <strong>Cargo:</strong> <?= htmlspecialchars($dados['candidatos'][0]['cargo_descricao'] ?? '---') ?> &nbsp;&nbsp;|&nbsp;&nbsp;
         <strong>Estabelecimento:</strong> <?= htmlspecialchars($dados['candidatos'][0]['estabelecimento_nome'] ?? '---') ?> &nbsp;&nbsp;|&nbsp;&nbsp;
-        <strong>Data da Vaga:</strong> <?= !empty($vaga['data']) ? date('d/m/Y', strtotime($vaga['data'])) : '---' ?>
+        <strong>Data da Vaga:</strong> <?= !empty($dados['candidatos'][0]['data']) ? date('d/m/Y', strtotime($dados['candidatos'][0]['data'])) : '---' ?>
     </div>
     <?php if (!empty($dados['candidatos'])): ?>
         <div class="table-responsive shadow rounded">

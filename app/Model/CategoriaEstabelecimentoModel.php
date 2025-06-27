@@ -8,12 +8,21 @@ class CategoriaEstabelecimentoModel extends ModelMain
 {
     protected $table = "categoria_estabelecimento";
 
-    // public $validationRules = [
-    //     "descricao"  => [
-    //         "label" => 'Descrição',
-    //         "rules" => 'required|min:3|max:50'
-    //     ]
-    // ];
+    public $validationRules = [
+        // "estabelecimento_id" => [
+        //     "label" => "Estabelecimento",
+        //     "rules" => "required|integer"
+        // ],
+        // "categoria_id" => [
+        //     "label" => "Categoria",
+        //     "rules" => "required|integer"
+        // ],
+        "statusRegistro" => [
+            "label" => "Status",
+            "rules" => "required|in_list[1,2]"
+        ]
+    ];
+
 
     public function getLista()
     {

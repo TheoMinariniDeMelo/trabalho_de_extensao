@@ -43,14 +43,17 @@ class ControllerMain
         if (substr($this->controller, 0, 3) != "Api") {
 
             if (!in_array($this->controller, CONTROLLER_AUTH)) {
-                // var_dump($this->controller);
-                // var_dump($this->method);
-                // exit;
 
-                if ($this->controller != 'Vaga' && $this->method != 'listarVagas' && $this->method != 'ajaxFiltrar' && $this->method != 'filtrar') {
-                    if (!Session::get("userId")) {
-                        return Redirect::page("login", ['msgError' => "Para acessar a rotina favor antes efetuar o login."]);
-                    }
+                // Se for o controller Vaga e o método for um dos liberados
+                if ($this->controller === 'Vaga' && in_array($this->method, ['listarVagas', 'ajaxFiltrar', 'filtrar'])) {
+                    // Permite acesso sem login
+                    return;
+                }
+
+                // Qualquer outro caso, exige login
+                if (!Session::get("userId")) {
+                    Session::set('msgError', "Para acessar a rotina favor antes efetuar o login.");
+                    return Redirect::page("login", ["msgError" => "Você não possui permissão neste programa"]);
                 }
             }
         }
@@ -64,7 +67,20 @@ class ControllerMain
      */
     public function validaNivelAcesso(int $nivelMinino = 20)
     {
-        if (!((int)Session::get("userNivel") <= $nivelMinino)) {
+        if (((int)Session::get("userNivel") >= $nivelMinino)) {
+            return Redirect::page("sistema", ["msgError" => "Você não possui permissão neste programa"]);
+        }
+    }
+
+    /**
+     * validaNivelAcessoSuperUsuario
+     *
+     * @param int $nivelMinino 
+     * @return void
+     */
+    public function validaNivelAcessoSuperUsuario(int $nivelMinino = 10)
+    {
+        if (((int)Session::get("userNivel") >= $nivelMinino)) {
             return Redirect::page("sistema", ["msgError" => "Você não possui permissão neste programa"]);
         }
     }

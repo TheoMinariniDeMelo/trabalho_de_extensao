@@ -74,7 +74,7 @@ $estabelecimentos = $dados['aEstabelecimento'];
                     }
 
                     var tabela = '<table class="table table-striped">';
-                    tabela += '<thead><tr><th>Cargo</th><th>Descrição</th><th>Modalidade</th><th>Vínculo</th><th>Data</th><th>Ações</th></tr></thead><tbody>';
+                    tabela += '<thead><tr><th>Cargo</th><th>Descrição</th><th>Modalidade</th><th>Vínculo</th><th>Empresa</th><th>Data</th><th>Ações</th></tr></thead><tbody>';
 
                     data.forEach(function(vaga) {
                         tabela += '<tr>';
@@ -82,6 +82,7 @@ $estabelecimentos = $dados['aEstabelecimento'];
                         tabela += '<td>' + $('<div>').text(vaga.descricao ?? '').html() + '</td>';
                         tabela += '<td>' + (formatarCampo('modalidade', vaga.modalidade) ?? '') + '</td>';
                         tabela += '<td>' + (formatarCampo('vinculo', vaga.vinculo) ?? '') + '</td>';
+                        tabela += '<td>' + (vaga.estabelecimento_nome ?? '') + '</td>';
                         tabela += '<td>' + (formatarCampo('data', vaga.data) ?? '') + '</td>';
                         tabela += '<td><a href="/vaga/visualizarVaga/' + vaga.id + '" class="btn btn-sm btn-primary">Ver detalhes</a></td>';
                         tabela += '</tr>';

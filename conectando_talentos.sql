@@ -22,49 +22,147 @@ USE `sistema_curriculo`;
 -- Copiando estrutura para tabela sistema_curriculo.cargo
 CREATE TABLE IF NOT EXISTS `cargo` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `descricao` varchar(50) DEFAULT NULL,
-  `statusRegistro` int DEFAULT '1' COMMENT '1 - Ativo    2 - Inativo',
+  `descricao` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `statusRegistro` int NOT NULL DEFAULT '1' COMMENT '1 - Ativo    2 - Inativo',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Copiando dados para a tabela sistema_curriculo.cargo: ~0 rows (aproximadamente)
+-- Copiando dados para a tabela sistema_curriculo.cargo: ~102 rows (aproximadamente)
 DELETE FROM `cargo`;
 INSERT INTO `cargo` (`id`, `descricao`, `statusRegistro`) VALUES
-	(1, 'Técnico Administrativo', 1),
-	(2, 'Atendente', 1),
-	(3, 'Garçom', 1);
+	(1, 'Administrador de Sistemas', 1),
+	(2, 'Analista de Suporte', 1),
+	(3, 'Analista de Dados', 1),
+	(4, 'Analista de Recursos Humanos', 1),
+	(5, 'Analista de Marketing', 1),
+	(6, 'Analista Financeiro', 1),
+	(7, 'Arquiteto de Software', 1),
+	(8, 'Assistente Administrativo', 1),
+	(9, 'Assistente de Compras', 1),
+	(10, 'Assistente de Logística', 1),
+	(11, 'Atendente de Telemarketing', 1),
+	(12, 'Auxiliar Administrativo', 1),
+	(13, 'Auxiliar de Almoxarifado', 1),
+	(14, 'Auxiliar de Limpeza', 1),
+	(15, 'Auxiliar de Produção', 1),
+	(16, 'Auxiliar de RH', 1),
+	(17, 'Coordenador de Projetos', 1),
+	(18, 'Coordenador de Vendas', 1),
+	(19, 'Desenvolvedor Back-End', 1),
+	(20, 'Desenvolvedor Front-End', 1),
+	(21, 'Desenvolvedor Full Stack', 1),
+	(22, 'Designer Gráfico', 1),
+	(23, 'Diretor de Operações', 1),
+	(24, 'Diretor Financeiro', 1),
+	(25, 'Engenheiro de Produção', 1),
+	(26, 'Engenheiro de Software', 1),
+	(27, 'Estagiário de Administração', 1),
+	(28, 'Estagiário de Engenharia', 1),
+	(29, 'Estagiário de Marketing', 1),
+	(30, 'Estagiário de TI', 1),
+	(31, 'Gerente Comercial', 1),
+	(32, 'Gerente de Compras', 1),
+	(33, 'Gerente de Marketing', 1),
+	(34, 'Gerente de Projetos', 1),
+	(35, 'Gerente de Recursos Humanos', 1),
+	(36, 'Gerente Financeiro', 1),
+	(37, 'Instrutor de Treinamento', 1),
+	(38, 'Jardineiro', 1),
+	(39, 'Motorista', 1),
+	(40, 'Operador de Caixa', 1),
+	(41, 'Operador de Empilhadeira', 1),
+	(42, 'Operador de Máquinas', 1),
+	(43, 'Pedreiro', 1),
+	(44, 'Pintor Industrial', 1),
+	(45, 'Programador PHP', 1),
+	(46, 'Programador Python', 1),
+	(47, 'Programador Java', 1),
+	(48, 'Programador C#', 1),
+	(49, 'Recepcionista', 1),
+	(50, 'Secretária Executiva', 1),
+	(51, 'Supervisor de Logística', 1),
+	(52, 'Supervisor de Produção', 1),
+	(53, 'Técnico de Enfermagem', 1),
+	(54, 'Técnico de Informática', 1),
+	(55, 'Técnico de Segurança do Trabalho', 1),
+	(56, 'Vendedor Interno', 1),
+	(57, 'Vendedor Externo', 1),
+	(58, 'Web Designer', 1),
+	(59, 'Zelador', 1),
+	(60, 'Auxiliar de Estoque', 1),
+	(61, 'Auxiliar de Manutenção', 1),
+	(62, 'Barbeiro', 1),
+	(63, 'Cabeleireiro', 1),
+	(64, 'Camareira', 1),
+	(65, 'Chef de Cozinha', 1),
+	(66, 'Consultor de Vendas', 1),
+	(67, 'Costureira', 1),
+	(68, 'Eletricista', 1),
+	(69, 'Enfermeiro', 1),
+	(70, 'Engenheiro Civil', 1),
+	(71, 'Farmacêutico', 1),
+	(72, 'Fiscal de Loja', 1),
+	(73, 'Garçom', 1),
+	(74, 'Gestor de TI', 1),
+	(75, 'Marceneiro', 1),
+	(76, 'Mecânico de Automóveis', 1),
+	(77, 'Médico Clínico Geral', 1),
+	(78, 'Médico do Trabalho', 1),
+	(79, 'Montador de Móveis', 1),
+	(80, 'Nutricionista', 1),
+	(81, 'Operador de Telemarketing', 1),
+	(82, 'Padeiro', 1),
+	(83, 'Porteiro', 1),
+	(84, 'Professor de Educação Física', 1),
+	(85, 'Psicólogo Organizacional', 1),
+	(86, 'Representante Comercial', 1),
+	(87, 'Segurança Patrimonial', 1),
+	(88, 'Serralheiro', 1),
+	(89, 'Soldador', 1),
+	(90, 'Supervisor de Call Center', 1),
+	(91, 'Técnico em Edificações', 1),
+	(92, 'Técnico em Eletrotécnica', 1),
+	(93, 'Técnico em Mecânica', 1),
+	(94, 'Técnico em Meio Ambiente', 1),
+	(95, 'Técnico em Química', 1),
+	(96, 'Torneiro Mecânico', 1),
+	(97, 'Tradutor', 1),
+	(98, 'Vigia', 1),
+	(99, 'Zootecnista', 1);
 
 -- Copiando estrutura para tabela sistema_curriculo.categoria
 CREATE TABLE IF NOT EXISTS `categoria` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `descricao` varchar(50) DEFAULT NULL,
-  `statusRegistro` int DEFAULT '1' COMMENT '1 - Ativo    2 - Inativo',
+  `descricao` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `statusRegistro` int NOT NULL DEFAULT '1' COMMENT '1 - Ativo    2 - Inativo',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Copiando dados para a tabela sistema_curriculo.categoria: ~0 rows (aproximadamente)
+-- Copiando dados para a tabela sistema_curriculo.categoria: ~2 rows (aproximadamente)
 DELETE FROM `categoria`;
 INSERT INTO `categoria` (`id`, `descricao`, `statusRegistro`) VALUES
-	(1, 'Empresa Pública', 1),
-	(2, 'Serviços de Engenharia', 1);
+	(1, 'Restaurante', 1),
+	(2, 'Farmácia', 1),
+	(3, 'Clínica Médica', 1),
+	(4, 'Supermercado', 1),
+	(5, 'Academia', 1),
+	(6, 'Loja de Roupas', 1);
 
 -- Copiando estrutura para tabela sistema_curriculo.categoria_estabelecimento
 CREATE TABLE IF NOT EXISTS `categoria_estabelecimento` (
   `id` int NOT NULL AUTO_INCREMENT,
   `estabelecimento_id` int DEFAULT NULL,
   `categoria_id` int DEFAULT NULL,
-  `statusRegistro` int DEFAULT '1' COMMENT '1 - Ativo    2 - Inativo',
+  `statusRegistro` int NOT NULL DEFAULT '1' COMMENT '1 - Ativo    2 - Inativo',
   PRIMARY KEY (`id`),
   KEY `estabelecimento_id` (`estabelecimento_id`),
   KEY `categoria_id` (`categoria_id`),
   CONSTRAINT `categoria_estabelecimento_ibfk_1` FOREIGN KEY (`estabelecimento_id`) REFERENCES `estabelecimento` (`id`),
   CONSTRAINT `categoria_estabelecimento_ibfk_2` FOREIGN KEY (`categoria_id`) REFERENCES `categoria` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Copiando dados para a tabela sistema_curriculo.categoria_estabelecimento: ~0 rows (aproximadamente)
+-- Copiando dados para a tabela sistema_curriculo.categoria_estabelecimento: ~2 rows (aproximadamente)
 DELETE FROM `categoria_estabelecimento`;
-INSERT INTO `categoria_estabelecimento` (`id`, `estabelecimento_id`, `categoria_id`, `statusRegistro`) VALUES
-	(1, NULL, 1, 1);
 
 -- Copiando estrutura para tabela sistema_curriculo.cidade
 CREATE TABLE IF NOT EXISTS `cidade` (
@@ -77,50 +175,28 @@ CREATE TABLE IF NOT EXISTS `cidade` (
   UNIQUE KEY `nome_uf_id` (`nome`,`uf_id`),
   KEY `FK1_cidade_uf_id` (`uf_id`),
   CONSTRAINT `FK1_cidade_uf_id` FOREIGN KEY (`uf_id`) REFERENCES `uf` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
 
--- Copiando dados para a tabela sistema_curriculo.cidade: ~9 rows (aproximadamente)
+-- Copiando dados para a tabela sistema_curriculo.cidade: ~2 rows (aproximadamente)
 DELETE FROM `cidade`;
 INSERT INTO `cidade` (`id`, `nome`, `uf_id`, `codIBGE`, `wiki`) VALUES
-	(1, 'Muriae', 1, '4648678', '<p>fsdasdfsad</p>');
-
--- Copiando estrutura para tabela sistema_curriculo.clique_celular
-CREATE TABLE IF NOT EXISTS `clique_celular` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `estabelecimento_id` int DEFAULT NULL,
-  `visitante_id` int DEFAULT NULL,
-  `celular` char(11) DEFAULT NULL,
-  `telefone_id` int DEFAULT NULL,
-  `data_clique` timestamp NULL DEFAULT NULL,
-  `statusRegistro` int DEFAULT '1' COMMENT '1 - Ativo    2 - Inativo',
-  PRIMARY KEY (`id`),
-  KEY `estabelecimento_id` (`estabelecimento_id`),
-  KEY `telefone_id` (`telefone_id`),
-  CONSTRAINT `clique_celular_ibfk_1` FOREIGN KEY (`estabelecimento_id`) REFERENCES `estabelecimento` (`id`),
-  CONSTRAINT `clique_celular_ibfk_2` FOREIGN KEY (`telefone_id`) REFERENCES `telefone` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
--- Copiando dados para a tabela sistema_curriculo.clique_celular: ~0 rows (aproximadamente)
-DELETE FROM `clique_celular`;
-
--- Copiando estrutura para tabela sistema_curriculo.clique_telefone
-CREATE TABLE IF NOT EXISTS `clique_telefone` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `estabelecimento_id` int DEFAULT NULL,
-  `visitante_id` int DEFAULT NULL,
-  `telefone` char(11) DEFAULT NULL,
-  `telefone_id` int DEFAULT NULL,
-  `data_clique` timestamp NULL DEFAULT NULL,
-  `statusRegistro` int DEFAULT '1' COMMENT '1 - Ativo    2 - Inativo',
-  PRIMARY KEY (`id`),
-  KEY `estabelecimento_id` (`estabelecimento_id`),
-  KEY `telefone_id` (`telefone_id`),
-  CONSTRAINT `clique_telefone_ibfk_1` FOREIGN KEY (`estabelecimento_id`) REFERENCES `estabelecimento` (`id`),
-  CONSTRAINT `clique_telefone_ibfk_2` FOREIGN KEY (`telefone_id`) REFERENCES `telefone` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
--- Copiando dados para a tabela sistema_curriculo.clique_telefone: ~0 rows (aproximadamente)
-DELETE FROM `clique_telefone`;
+	(1, 'São Paulo', 25, '3550308', NULL),
+	(2, 'Campinas', 25, '3509502', NULL),
+	(3, 'Rio de Janeiro', 19, '3304557', NULL),
+	(4, 'Niterói', 19, '3303302', NULL),
+	(5, 'Belo Horizonte', 13, '3106200', NULL),
+	(6, 'Curitiba', 16, '4106902', NULL),
+	(7, 'Porto Alegre', 21, '4314902', NULL),
+	(8, 'Fortaleza', 6, '2304400', NULL),
+	(9, 'Muriaé', 13, '3143906', NULL),
+	(10, 'Ervália', 13, '3124104', NULL),
+	(11, 'Rosário da Limeira', 13, '3156456', NULL),
+	(12, 'Ubá', 13, '3170107', NULL),
+	(13, 'Viçosa', 13, '3171303', NULL),
+	(14, 'Cataguases', 13, '3115300', NULL),
+	(15, 'Leopoldina', 13, '3138401', NULL),
+	(16, 'Juiz de Fora', 13, '3136702', NULL),
+	(17, 'São Geraldo', 13, '3160603', NULL);
 
 -- Copiando estrutura para tabela sistema_curriculo.curriculum
 CREATE TABLE IF NOT EXISTS `curriculum` (
@@ -147,9 +223,9 @@ CREATE TABLE IF NOT EXISTS `curriculum` (
   CONSTRAINT `curriculum_ibfk_1` FOREIGN KEY (`pessoa_fisica_id`) REFERENCES `pessoa_fisica` (`id`),
   CONSTRAINT `curriculum_ibfk_2` FOREIGN KEY (`cidade_id`) REFERENCES `cidade` (`id`),
   CONSTRAINT `curriculum_ibfk_3` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Copiando dados para a tabela sistema_curriculo.curriculum: ~3 rows (aproximadamente)
+-- Copiando dados para a tabela sistema_curriculo.curriculum: ~1 rows (aproximadamente)
 DELETE FROM `curriculum`;
 
 -- Copiando estrutura para tabela sistema_curriculo.curriculum_escolaridade
@@ -171,13 +247,10 @@ CREATE TABLE IF NOT EXISTS `curriculum_escolaridade` (
   CONSTRAINT `curriculum_escolaridade_ibfk_1` FOREIGN KEY (`curriculum_id`) REFERENCES `curriculum` (`id`),
   CONSTRAINT `curriculum_escolaridade_ibfk_2` FOREIGN KEY (`cidade_id`) REFERENCES `cidade` (`id`),
   CONSTRAINT `curriculum_escolaridade_ibfk_3` FOREIGN KEY (`escolaridade_id`) REFERENCES `escolaridade` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Copiando dados para a tabela sistema_curriculo.curriculum_escolaridade: ~12 rows (aproximadamente)
+-- Copiando dados para a tabela sistema_curriculo.curriculum_escolaridade: ~1 rows (aproximadamente)
 DELETE FROM `curriculum_escolaridade`;
-INSERT INTO `curriculum_escolaridade` (`id`, `curriculum_id`, `inicioAno`, `fimMes`, `fimAno`, `descricao`, `instituicao`, `cidade_id`, `escolaridade_id`, `statusRegistro`) VALUES
-	(1, 1, 61, 73, 93, 'Nulla velit nemo sin', 'Mollit nemo vel quo ', 1, NULL, 1),
-	(2, 2, 68, 48, 33, 'Rerum autem sunt ob', 'Laboris sit architec', 1, NULL, 1);
 
 -- Copiando estrutura para tabela sistema_curriculo.curriculum_experiencia
 CREATE TABLE IF NOT EXISTS `curriculum_experiencia` (
@@ -196,13 +269,10 @@ CREATE TABLE IF NOT EXISTS `curriculum_experiencia` (
   KEY `cargo_id` (`cargo_id`),
   CONSTRAINT `curriculum_experiencia_ibfk_1` FOREIGN KEY (`curriculum_id`) REFERENCES `curriculum` (`id`),
   CONSTRAINT `curriculum_experiencia_ibfk_2` FOREIGN KEY (`cargo_id`) REFERENCES `cargo` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Copiando dados para a tabela sistema_curriculo.curriculum_experiencia: ~11 rows (aproximadamente)
+-- Copiando dados para a tabela sistema_curriculo.curriculum_experiencia: ~1 rows (aproximadamente)
 DELETE FROM `curriculum_experiencia`;
-INSERT INTO `curriculum_experiencia` (`id`, `curriculum_id`, `inicioAno`, `fimMes`, `fimAno`, `estabelecimento`, `cargo_id`, `cargoDescricao`, `atividadeExercida`, `statusRegistro`) VALUES
-	(1, 1, 78, 52, 4, 'Impedit ex doloribu', NULL, 'Dolor culpa lorem m', 'Minim eligendi simil', 1),
-	(2, 2, 79, 14, 8, 'Ex provident tempor', NULL, 'Sint quis ut verita', 'Et mollit et consect', 1);
 
 -- Copiando estrutura para tabela sistema_curriculo.curriculum_qualificacao
 CREATE TABLE IF NOT EXISTS `curriculum_qualificacao` (
@@ -217,13 +287,10 @@ CREATE TABLE IF NOT EXISTS `curriculum_qualificacao` (
   PRIMARY KEY (`id`),
   KEY `curriculum_id` (`curriculum_id`),
   CONSTRAINT `curriculum_qualificacao_ibfk_1` FOREIGN KEY (`curriculum_id`) REFERENCES `curriculum` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Copiando dados para a tabela sistema_curriculo.curriculum_qualificacao: ~11 rows (aproximadamente)
+-- Copiando dados para a tabela sistema_curriculo.curriculum_qualificacao: ~1 rows (aproximadamente)
 DELETE FROM `curriculum_qualificacao`;
-INSERT INTO `curriculum_qualificacao` (`id`, `curriculum_id`, `mes`, `ano`, `cargaHoraria`, `descricao`, `estabelecimento`, `statusRegistro`) VALUES
-	(1, 1, 81, 100, 39, 'Enim sit quo dolorem', 'Ex quo autem nemo cu', 1),
-	(2, 2, 29, 96, 90, 'Veniam non dignissi', 'Excepteur et in aper', 1);
 
 -- Copiando estrutura para tabela sistema_curriculo.curriculum_vaga
 CREATE TABLE IF NOT EXISTS `curriculum_vaga` (
@@ -240,7 +307,7 @@ CREATE TABLE IF NOT EXISTS `curriculum_vaga` (
   CONSTRAINT `curriculum_vaga_ibfk_2` FOREIGN KEY (`vaga_id`) REFERENCES `vaga` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Copiando dados para a tabela sistema_curriculo.curriculum_vaga: ~3 rows (aproximadamente)
+-- Copiando dados para a tabela sistema_curriculo.curriculum_vaga: ~1 rows (aproximadamente)
 DELETE FROM `curriculum_vaga`;
 
 -- Copiando estrutura para tabela sistema_curriculo.escolaridade
@@ -249,45 +316,53 @@ CREATE TABLE IF NOT EXISTS `escolaridade` (
   `descricao` varchar(50) DEFAULT NULL,
   `statusRegistro` int DEFAULT '1' COMMENT '1 - Ativo    2 - Inativo',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Copiando dados para a tabela sistema_curriculo.escolaridade: ~0 rows (aproximadamente)
+-- Copiando dados para a tabela sistema_curriculo.escolaridade: ~2 rows (aproximadamente)
 DELETE FROM `escolaridade`;
 INSERT INTO `escolaridade` (`id`, `descricao`, `statusRegistro`) VALUES
-	(1, 'Ensino Médio', 1),
-	(2, 'Ensino superior', 1);
+	(1, 'Ensino Fundamental Incompleto', 1),
+	(2, 'Ensino Fundamental Completo', 1),
+	(3, 'Ensino Médio Incompleto', 1),
+	(4, 'Ensino Médio Completo', 1),
+	(5, 'Ensino Técnico', 1),
+	(6, 'Graduação Incompleta', 1),
+	(7, 'Graduação Completa', 1),
+	(8, 'Pós-Graduação', 1),
+	(9, 'Mestrado', 1),
+	(10, 'Doutorado', 1);
 
 -- Copiando estrutura para tabela sistema_curriculo.estabelecimento
 CREATE TABLE IF NOT EXISTS `estabelecimento` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `nome` varchar(50) DEFAULT NULL,
-  `endereco` varchar(200) DEFAULT NULL,
-  `cidade` char(12) DEFAULT NULL,
+  `nome` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `endereco` varchar(200) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `cidade_id` int DEFAULT NULL,
   `latitude` char(12) DEFAULT NULL,
-  `longitude` char(12) DEFAULT NULL,
-  `email` varchar(150) DEFAULT NULL,
+  `longitude` char(12) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `email` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
   `usuario_id` int DEFAULT NULL,
-  `statusRegistro` int DEFAULT '1' COMMENT '1 - Ativo    2 - Inativo',
+  `statusRegistro` int NOT NULL DEFAULT '1' COMMENT '1 - Ativo    2 - Inativo',
   PRIMARY KEY (`id`),
   KEY `fk_estabelecimento_usuario` (`usuario_id`),
+  KEY `fk_estabelecimento_cidade` (`cidade_id`),
+  CONSTRAINT `fk_estabelecimento_cidade` FOREIGN KEY (`cidade_id`) REFERENCES `cidade` (`id`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `fk_estabelecimento_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Copiando dados para a tabela sistema_curriculo.estabelecimento: ~1 rows (aproximadamente)
+-- Copiando dados para a tabela sistema_curriculo.estabelecimento: ~0 rows (aproximadamente)
 DELETE FROM `estabelecimento`;
-INSERT INTO `estabelecimento` (`id`, `nome`, `endereco`, `cidade`, `latitude`, `longitude`, `email`, `usuario_id`, `statusRegistro`) VALUES
-	(1, 'Empresa A', 'Centro', 'Muriae', '123', '456', 'empresaA@gmail.com', NULL, 1);
 
 -- Copiando estrutura para tabela sistema_curriculo.pessoa_fisica
 CREATE TABLE IF NOT EXISTS `pessoa_fisica` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `nome` varchar(150) DEFAULT NULL,
-  `cpf` char(11) DEFAULT NULL,
-  `statusRegistro` int DEFAULT '1' COMMENT '1 - Ativo    2 - Inativo',
+  `nome` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `cpf` char(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
+  `statusRegistro` int NOT NULL DEFAULT '1' COMMENT '1 - Ativo    2 - Inativo',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Copiando dados para a tabela sistema_curriculo.pessoa_fisica: ~14 rows (aproximadamente)
+-- Copiando dados para a tabela sistema_curriculo.pessoa_fisica: ~1 rows (aproximadamente)
 DELETE FROM `pessoa_fisica`;
 
 -- Copiando estrutura para tabela sistema_curriculo.telefone
@@ -303,41 +378,10 @@ CREATE TABLE IF NOT EXISTS `telefone` (
   KEY `usuario_id` (`usuario_id`),
   CONSTRAINT `telefone_ibfk_1` FOREIGN KEY (`estabelecimento_id`) REFERENCES `estabelecimento` (`id`),
   CONSTRAINT `telefone_ibfk_2` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 -- Copiando dados para a tabela sistema_curriculo.telefone: ~2 rows (aproximadamente)
 DELETE FROM `telefone`;
-INSERT INTO `telefone` (`id`, `estabelecimento_id`, `usuario_id`, `numero`, `tipo`, `statusRegistro`) VALUES
-	(1, 1, NULL, '32984994411', '1', 1);
-
--- Copiando estrutura para tabela sistema_curriculo.termoaceite
-CREATE TABLE IF NOT EXISTS `termoaceite` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `usuario_id` int DEFAULT NULL,
-  `dataHoraAceite` datetime DEFAULT NULL,
-  `statusRegistro` int DEFAULT '1' COMMENT '1 - Ativo    2 - Inativo',
-  PRIMARY KEY (`id`),
-  KEY `usuario_id` (`usuario_id`),
-  CONSTRAINT `termoaceite_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
--- Copiando dados para a tabela sistema_curriculo.termoaceite: ~0 rows (aproximadamente)
-DELETE FROM `termoaceite`;
-
--- Copiando estrutura para tabela sistema_curriculo.termodeuso
-CREATE TABLE IF NOT EXISTS `termodeuso` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `textoTermo` longtext,
-  `statusRegistro` int DEFAULT '1' COMMENT '1 - Ativo    2 - Inativo',
-  `rascunho` bit(1) DEFAULT NULL,
-  `usuario_id` int DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  KEY `usuario_id` (`usuario_id`),
-  CONSTRAINT `termodeuso_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
--- Copiando dados para a tabela sistema_curriculo.termodeuso: ~0 rows (aproximadamente)
-DELETE FROM `termodeuso`;
 
 -- Copiando estrutura para tabela sistema_curriculo.uf
 CREATE TABLE IF NOT EXISTS `uf` (
@@ -347,12 +391,38 @@ CREATE TABLE IF NOT EXISTS `uf` (
   `bandeira` varchar(100) DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `sigla` (`sigla`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=latin1;
 
--- Copiando dados para a tabela sistema_curriculo.uf: ~28 rows (aproximadamente)
+-- Copiando dados para a tabela sistema_curriculo.uf: ~2 rows (aproximadamente)
 DELETE FROM `uf`;
 INSERT INTO `uf` (`id`, `sigla`, `descricao`, `bandeira`) VALUES
-	(1, 'MG', 'Minas Gerais', NULL);
+	(1, 'AC', 'Acre', NULL),
+	(2, 'AL', 'Alagoas', NULL),
+	(3, 'AP', 'Amapá', NULL),
+	(4, 'AM', 'Amazonas', NULL),
+	(5, 'BA', 'Bahia', NULL),
+	(6, 'CE', 'Ceará', NULL),
+	(7, 'DF', 'Distrito Federal', NULL),
+	(8, 'ES', 'Espírito Santo', NULL),
+	(9, 'GO', 'Goiás', NULL),
+	(10, 'MA', 'Maranhão', NULL),
+	(11, 'MT', 'Mato Grosso', NULL),
+	(12, 'MS', 'Mato Grosso do Sul', NULL),
+	(13, 'MG', 'Minas Gerais', NULL),
+	(14, 'PA', 'Pará', NULL),
+	(15, 'PB', 'Paraíba', NULL),
+	(16, 'PR', 'Paraná', NULL),
+	(17, 'PE', 'Pernambuco', NULL),
+	(18, 'PI', 'Piauí', NULL),
+	(19, 'RJ', 'Rio de Janeiro', NULL),
+	(20, 'RN', 'Rio Grande do Norte', NULL),
+	(21, 'RS', 'Rio Grande do Sul', NULL),
+	(22, 'RO', 'Rondônia', NULL),
+	(23, 'RR', 'Roraima', NULL),
+	(24, 'SC', 'Santa Catarina', NULL),
+	(25, 'SP', 'São Paulo', NULL),
+	(26, 'SE', 'Sergipe', NULL),
+	(27, 'TO', 'Tocantins', NULL);
 
 -- Copiando estrutura para tabela sistema_curriculo.usuario
 CREATE TABLE IF NOT EXISTS `usuario` (
@@ -407,7 +477,7 @@ CREATE TABLE IF NOT EXISTS `vaga` (
   CONSTRAINT `vaga_ibfk_2` FOREIGN KEY (`estabelecimento_id`) REFERENCES `estabelecimento` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Copiando dados para a tabela sistema_curriculo.vaga: ~2 rows (aproximadamente)
+-- Copiando dados para a tabela sistema_curriculo.vaga: ~3 rows (aproximadamente)
 DELETE FROM `vaga`;
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;

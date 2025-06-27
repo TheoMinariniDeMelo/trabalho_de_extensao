@@ -5,12 +5,11 @@ namespace App\Controller;
 use App\Model\CargoModel;
 use App\Model\CurriculumModel;
 use App\Model\EstabelecimentoModel;
-use App\Model\UfModel;
 use Core\Library\ControllerMain;
 use Core\Library\Redirect;
-use Core\Library\Database;
 use Core\Library\Email;
 use Core\Library\Session;
+use Core\Library\Validator;
 
 class Vaga extends ControllerMain
 {
@@ -23,7 +22,6 @@ class Vaga extends ControllerMain
     {
         $this->auxiliarconstruct();
         $this->loadHelper('formHelper');
-        // $this->validaNivelAcesso();
 
         $this->cargoModel = new CargoModel();
         $this->estabelecimentoModel = new EstabelecimentoModel();
@@ -37,6 +35,7 @@ class Vaga extends ControllerMain
      */
     public function index()
     {
+        $this->validaNivelAcesso();
         return $this->loadView("vaga/listaVaga", $this->model->listaVagas());
     }
 
@@ -53,7 +52,7 @@ class Vaga extends ControllerMain
 
     public function form($action, $id)
     {
-
+        $this->validaNivelAcesso();
         $dados = [
             'data' => $this->model->recuperarPorId($id),
             'aCargo' => $this->cargoModel->lista('id'),
@@ -72,10 +71,14 @@ class Vaga extends ControllerMain
     {
         $post = $this->request->getPost();
 
-        if ($this->model->insert($post)) {
-            return Redirect::page($this->controller, ["msgSucesso" => "Registro inserido com sucesso."]);
-        } else {
+        if (Validator::make($post, $this->model->validationRules)) {
             return Redirect::page($this->controller . "/form/insert/0");
+        } else {
+            if ($this->model->insert($post)) {
+                return Redirect::page($this->controller, ["msgSucesso" => "Registro inserido com sucesso."]);
+            } else {
+                return Redirect::page($this->controller . "/form/insert/0");
+            }
         }
     }
 
@@ -88,10 +91,14 @@ class Vaga extends ControllerMain
     {
         $post = $this->request->getPost();
 
-        if ($this->model->update($post)) {
-            return Redirect::page($this->controller, ["msgSucesso" => "Registro alterado com sucesso."]);
-        } else {
+        if (Validator::make($post, $this->model->validationRules)) {
             return Redirect::page($this->controller . "/form/update/" . $post['id']);
+        } else {
+            if ($this->model->update($post)) {
+                return Redirect::page($this->controller, ["msgSucesso" => "Registro alterado com sucesso."]);
+            } else {
+                return Redirect::page($this->controller . "/form/update/" . $post['id']);
+            }
         }
     }
 
@@ -162,7 +169,6 @@ class Vaga extends ControllerMain
 
             if (!$curriculumId) {
                 Session::set('msgError', 'É necessário cadastrar um curriculum!');
-                // Redireciona o usuário para cadastrar currículo primeiro
                 return Redirect::page('curriculum/meuCurriculo');
             }
 
@@ -206,6 +212,7 @@ class Vaga extends ControllerMain
 
     public function visualizarcandidatoVaga($vaga_id)
     {
+        $this->validaNivelAcesso();
         // if (!verificaSeUsuarioEstaLogado()) {
         //     Session::set('url_redirecionamento', 'candidaturas/minhasCandidaturas');
         //     return Redirect::page('auth/login');
@@ -216,12 +223,15 @@ class Vaga extends ControllerMain
 
         $dados['candidatos'] = $this->model->visualizarcandidatoVaga($vaga_id);
 
+        // var_dump($vaga_id);
+        // exit;
+
         return $this->loadView('vaga/listaCandidatoVaga', $dados);
     }
 
     public function formAtualizarCandidatura($vaga_id, $usuarioId)
     {
-
+        $this->validaNivelAcesso();
         $dados['candidatura'] = $this->model->recuperaInfoCandidatura($vaga_id, $usuarioId);
 
         return $this->loadView('vaga/atualizarCandidatura', $dados);
@@ -229,6 +239,7 @@ class Vaga extends ControllerMain
 
     public function atualizarCandidatura()
     {
+        $this->validaNivelAcesso();
         $post = $this->request->getPost();
 
         $vaga_id = $post['vaga_id'];
@@ -250,7 +261,7 @@ class Vaga extends ControllerMain
 
     public function convidarEntrevista($vaga_id, $usuarioId)
     {
-
+        $this->validaNivelAcesso();
         $dados['candidatura'] = $this->model->recuperaInfoCandidatura($vaga_id, $usuarioId);
 
         return $this->loadView("vaga/formConviteEntrevista", $dados);
@@ -258,6 +269,7 @@ class Vaga extends ControllerMain
 
     public function enviarConviteEntrevista()
     {
+        $this->validaNivelAcesso();
         $this->loadHelper("emailHelper");
         $post       = $this->request->getPost();
 
@@ -279,10 +291,24 @@ class Vaga extends ControllerMain
         );
 
         if ($lRetMail) {
+
             Session::set('msgSucesso', 'Convite enviado com sucesso!');
             return Redirect::page('Vaga/convidarEntrevista/' . $vaga_id . '/' . $usuario_id);
         } else {
             return Redirect::page("login/esqueciASenha", ["inputs" => $post]);
+        }
+    }
+
+    public function removerCandidatura($curriculumVagaId)
+    {
+        $curriculumVagaRemovido = $this->model->removerCurriculumVaga($curriculumVagaId);
+
+        if ($curriculumVagaRemovido) {
+            Session::set('msgSucesso', 'Candidatura Removida com sucesso!');
+            return Redirect::page('Vaga/minhaCandidatura');
+        } else {
+            Session::set('msgError', 'Erro ao remover candidatura!');
+            return Redirect::page('Vaga/minhaCandidatura');
         }
     }
 }

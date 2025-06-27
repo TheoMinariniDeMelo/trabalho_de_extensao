@@ -26,7 +26,7 @@
                             <th scope="row" class="text-center text-secondary"><?= htmlspecialchars($value['id']) ?></th>
                             <td class="text-start"><?= htmlspecialchars($value['nome']) ?></td>
                             <td class="text-start"><?= htmlspecialchars($value['endereco']) ?></td>
-                            <td class="text-center"><?= htmlspecialchars($value['cidade']) ?></td>
+                            <td class="text-center"><?= htmlspecialchars($value['cidade_nome']) ?></td>
                             <td class="text-center">
                                 <span class="badge <?= ($value['statusRegistro'] == 1) ? 'bg-success' : 'bg-secondary' ?>">
                                     <?= htmlspecialchars(getStatusDescricao($value['statusRegistro'])) ?>

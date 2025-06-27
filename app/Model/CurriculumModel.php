@@ -9,14 +9,75 @@ class CurriculumModel extends ModelMain
 {
     protected $table = 'curriculum';
 
+    public $validationRules = [
+        // "pessoa_fisica_id" => [
+        //     "label" => "Pessoa Física",
+        //     "rules" => "required|integer"
+        // ],
+        // "usuario_id" => [
+        //     "label" => "Usuário",
+        //     "rules" => "required|integer"
+        // ],
+        "logradouro" => [
+            "label" => "Logradouro",
+            "rules" => "required|min_length[3]|max_length[60]"
+        ],
+        "numero" => [
+            "label" => "Número",
+            "rules" => "required|max_length[4]"
+        ],
+        "complemento" => [
+            "label" => "Complemento",
+            "rules" => "permit_empty|max_length[20]"
+        ],
+        "bairro" => [
+            "label" => "Bairro",
+            "rules" => "required|min_length[3]|max_length[50]"
+        ],
+        "cep" => [
+            "label" => "CEP",
+            "rules" => "required|exact_length[8]|numeric"
+        ],
+        // "cidade_id" => [
+        //     "label" => "Cidade",
+        //     "rules" => "required|integer"
+        // ],
+        "celular" => [
+            "label" => "Celular",
+            "rules" => "required|exact_length[11]|numeric"
+        ],
+        "nascimento" => [
+            "label" => "Data de Nascimento",
+            "rules" => "required|valid_date"
+        ],
+        "sexo" => [
+            "label" => "Sexo",
+            "rules" => "required|in_list[M,F]"
+        ],
+        // "foto" => [
+        //     "label" => "Foto",
+        //     "rules" => "permit_empty|max_length[255]"
+        // ],
+        "email" => [
+            "label" => "E-mail",
+            "rules" => "required|valid_email|max_length[120]"
+        ],
+        "apresentacaoPessoal" => [
+            "label" => "Apresentação Pessoal",
+            "rules" => "required"
+        ],
+        // "statusRegistro" => [
+        //     "label" => "Status",
+        //     "rules" => "required|in_list[1,2]"
+        // ]
+    ];
+
+
     public function cadastrarCurriculumCompleto($dados)
     {
         $curriculumId = $dados['id'] ?? null;
 
         if ($curriculumId) {
-
-            // var_dump();
-            // exit;
 
             $this->db->table('pessoa_fisica');
             $this->db->update([

@@ -7,6 +7,7 @@ use App\Model\UfModel;
 use App\Model\UsuarioModel;
 use Core\Library\ControllerMain;
 use Core\Library\Redirect;
+use Core\Library\Validator;
 
 class Telefone extends ControllerMain
 {
@@ -17,6 +18,7 @@ class Telefone extends ControllerMain
     {
         $this->auxiliarconstruct();
         $this->loadHelper('formHelper');
+        $this->validaNivelAcesso();
 
         $this->estabelecimentoModel = new EstabelecimentoModel();
         $this->usuarioModel = new UsuarioModel();
@@ -54,13 +56,17 @@ class Telefone extends ControllerMain
     public function insert()
     {
         $post = $this->request->getPost();
-        $post['usuario_id'] = empty($post['usuario_id']) ? null : $post['usuario_id'];
-        $post['estabelecimento_id'] = empty($post['estabelecimento_id']) ? null : $post['estabelecimento_id'];
-
-        if ($this->model->insert($post)) {
-            return Redirect::page($this->controller, ["msgSucesso" => "Registro inserido com sucesso."]);
-        } else {
+        if (Validator::make($post, $this->model->validationRules)) {
             return Redirect::page($this->controller . "/form/insert/0");
+        } else {
+            $post['usuario_id'] = empty($post['usuario_id']) ? null : $post['usuario_id'];
+            $post['estabelecimento_id'] = empty($post['estabelecimento_id']) ? null : $post['estabelecimento_id'];
+
+            if ($this->model->insert($post)) {
+                return Redirect::page($this->controller, ["msgSucesso" => "Registro inserido com sucesso."]);
+            } else {
+                return Redirect::page($this->controller . "/form/insert/0");
+            }
         }
     }
 
@@ -72,13 +78,18 @@ class Telefone extends ControllerMain
     public function update()
     {
         $post = $this->request->getPost();
-        $post['usuario_id'] = empty($post['usuario_id']) ? null : $post['usuario_id'];
-        $post['estabelecimento_id'] = empty($post['estabelecimento_id']) ? null : $post['estabelecimento_id'];
 
-        if ($this->model->update($post)) {
-            return Redirect::page($this->controller, ["msgSucesso" => "Registro alterado com sucesso."]);
-        } else {
+        if (Validator::make($post, $this->model->validationRules)) {
             return Redirect::page($this->controller . "/form/update/" . $post['id']);
+        } else {
+            $post['usuario_id'] = empty($post['usuario_id']) ? null : $post['usuario_id'];
+            $post['estabelecimento_id'] = empty($post['estabelecimento_id']) ? null : $post['estabelecimento_id'];
+
+            if ($this->model->update($post)) {
+                return Redirect::page($this->controller, ["msgSucesso" => "Registro alterado com sucesso."]);
+            } else {
+                return Redirect::page($this->controller . "/form/update/" . $post['id']);
+            }
         }
     }
 
