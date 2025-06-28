@@ -6,6 +6,7 @@ use Core\Library\Session;
 
 $aEstabelecimento = $dados['aEstabelecimento'];
 
+exibeAlerta();
 ?>
 
 <div class="d-flex justify-content-center align-items-start mt-5 mb-5">
@@ -46,7 +47,7 @@ $aEstabelecimento = $dados['aEstabelecimento'];
 
                 <div class="col-md-4">
                     <label for="estabelecimento_id" class="form-label fw-semibold">Estabelecimento</label>
-                    <select name="estabelecimento_id" id="estabelecimento_id" class="form-select" required>
+                    <select name="estabelecimento_id" id="estabelecimento_id" class="form-select">
 
                         <?php if (Session::get('userEstabelecimentoId')): ?>
 

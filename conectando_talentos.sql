@@ -15,11 +15,11 @@
 /*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
 
--- Copiando estrutura do banco de dados para sistema_curriculo
-CREATE DATABASE IF NOT EXISTS `sistema_curriculo` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
-USE `sistema_curriculo`;
+-- Copiando estrutura do banco de dados para conectando_talentos
+CREATE DATABASE IF NOT EXISTS `conectando_talentos` /*!40100 DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci */ /*!80016 DEFAULT ENCRYPTION='N' */;
+USE `conectando_talentos`;
 
--- Copiando estrutura para tabela sistema_curriculo.cargo
+-- Copiando estrutura para tabela conectando_talentos.cargo
 CREATE TABLE IF NOT EXISTS `cargo` (
   `id` int NOT NULL AUTO_INCREMENT,
   `descricao` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS `cargo` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=100 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Copiando dados para a tabela sistema_curriculo.cargo: ~102 rows (aproximadamente)
+-- Copiando dados para a tabela conectando_talentos.cargo: ~102 rows (aproximadamente)
 DELETE FROM `cargo`;
 INSERT INTO `cargo` (`id`, `descricao`, `statusRegistro`) VALUES
 	(1, 'Administrador de Sistemas', 1),
@@ -130,7 +130,7 @@ INSERT INTO `cargo` (`id`, `descricao`, `statusRegistro`) VALUES
 	(98, 'Vigia', 1),
 	(99, 'Zootecnista', 1);
 
--- Copiando estrutura para tabela sistema_curriculo.categoria
+-- Copiando estrutura para tabela conectando_talentos.categoria
 CREATE TABLE IF NOT EXISTS `categoria` (
   `id` int NOT NULL AUTO_INCREMENT,
   `descricao` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
@@ -138,7 +138,7 @@ CREATE TABLE IF NOT EXISTS `categoria` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Copiando dados para a tabela sistema_curriculo.categoria: ~2 rows (aproximadamente)
+-- Copiando dados para a tabela conectando_talentos.categoria: ~2 rows (aproximadamente)
 DELETE FROM `categoria`;
 INSERT INTO `categoria` (`id`, `descricao`, `statusRegistro`) VALUES
 	(1, 'Restaurante', 1),
@@ -148,7 +148,7 @@ INSERT INTO `categoria` (`id`, `descricao`, `statusRegistro`) VALUES
 	(5, 'Academia', 1),
 	(6, 'Loja de Roupas', 1);
 
--- Copiando estrutura para tabela sistema_curriculo.categoria_estabelecimento
+-- Copiando estrutura para tabela conectando_talentos.categoria_estabelecimento
 CREATE TABLE IF NOT EXISTS `categoria_estabelecimento` (
   `id` int NOT NULL AUTO_INCREMENT,
   `estabelecimento_id` int DEFAULT NULL,
@@ -161,10 +161,10 @@ CREATE TABLE IF NOT EXISTS `categoria_estabelecimento` (
   CONSTRAINT `categoria_estabelecimento_ibfk_2` FOREIGN KEY (`categoria_id`) REFERENCES `categoria` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Copiando dados para a tabela sistema_curriculo.categoria_estabelecimento: ~2 rows (aproximadamente)
+-- Copiando dados para a tabela conectando_talentos.categoria_estabelecimento: ~2 rows (aproximadamente)
 DELETE FROM `categoria_estabelecimento`;
 
--- Copiando estrutura para tabela sistema_curriculo.cidade
+-- Copiando estrutura para tabela conectando_talentos.cidade
 CREATE TABLE IF NOT EXISTS `cidade` (
   `id` int NOT NULL AUTO_INCREMENT,
   `nome` varchar(50) NOT NULL,
@@ -177,7 +177,7 @@ CREATE TABLE IF NOT EXISTS `cidade` (
   CONSTRAINT `FK1_cidade_uf_id` FOREIGN KEY (`uf_id`) REFERENCES `uf` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=latin1;
 
--- Copiando dados para a tabela sistema_curriculo.cidade: ~2 rows (aproximadamente)
+-- Copiando dados para a tabela conectando_talentos.cidade: ~2 rows (aproximadamente)
 DELETE FROM `cidade`;
 INSERT INTO `cidade` (`id`, `nome`, `uf_id`, `codIBGE`, `wiki`) VALUES
 	(1, 'São Paulo', 25, '3550308', NULL),
@@ -198,7 +198,7 @@ INSERT INTO `cidade` (`id`, `nome`, `uf_id`, `codIBGE`, `wiki`) VALUES
 	(16, 'Juiz de Fora', 13, '3136702', NULL),
 	(17, 'São Geraldo', 13, '3160603', NULL);
 
--- Copiando estrutura para tabela sistema_curriculo.curriculum
+-- Copiando estrutura para tabela conectando_talentos.curriculum
 CREATE TABLE IF NOT EXISTS `curriculum` (
   `id` int NOT NULL AUTO_INCREMENT,
   `pessoa_fisica_id` int NOT NULL,
@@ -225,10 +225,10 @@ CREATE TABLE IF NOT EXISTS `curriculum` (
   CONSTRAINT `curriculum_ibfk_3` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Copiando dados para a tabela sistema_curriculo.curriculum: ~1 rows (aproximadamente)
+-- Copiando dados para a tabela conectando_talentos.curriculum: ~1 rows (aproximadamente)
 DELETE FROM `curriculum`;
 
--- Copiando estrutura para tabela sistema_curriculo.curriculum_escolaridade
+-- Copiando estrutura para tabela conectando_talentos.curriculum_escolaridade
 CREATE TABLE IF NOT EXISTS `curriculum_escolaridade` (
   `id` int unsigned NOT NULL AUTO_INCREMENT,
   `curriculum_id` int DEFAULT NULL,
@@ -249,10 +249,10 @@ CREATE TABLE IF NOT EXISTS `curriculum_escolaridade` (
   CONSTRAINT `curriculum_escolaridade_ibfk_3` FOREIGN KEY (`escolaridade_id`) REFERENCES `escolaridade` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Copiando dados para a tabela sistema_curriculo.curriculum_escolaridade: ~1 rows (aproximadamente)
+-- Copiando dados para a tabela conectando_talentos.curriculum_escolaridade: ~1 rows (aproximadamente)
 DELETE FROM `curriculum_escolaridade`;
 
--- Copiando estrutura para tabela sistema_curriculo.curriculum_experiencia
+-- Copiando estrutura para tabela conectando_talentos.curriculum_experiencia
 CREATE TABLE IF NOT EXISTS `curriculum_experiencia` (
   `id` int NOT NULL AUTO_INCREMENT,
   `curriculum_id` int DEFAULT NULL,
@@ -271,10 +271,10 @@ CREATE TABLE IF NOT EXISTS `curriculum_experiencia` (
   CONSTRAINT `curriculum_experiencia_ibfk_2` FOREIGN KEY (`cargo_id`) REFERENCES `cargo` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Copiando dados para a tabela sistema_curriculo.curriculum_experiencia: ~1 rows (aproximadamente)
+-- Copiando dados para a tabela conectando_talentos.curriculum_experiencia: ~1 rows (aproximadamente)
 DELETE FROM `curriculum_experiencia`;
 
--- Copiando estrutura para tabela sistema_curriculo.curriculum_qualificacao
+-- Copiando estrutura para tabela conectando_talentos.curriculum_qualificacao
 CREATE TABLE IF NOT EXISTS `curriculum_qualificacao` (
   `id` int NOT NULL AUTO_INCREMENT,
   `curriculum_id` int DEFAULT NULL,
@@ -289,10 +289,10 @@ CREATE TABLE IF NOT EXISTS `curriculum_qualificacao` (
   CONSTRAINT `curriculum_qualificacao_ibfk_1` FOREIGN KEY (`curriculum_id`) REFERENCES `curriculum` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Copiando dados para a tabela sistema_curriculo.curriculum_qualificacao: ~1 rows (aproximadamente)
+-- Copiando dados para a tabela conectando_talentos.curriculum_qualificacao: ~1 rows (aproximadamente)
 DELETE FROM `curriculum_qualificacao`;
 
--- Copiando estrutura para tabela sistema_curriculo.curriculum_vaga
+-- Copiando estrutura para tabela conectando_talentos.curriculum_vaga
 CREATE TABLE IF NOT EXISTS `curriculum_vaga` (
   `id` int NOT NULL AUTO_INCREMENT,
   `curriculum_id` int NOT NULL,
@@ -307,10 +307,10 @@ CREATE TABLE IF NOT EXISTS `curriculum_vaga` (
   CONSTRAINT `curriculum_vaga_ibfk_2` FOREIGN KEY (`vaga_id`) REFERENCES `vaga` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Copiando dados para a tabela sistema_curriculo.curriculum_vaga: ~1 rows (aproximadamente)
+-- Copiando dados para a tabela conectando_talentos.curriculum_vaga: ~1 rows (aproximadamente)
 DELETE FROM `curriculum_vaga`;
 
--- Copiando estrutura para tabela sistema_curriculo.escolaridade
+-- Copiando estrutura para tabela conectando_talentos.escolaridade
 CREATE TABLE IF NOT EXISTS `escolaridade` (
   `id` int NOT NULL AUTO_INCREMENT,
   `descricao` varchar(50) DEFAULT NULL,
@@ -318,7 +318,7 @@ CREATE TABLE IF NOT EXISTS `escolaridade` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Copiando dados para a tabela sistema_curriculo.escolaridade: ~2 rows (aproximadamente)
+-- Copiando dados para a tabela conectando_talentos.escolaridade: ~2 rows (aproximadamente)
 DELETE FROM `escolaridade`;
 INSERT INTO `escolaridade` (`id`, `descricao`, `statusRegistro`) VALUES
 	(1, 'Ensino Fundamental Incompleto', 1),
@@ -332,7 +332,7 @@ INSERT INTO `escolaridade` (`id`, `descricao`, `statusRegistro`) VALUES
 	(9, 'Mestrado', 1),
 	(10, 'Doutorado', 1);
 
--- Copiando estrutura para tabela sistema_curriculo.estabelecimento
+-- Copiando estrutura para tabela conectando_talentos.estabelecimento
 CREATE TABLE IF NOT EXISTS `estabelecimento` (
   `id` int NOT NULL AUTO_INCREMENT,
   `nome` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
@@ -350,10 +350,10 @@ CREATE TABLE IF NOT EXISTS `estabelecimento` (
   CONSTRAINT `fk_estabelecimento_usuario` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Copiando dados para a tabela sistema_curriculo.estabelecimento: ~0 rows (aproximadamente)
+-- Copiando dados para a tabela conectando_talentos.estabelecimento: ~0 rows (aproximadamente)
 DELETE FROM `estabelecimento`;
 
--- Copiando estrutura para tabela sistema_curriculo.pessoa_fisica
+-- Copiando estrutura para tabela conectando_talentos.pessoa_fisica
 CREATE TABLE IF NOT EXISTS `pessoa_fisica` (
   `id` int NOT NULL AUTO_INCREMENT,
   `nome` varchar(150) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL,
@@ -362,10 +362,10 @@ CREATE TABLE IF NOT EXISTS `pessoa_fisica` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Copiando dados para a tabela sistema_curriculo.pessoa_fisica: ~1 rows (aproximadamente)
+-- Copiando dados para a tabela conectando_talentos.pessoa_fisica: ~1 rows (aproximadamente)
 DELETE FROM `pessoa_fisica`;
 
--- Copiando estrutura para tabela sistema_curriculo.telefone
+-- Copiando estrutura para tabela conectando_talentos.telefone
 CREATE TABLE IF NOT EXISTS `telefone` (
   `id` int NOT NULL AUTO_INCREMENT,
   `estabelecimento_id` int NOT NULL,
@@ -380,10 +380,10 @@ CREATE TABLE IF NOT EXISTS `telefone` (
   CONSTRAINT `telefone_ibfk_2` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Copiando dados para a tabela sistema_curriculo.telefone: ~2 rows (aproximadamente)
+-- Copiando dados para a tabela conectando_talentos.telefone: ~2 rows (aproximadamente)
 DELETE FROM `telefone`;
 
--- Copiando estrutura para tabela sistema_curriculo.uf
+-- Copiando estrutura para tabela conectando_talentos.uf
 CREATE TABLE IF NOT EXISTS `uf` (
   `id` int NOT NULL AUTO_INCREMENT,
   `sigla` varchar(2) NOT NULL,
@@ -393,7 +393,7 @@ CREATE TABLE IF NOT EXISTS `uf` (
   UNIQUE KEY `sigla` (`sigla`)
 ) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=latin1;
 
--- Copiando dados para a tabela sistema_curriculo.uf: ~2 rows (aproximadamente)
+-- Copiando dados para a tabela conectando_talentos.uf: ~2 rows (aproximadamente)
 DELETE FROM `uf`;
 INSERT INTO `uf` (`id`, `sigla`, `descricao`, `bandeira`) VALUES
 	(1, 'AC', 'Acre', NULL),
@@ -424,7 +424,7 @@ INSERT INTO `uf` (`id`, `sigla`, `descricao`, `bandeira`) VALUES
 	(26, 'SE', 'Sergipe', NULL),
 	(27, 'TO', 'Tocantins', NULL);
 
--- Copiando estrutura para tabela sistema_curriculo.usuario
+-- Copiando estrutura para tabela conectando_talentos.usuario
 CREATE TABLE IF NOT EXISTS `usuario` (
   `id` int NOT NULL AUTO_INCREMENT,
   `estabelecimento_id` int DEFAULT NULL,
@@ -438,10 +438,10 @@ CREATE TABLE IF NOT EXISTS `usuario` (
   CONSTRAINT `fk_usuario_estabelecimento` FOREIGN KEY (`estabelecimento_id`) REFERENCES `estabelecimento` (`id`) ON DELETE SET NULL ON UPDATE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Copiando dados para a tabela sistema_curriculo.usuario: ~0 rows (aproximadamente)
+-- Copiando dados para a tabela conectando_talentos.usuario: ~0 rows (aproximadamente)
 DELETE FROM `usuario`;
 
--- Copiando estrutura para tabela sistema_curriculo.usuariorecuperasenha
+-- Copiando estrutura para tabela conectando_talentos.usuariorecuperasenha
 CREATE TABLE IF NOT EXISTS `usuariorecuperasenha` (
   `id` int NOT NULL AUTO_INCREMENT,
   `usuario_id` int NOT NULL,
@@ -455,10 +455,10 @@ CREATE TABLE IF NOT EXISTS `usuariorecuperasenha` (
   CONSTRAINT `usuariorecuperasenha_ibfk_1` FOREIGN KEY (`usuario_id`) REFERENCES `usuario` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Copiando dados para a tabela sistema_curriculo.usuariorecuperasenha: ~0 rows (aproximadamente)
+-- Copiando dados para a tabela conectando_talentos.usuariorecuperasenha: ~0 rows (aproximadamente)
 DELETE FROM `usuariorecuperasenha`;
 
--- Copiando estrutura para tabela sistema_curriculo.vaga
+-- Copiando estrutura para tabela conectando_talentos.vaga
 CREATE TABLE IF NOT EXISTS `vaga` (
   `id` int NOT NULL AUTO_INCREMENT,
   `cargo_id` int DEFAULT NULL,
@@ -477,7 +477,7 @@ CREATE TABLE IF NOT EXISTS `vaga` (
   CONSTRAINT `vaga_ibfk_2` FOREIGN KEY (`estabelecimento_id`) REFERENCES `estabelecimento` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Copiando dados para a tabela sistema_curriculo.vaga: ~3 rows (aproximadamente)
+-- Copiando dados para a tabela conectando_talentos.vaga: ~3 rows (aproximadamente)
 DELETE FROM `vaga`;
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;

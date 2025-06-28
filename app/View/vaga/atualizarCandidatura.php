@@ -46,7 +46,7 @@
             </div>
 
             <div class="d-flex justify-content-end gap-2">
-                <a href="<?= baseUrl() ?>vaga/convidarEntrevista/<?= $dados['candidatura']['vaga_id'] ?>" class="btn btn-secondary">
+                <a href="<?= baseUrl() ?>vaga/visualizarcandidatoVaga/<?= $dados['candidatura']['vaga_id'] ?>" class="btn btn-secondary">
                     <i class="bi bi-arrow-left"></i> Voltar
                 </a>
 

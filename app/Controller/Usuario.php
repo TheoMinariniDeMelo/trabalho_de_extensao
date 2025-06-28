@@ -77,46 +77,50 @@ class Usuario extends ControllerMain
 
         $post = $this->request->getPost();
 
-        if (Validator::make($post, $this->model->validationRules)) {
-            return Redirect::page($this->controller . "/form/insert/0");
-        } else {
+        if ($post['senha'] == $post['confSenha']) {
 
-            $post['estabelecimento_id'] = empty($post['estabelecimento_id']) ? null : $post['estabelecimento_id'];
-
-            $lError = false;
-
-            if (empty($post['senha'])) {
-                $lError = true;
-                $errors['senha'] = "O campo <b>Senha</b> deve ser preenchido.";
-                Session::set('errors', $errors);
-                Session::set("inputs", $post);
-                return Redirect::page($this->controller . '/form/' . $post['action'] . '/' . $post['id']);
+            if (Validator::make($post, $this->model->validationRules)) {
+                return Redirect::page($this->controller . "/form/insert/0");
             } else {
-                unset($post['confSenha']);
-            }
 
-            if (!$lError) {
-                $dados = [
-                    'estabelecimento_id' => $post['estabelecimento_id'],
-                    'nivel'              => $post['nivel'],
-                    'nome'               => $post['nome'],
-                    'email'              => $post['email'],
-                    'senha'              => password_hash($post['senha'], PASSWORD_DEFAULT), // Só se for novo ou alteração de senha
-                    'statusRegistro'     => $post['statusRegistro'],
-                ];
+                $post['estabelecimento_id'] = empty($post['estabelecimento_id']) ? null : $post['estabelecimento_id'];
 
-                if ($this->model->insert($dados)) {
-                    return Redirect::page($this->controller, ["msgSucesso" => "Registro atualizado com sucesso."]);
-                } else {
+                $lError = false;
+
+                if (empty($post['senha'])) {
                     $lError = true;
+                    $errors['senha'] = "O campo <b>Senha</b> deve ser preenchido.";
+                    Session::set('errors', $errors);
+                    Session::set("inputs", $post);
+                    return Redirect::page($this->controller . '/form/' . $post['action'] . '/' . $post['id']);
+                } else {
+                    unset($post['confSenha']);
+                }
+
+                if (!$lError) {
+                    $dados = [
+                        'estabelecimento_id' => $post['estabelecimento_id'],
+                        'nivel'              => $post['nivel'],
+                        'nome'               => $post['nome'],
+                        'email'              => $post['email'],
+                        'senha'              => password_hash($post['senha'], PASSWORD_DEFAULT), // Só se for novo ou alteração de senha
+                        'statusRegistro'     => $post['statusRegistro'],
+                    ];
+
+                    if ($this->model->insert($dados)) {
+                        return Redirect::page($this->controller, ["msgSucesso" => "Registro atualizado com sucesso."]);
+                    } else {
+                        $lError = true;
+                        Session::set("inputs", $post);
+                        return Redirect::page($this->controller . '/form/' . $post['action'] . '/' . $post['id']);
+                    }
+                } else {
                     Session::set("inputs", $post);
                     return Redirect::page($this->controller . '/form/' . $post['action'] . '/' . $post['id']);
                 }
-            } else {
-                Session::set("inputs", $post);
-                return Redirect::page($this->controller . '/form/' . $post['action'] . '/' . $post['id']);
             }
         }
+        return Redirect::Page($this->controller . '/form/' . $post['action'] . '/' . $post['id'], ["msgError" => "Senhas não conferem."]);
     }
 
     /**

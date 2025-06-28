@@ -66,11 +66,11 @@ function formButton()
 {
     $request = new Request();
 
-    $cHtml = '<button onclick="goBack()" 
+    $cHtml = '<a href="' . baseUrl() . $request->getController() . '" 
                     title="Voltar" 
                     class="btn btn-secondary">
                         Voltar
-                </button>';
+                </a>';
 
     if ($request->getAction() != "view") {
         $cHtml .= '&nbsp;<button type="submit" class="btn btn-primary">Enviar</button>';

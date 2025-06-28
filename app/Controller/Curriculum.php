@@ -40,9 +40,15 @@ class Curriculum extends ControllerMain
         ]);
     }
 
-    public function form($action, $id = null)
+    public function form($action, $id = null, $redirect = null, $vagaId = null)
     {
         // $this->validaNivelAcesso();
+
+        // var_dump($vagaId);
+        // exit;
+        if ($redirect == 'vaga') {
+            Session::set('urlDestinoCurriculumVaga', 'vaga/visualizarcandidatoVaga/' . $vagaId);
+        }
 
         $dados = [
             'data' => $this->model->buscarCurriculumCompletoPorUsuario($id),

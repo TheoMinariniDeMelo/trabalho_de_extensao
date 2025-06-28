@@ -268,7 +268,12 @@ $pessoa_fisica = $dados['data']['pessoa_fisica'] ?? [];
 
         <hr>
         <div class="d-grid">
-            <?= formButton("Salvar Currículo") ?>
+            <?php if (!Session::get('urlDestinoCurriculumVaga')) : ?>
+                <button onclick="goBack()" class="btn btn-secondary">Voltar</button>
+            <?php else : ?>
+                <a class="btn btn-secondary" href="<?= baseUrl() . Session::get('urlDestinoCurriculumVaga') ?>">Voltar</a>
+            <?php endif; ?>
+            <button type="submit" class="btn btn-primary">Enviar</button>
         </div>
 
     </form>

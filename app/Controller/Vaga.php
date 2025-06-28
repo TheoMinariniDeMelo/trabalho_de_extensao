@@ -226,6 +226,7 @@ class Vaga extends ControllerMain
 
         // var_dump($vaga_id);
         // exit;
+        Session::destroy('urlDestinoCurriculumVaga');
 
         $dados['candidatos'] = $this->model->visualizarcandidatoVaga($vaga_id);
         $dados['escolaridades'] = $this->escolaridadeModel->lista('id');

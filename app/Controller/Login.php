@@ -332,25 +332,30 @@ class Login extends ControllerMain
 
         $post       = $this->request->getPost();
 
-        $dados = [
-            "nivel"             => 21,
-            "nome"              => $post['register-name'],
-            "email"             => $post['register-email'],
-            "senha"             => password_hash($post['register-password'], PASSWORD_DEFAULT),
-            "statusRegistro"    => 1
-        ];
+        if ($post['register-password'] == $post['confirm-register-password']) {
 
-        $aSuperUser = $this->model->getUserEmail($dados['email']);
 
-        if (count($aSuperUser) > 0) {
-            return Redirect::Page("login", ["msgError" => "Login já existe."]);
-        } else {
-            if ($this->model->insert($dados)) {
-                return Redirect::Page("login", ["msgSucesso" => "Login criado com sucesso."]);
+            $dados = [
+                "nivel"             => 21,
+                "nome"              => $post['register-name'],
+                "email"             => $post['register-email'],
+                "senha"             => password_hash($post['register-password'], PASSWORD_DEFAULT),
+                "statusRegistro"    => 1
+            ];
+
+            $aSuperUser = $this->model->getUserEmail($dados['email']);
+
+            if (count($aSuperUser) > 0) {
+                return Redirect::Page("login", ["msgError" => "Login já existe."]);
             } else {
-                return Redirect::Page("login");
+                if ($this->model->insert($dados)) {
+                    return Redirect::Page("login", ["msgSucesso" => "Login criado com sucesso."]);
+                } else {
+                    return Redirect::Page("login");
+                }
             }
         }
+        return Redirect::Page("login/formCadastrarLogin", ["msgError" => "Senhas não conferem."]);
     }
 
     /**

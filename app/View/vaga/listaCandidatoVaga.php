@@ -114,7 +114,7 @@
 
                             <td class="text-center">
                                 <div class="btn-group" role="group" aria-label="Ações">
-                                    <a href="<?= baseUrl() ?>Curriculum/form/view/<?= $cand['curriculum_id'] ?>"
+                                    <a href="<?= baseUrl() ?>Curriculum/form/view/<?= $cand['curriculum_id'] ?>/vaga/<?= $cand['vaga_id'] ?>"
                                         class="btn btn-sm btn-outline-primary"
                                         title="Visualizar Currículo">
                                         <i class="fa-solid fa-eye"></i>
@@ -180,7 +180,7 @@
             response.forEach(cand => {
                 let statusClass = 'bg-secondary';
                 let statusLabel = '—';
-                console.log(cand);
+                // console.log(cand);
                 if (cand.status_candidatura == 1) {
                     statusClass = 'bg-warning text-dark';
                     statusLabel = 'Em Análise';

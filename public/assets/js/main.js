@@ -30,18 +30,19 @@ function formatarCampo(tipo, valor) {
 }
 
 function goBack(fallbackUrl = '/') {
-    if (document.referrer && document.referrer.indexOf(window.location.hostname) !== -1) {
-        // Se a página anterior é do mesmo domínio, tenta voltar
+    const sameDomain = document.referrer && document.referrer.indexOf(window.location.hostname) !== -1;
+
+    if (sameDomain && window.history.length > 1) {
         window.history.back();
 
-        // Verifica se o histórico está vazio (usuários podem desabilitar ou manipular)
+        // Garante que, se não houver histórico real, redireciona após breve atraso
         setTimeout(() => {
-            if (window.history.length <= 1) {
+            if (document.referrer === '' || window.location.href === document.referrer) {
                 window.location.href = fallbackUrl;
             }
-        }, 100);
+        }, 300);
     } else {
-        // Sem histórico ou veio de fora do site, redireciona para página segura
+        // Sem histórico interno ou vindo de fora, redireciona diretamente
         window.location.href = fallbackUrl;
     }
 }
