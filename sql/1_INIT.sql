@@ -1,3 +1,5 @@
+/*parte 1 conectando_talentos
+ */
 -- --------------------------------------------------------
 -- Servidor:                     127.0.0.1
 -- Versão do servidor:           8.0.42-0ubuntu0.22.04.1 - (Ubuntu)

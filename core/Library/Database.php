@@ -9,12 +9,12 @@ use Exception;
 class Database
 {
     private $conexao;
-    private static $dbdrive  = "";
-    private static $host     = "";
-    private static $port     = "";
-    private static $user     = "";
-    private static $password = "";
-    private static $db       = "";
+    private static $dbdrive  = "mysql";
+    private static $host     = "127.0.0.1";
+    private static $port     = "3306";
+    private static $user     = "root";
+    private static $password = "root";
+    private static $db       = "conectando_talentos";
 
     protected $table;
     private $select = "*";
@@ -58,16 +58,16 @@ class Database
      */
     private function __clone() {}
 
-    /**
-     * destruct - Método que destroi a conexão com banco de dados e remove da memória todas as variáveis setadas
-     */
-    public function __destruct()
-    {
-        $this->disconnect();
-        foreach ($this as $key => $value) {
-            unset($this->$key);
+        /**
+         * destruct - Método que destroi a conexão com banco de dados e remove da memória todas as variáveis setadas
+         */
+        public function __destruct()
+        {
+            $this->disconnect();
+            foreach ($this as $key => $value) {
+                unset($this->$key);
+            }
         }
-    }
 
     /*Metodos que trazem o conteudo da variavel desejada
     @return   $xxx = conteudo da variavel solicitada*/
@@ -105,24 +105,14 @@ class Database
     {
         try {
             if ($this->getDBDrive() == 'mysql') {            // MySQL
-
                 $this->conexao = new PDO(
                     $this->getDBDrive() . ":host=" . $this->getHost() . ";port=" . $this->getPort() . ";dbname=" . $this->getDB(),
                     $this->getUser(),
                     $this->getPassword(),
                     [PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"]
                 );
-            } else if ($this->getDBDrive() == 'sqlsrv') {    // SQL Server
-
-                $this->conexao = new PDO(
-                    $this->getDBDrive() . ":Server=" . $this->getHost() . "," . $this->getPort() . ";DataBase=" . $this->getDB(),
-                    $this->getUser(),
-                    $this->getPassword(),
-                    [PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES utf8"]
-                );
+                $this->conexao->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
             }
-
-            $this->conexao->setAttribute(PDO::ATTR_ERRMODE, $this->conexao::ERRMODE_EXCEPTION);
         } catch (PDOException $i) {
             //se houver exceçao, exibe
             die("Erro: <code>" . $i->getMessage() . "</code>");

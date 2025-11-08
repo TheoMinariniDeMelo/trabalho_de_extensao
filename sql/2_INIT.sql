@@ -1,3 +1,5 @@
+-- parte 2 script_sql
+
 -- Copiando estrutura para tabela atomphp.uf
 CREATE TABLE IF NOT EXISTS `uf` (
   `id` int NOT NULL AUTO_INCREMENT,

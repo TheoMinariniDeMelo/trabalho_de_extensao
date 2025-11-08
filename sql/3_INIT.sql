@@ -1,3 +1,5 @@
+-- parte 3 povoar_banco
+
 INSERT INTO uf (sigla, descricao, bandeira) VALUES
 ('AC', 'Acre', NULL),
 ('AL', 'Alagoas', NULL),
