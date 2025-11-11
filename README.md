@@ -52,38 +52,25 @@ Siga os passos abaixo para configurar o projeto localmente:
 git clone https://github.com/aldecirfonseca/atomphp.git
 ```
 
-2. **Acesse o diretório do projeto:**
-
-```bash
-cd atomphp
-```
-
-3. **Instale as dependências via Composer:**
-
-```bash
-composer install
-```
-
-4. **Renomeie o arquivo `.env.example` para `.env`:**
-
-```bash
-cp .env.example .env
-```
-
-5. **Configure as variáveis de ambiente no arquivo `.env`.**  
+2. **Configure as variáveis de ambiente no arquivo `.env`.**  
    Altere as configurações conforme seu ambiente (ex: banco de dados, ambiente de desenvolvimento, etc).
 
-6. **Configure seu servidor web para apontar para o diretório `public/` como raiz do projeto.**  
-   Se estiver usando o PHP embutido, você pode rodar com:
+3. **Rode o projeto com docker**
 
 ```bash
-php -S localhost:8000 -t public
+docker compose up --build
 ```
 
-7. **Acesse sua aplicação no navegador:**
+4. **Acesse sua aplicação no navegador:**
 
 ```
 http://localhost:8000
+```
+
+5. **Faça login com o usuário admin**
+```
+email: administrador@gmail.com
+senha: admin
 ```
 
 ## ▶️ Como Usar
@@ -101,41 +88,3 @@ http://localhost/usuario/listar
 
 Essa URL chamará o método `listar()` da classe `UsuarioController`.
 
-## 🤝 Contribuindo
-
-Contribuições são bem-vindas! Para contribuir com este projeto:
-
-1. Faça um **fork** do projeto.
-2. Crie uma nova branch com sua feature ou correção:
-
-```bash
-git checkout -b minha-feature
-```
-
-3. Commit suas alterações:
-
-```bash
-git commit -m 'Adiciona minha nova feature'
-```
-
-4. Envie para o seu repositório remoto:
-
-```bash
-git push origin minha-feature
-```
-
-5. Abra um **Pull Request** detalhando suas alterações.
-
-## 📄 Licença
-
-Este projeto está licenciado sob a **MIT License**.  
-Consulte o arquivo [LICENSE](LICENSE) para mais informações.
-
-## 👤 Autor
-
-Desenvolvido por **Aldecir Fonseca**  
-GitHub: [@aldecirfonseca](https://github.com/aldecirfonseca)
-
----
-
-**AtomPHP** — Simples. Direto. Funcional.
